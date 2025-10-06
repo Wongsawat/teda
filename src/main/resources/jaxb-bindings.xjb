@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jxb:bindings version="3.0"
+              xmlns:jxb="https://jakarta.ee/xml/ns/jaxb"
+              xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Global Bindings -->
+    <jxb:bindings>
+        <jxb:globalBindings
+            generateValueClass="false"
+            generateElementProperty="false"
+            choiceContentProperty="false"
+            enableJavaNamingConventions="true"
+            underscoreBinding="asCharInWord"
+            typesafeEnumMaxMembers="9000">
+
+            <!-- Generate toString, equals, hashCode methods -->
+            <jxb:serializable uid="1"/>
+        </jxb:globalBindings>
+    </jxb:bindings>
+
+    <!-- Schema-specific package mappings to avoid conflicts -->
+    <jxb:bindings schemaLocation="../../../e-tax-invoice-receipt-v2.1/uncefact/data/standard/UnqualifiedDataType_16p0.xsd">
+        <jxb:schemaBindings>
+            <jxb:package name="com.wpanther.etax.generated.invoice.udt"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+
+    <jxb:bindings schemaLocation="../../../e-tax-invoice-receipt-v2.1/ETDA/data/standard/QualifiedDataType_1p0.xsd">
+        <jxb:schemaBindings>
+            <jxb:package name="com.wpanther.etax.generated.invoice.qdt"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+
+    <jxb:bindings schemaLocation="../../../e-tax-invoice-receipt-v2.1/ETDA/data/standard/TaxInvoice_ReusableAggregateBusinessInformationEntity_2p1.xsd">
+        <jxb:schemaBindings>
+            <jxb:package name="com.wpanther.etax.generated.invoice.ram"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+
+    <jxb:bindings schemaLocation="../../../e-tax-invoice-receipt-v2.1/ETDA/data/standard/TaxInvoice_CrossIndustryInvoice_2p1.xsd">
+        <jxb:schemaBindings>
+            <jxb:package name="com.wpanther.etax.generated.invoice.rsm"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+
+</jxb:bindings>
