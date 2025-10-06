@@ -70,96 +70,6 @@
                 <artifactId>jaxb2-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
-                    <!-- ISO Country Codes -->
-                    <execution>
-                        <id>xjc-iso-country</id>
-                        <goals>
-                            <goal>xjc</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>e-tax-invoice-receipt-v2.1/uncefact/identifierlist/standard/ISO_ISOTwo-letterCountryCode_SecondEdition2006.xsd</source>
-                            </sources>
-                            <packageName>com.wpanther.etax.generated.iso.country</packageName>
-                            <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
-                            <clearOutputDir>false</clearOutputDir>
-                            <encoding>UTF-8</encoding>
-                            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
-                        </configuration>
-                    </execution>
-
-                    <!-- ISO Currency Codes -->
-                    <execution>
-                        <id>xjc-iso-currency</id>
-                        <goals>
-                            <goal>xjc</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>e-tax-invoice-receipt-v2.1/uncefact/codelist/standard/ISO_ISO3AlphaCurrencyCode_2012-08-31.xsd</source>
-                            </sources>
-                            <packageName>com.wpanther.etax.generated.iso.currency</packageName>
-                            <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
-                            <clearOutputDir>false</clearOutputDir>
-                            <encoding>UTF-8</encoding>
-                            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
-                        </configuration>
-                    </execution>
-
-                    <!-- ISO Language Codes -->
-                    <execution>
-                        <id>xjc-iso-language</id>
-                        <goals>
-                            <goal>xjc</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>e-tax-invoice-receipt-v2.1/uncefact/codelist/standard/ISO_ISO2AlphaLanguageCode_2006-10-27.xsd</source>
-                            </sources>
-                            <packageName>com.wpanther.etax.generated.iso.language</packageName>
-                            <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
-                            <clearOutputDir>false</clearOutputDir>
-                            <encoding>UTF-8</encoding>
-                            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
-                        </configuration>
-                    </execution>
-
-                    <!-- UN/CEFACT Code Lists -->
-                    <execution>
-                        <id>xjc-unece-codelists</id>
-                        <goals>
-                            <goal>xjc</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>e-tax-invoice-receipt-v2.1/uncefact/codelist/standard</source>
-                            </sources>
-                            <packageName>com.wpanther.etax.generated.unece</packageName>
-                            <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
-                            <clearOutputDir>false</clearOutputDir>
-                            <encoding>UTF-8</encoding>
-                            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
-                        </configuration>
-                    </execution>
-
-                    <!-- Thai Code Lists -->
-                    <execution>
-                        <id>xjc-thai-codelists</id>
-                        <goals>
-                            <goal>xjc</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>e-tax-invoice-receipt-v2.1/ETDA/codelist/standard</source>
-                            </sources>
-                            <packageName>com.wpanther.etax.generated.thai</packageName>
-                            <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
-                            <clearOutputDir>false</clearOutputDir>
-                            <encoding>UTF-8</encoding>
-                            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
-                        </configuration>
-                    </execution>
-
                     <!-- Main TaxInvoice Schema (Root Element) -->
                     <execution>
                         <id>xjc-tax-invoice</id>
@@ -174,7 +84,7 @@
                                 <xjbSource>src/main/resources/jaxb-bindings.xjb</xjbSource>
                             </xjbSources>
                             <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
-                            <clearOutputDir>false</clearOutputDir>
+                            <clearOutputDir>true</clearOutputDir>
                             <encoding>UTF-8</encoding>
                             <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
                             <extension>true</extension>

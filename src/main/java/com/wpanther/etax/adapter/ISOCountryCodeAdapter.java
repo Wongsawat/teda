@@ -7,29 +7,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import un.unece.uncefact.identifierlist.standard.iso.isotwo_lettercountrycode.secondedition2006.ISOTwoletterCountryCodeContentType;
 
 /**
  * JAXB XML Adapter for ISO 3166-1 Two-letter Country Code
  *
- * Converts between JAXB enum (ISOTwoletterCountryCodeContentType) and
- * database-backed JPA entity (ISOCountryCode).
+ * Converts between XML String values and database-backed ISOCountryCode entities.
  *
- * Pattern: JAXBElement<ENUM> (same as currency code)
+ * This adapter:
+ * - Marshals ISOCountryCode entities to their code strings for XML output
+ * - Unmarshals XML code strings to ISOCountryCode entities from database
+ * - Maintains full JAXB namespace compatibility with ISO 3166-1 schema
+ * - Handles missing codes gracefully by creating placeholder entities
  *
  * Standard: ISO 3166-1 alpha-2
  * Total Countries: 252 (249 standard + 3 ETDA extensions)
- * Code Format: 2 uppercase letters
+ * Code Format: 2 uppercase letters (TH, US, JP, etc.)
  *
- * JAXB Enum: ISOTwoletterCountryCodeContentType with 252 values
- * - Standard ISO codes: AD, AE, AF, ... TH, ... US, ... ZW
- * - ETDA extensions: AN (inactive), KS, UN
- *
- * Marshalling: ISOCountryCode entity -> ENUM value (e.g., TH)
- * Unmarshalling: ENUM value (e.g., TH) -> ISOCountryCode entity from database
+ * Standard ISO codes: AD, AE, AF, ... TH, ... US, ... ZW
+ * ETDA extensions: AN (inactive), KS, UN
  */
 @Component
-public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeContentType, ISOCountryCode> {
+public class ISOCountryCodeAdapter extends XmlAdapter<String, ISOCountryCode> {
 
     private static final Logger log = LoggerFactory.getLogger(ISOCountryCodeAdapter.class);
 
@@ -42,14 +40,13 @@ public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeCon
     }
 
     /**
-     * Marshal: Convert ISOCountryCode entity to JAXB enum value
+     * Marshal: Convert ISOCountryCode entity to XML String (country code)
      *
      * @param entity ISOCountryCode entity from database
-     * @return JAXB enum value (e.g., ISOTwoletterCountryCodeContentType.TH)
-     * @throws Exception if conversion fails
+     * @return The country code string (TH, US, JP, etc.), or null if entity is null
      */
     @Override
-    public ISOTwoletterCountryCodeContentType marshal(ISOCountryCode entity) throws Exception {
+    public String marshal(ISOCountryCode entity) throws Exception {
         if (entity == null) {
             return null;
         }
@@ -59,43 +56,33 @@ public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeCon
             return null;
         }
 
-        try {
-            // Convert entity code to JAXB enum
-            ISOTwoletterCountryCodeContentType enumValue = ISOTwoletterCountryCodeContentType.valueOf(code.toUpperCase());
-            log.debug("Marshalled ISOCountryCode: {} ({}) -> {}", code, entity.getName(), enumValue);
-            return enumValue;
-        } catch (IllegalArgumentException e) {
-            log.warn("Country code '{}' not found in JAXB enum, returning null", code);
-            return null;
-        }
+        log.debug("Marshalling ISOCountryCode: {} ({}) -> {}", code, entity.getName(), code);
+        return code.toUpperCase();
     }
 
     /**
-     * Unmarshal: Convert JAXB enum value to ISOCountryCode entity from database
+     * Unmarshal: Convert XML String (country code) to ISOCountryCode entity from database
      *
-     * @param enumValue JAXB enum value (e.g., ISOTwoletterCountryCodeContentType.TH)
+     * @param code The country code from XML (TH, US, JP, etc.)
      * @return ISOCountryCode entity from database, or placeholder if not found
-     * @throws Exception if conversion fails
      */
     @Override
-    public ISOCountryCode unmarshal(ISOTwoletterCountryCodeContentType enumValue) throws Exception {
-        if (enumValue == null) {
+    public ISOCountryCode unmarshal(String code) throws Exception {
+        if (code == null || code.trim().isEmpty()) {
             return null;
         }
 
-        // Get country code from enum (e.g., "TH")
-        String code = enumValue.name();
+        String upperCode = code.trim().toUpperCase();
 
         if (repository == null) {
-            log.warn("Repository not initialized, creating placeholder for code: {}", code);
-            return createPlaceholder(code);
+            log.warn("Repository not initialized, creating placeholder for code: {}", upperCode);
+            return createPlaceholder(upperCode);
         }
 
-        // Lookup in database
-        return repository.findByCode(code)
+        return repository.findByCode(upperCode)
                 .orElseGet(() -> {
-                    log.warn("Country code '{}' not found in database, creating placeholder", code);
-                    return createPlaceholder(code);
+                    log.warn("Country code '{}' not found in database, creating placeholder", upperCode);
+                    return createPlaceholder(upperCode);
                 });
     }
 
@@ -103,7 +90,7 @@ public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeCon
      * Create a placeholder entity for codes not found in database
      * This allows XML unmarshalling to continue even with unknown codes
      */
-    private ISOCountryCode createPlaceholder(String code) {
+    private static ISOCountryCode createPlaceholder(String code) {
         ISOCountryCode placeholder = new ISOCountryCode(code);
         placeholder.setName("Unknown Country: " + code);
         placeholder.setDescription("Placeholder for unknown country code");
@@ -112,6 +99,28 @@ public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeCon
     }
 
     // Static Helper Methods
+
+    /**
+     * Convert code string to entity.
+     */
+    public static ISOCountryCode toEntity(String code) {
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
+        String upperCode = code.trim().toUpperCase();
+        if (repository == null) {
+            return createPlaceholder(upperCode);
+        }
+        return repository.findByCode(upperCode)
+                .orElseGet(() -> createPlaceholder(upperCode));
+    }
+
+    /**
+     * Convert entity to code string.
+     */
+    public static String toCode(ISOCountryCode entity) {
+        return entity != null ? entity.getCode() : null;
+    }
 
     /**
      * Validate if country code exists in database
@@ -123,7 +132,7 @@ public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeCon
         if (repository == null || code == null || code.trim().isEmpty()) {
             return false;
         }
-        return repository.existsByCode(code.trim());
+        return repository.findByCode(code.trim().toUpperCase()).isPresent();
     }
 
     /**
@@ -136,7 +145,7 @@ public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeCon
         if (repository == null || code == null || code.trim().isEmpty()) {
             return null;
         }
-        return repository.findByCode(code.trim())
+        return repository.findByCode(code.trim().toUpperCase())
                 .map(ISOCountryCode::getName)
                 .orElse(null);
     }
@@ -174,7 +183,7 @@ public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeCon
         if (repository == null || code == null || code.trim().isEmpty()) {
             return false;
         }
-        return repository.findByCode(code.trim())
+        return repository.findByCode(code.trim().toUpperCase())
                 .map(ISOCountryCode::isASEANCountry)
                 .orElse(false);
     }
@@ -189,7 +198,7 @@ public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeCon
         if (repository == null || code == null || code.trim().isEmpty()) {
             return false;
         }
-        return repository.findByCode(code.trim())
+        return repository.findByCode(code.trim().toUpperCase())
                 .map(ISOCountryCode::isMajorTradingPartner)
                 .orElse(false);
     }
@@ -204,7 +213,7 @@ public class ISOCountryCodeAdapter extends XmlAdapter<ISOTwoletterCountryCodeCon
         if (repository == null || code == null || code.trim().isEmpty()) {
             return false;
         }
-        return repository.findByCode(code.trim())
+        return repository.findByCode(code.trim().toUpperCase())
                 .map(ISOCountryCode::isETDAExtension)
                 .orElse(false);
     }

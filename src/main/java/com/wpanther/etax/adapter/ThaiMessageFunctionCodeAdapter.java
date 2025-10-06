@@ -7,17 +7,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import un.unece.uncefact.codelist.standard.etda.thaimessagefunctioncode._2560.ThaiMessageFunctionCodeContentType;
 
 /**
- * JAXB adapter for converting between ThaiMessageFunctionCodeContentType enum
- * and database-backed ThaiMessageFunctionCode entity.
+ * JAXB adapter for converting between XML String values and database-backed ThaiMessageFunctionCode entities.
  *
- * This adapter enables seamless XML marshalling/unmarshalling while using
- * database-backed code list instead of static enums.
+ * This adapter:
+ * - Marshals ThaiMessageFunctionCode entities to their code strings for XML output
+ * - Unmarshals XML code strings to ThaiMessageFunctionCode entities from database
+ * - Maintains full JAXB namespace compatibility with ETDA e-Tax Invoice schema
+ * - Handles missing codes gracefully by creating placeholder entities
  */
 @Component
-public class ThaiMessageFunctionCodeAdapter extends XmlAdapter<ThaiMessageFunctionCodeContentType, ThaiMessageFunctionCode> {
+public class ThaiMessageFunctionCodeAdapter extends XmlAdapter<String, ThaiMessageFunctionCode> {
 
     private static final Logger log = LoggerFactory.getLogger(ThaiMessageFunctionCodeAdapter.class);
 
@@ -29,53 +30,47 @@ public class ThaiMessageFunctionCodeAdapter extends XmlAdapter<ThaiMessageFuncti
     }
 
     /**
-     * Convert database entity to JAXB enum for XML marshalling.
+     * Marshal: Convert ThaiMessageFunctionCode entity to XML String (message function code)
      *
-     * @param entity The database entity
-     * @return The JAXB enum value
-     * @throws Exception if conversion fails
+     * @param entity The ThaiMessageFunctionCode entity
+     * @return The message function code string (DBNG01, TIVC01, RCTC01, etc.), or null if entity is null
      */
     @Override
-    public ThaiMessageFunctionCodeContentType marshal(ThaiMessageFunctionCode entity) throws Exception {
+    public String marshal(ThaiMessageFunctionCode entity) throws Exception {
         if (entity == null) {
             return null;
         }
-
         String code = entity.getCode();
-        if (code == null) {
-            log.warn("ThaiMessageFunctionCode entity has null code");
-            return null;
-        }
-
-        try {
-            // Convert code to enum constant name (DBNG01 -> DBNG_01)
-            String enumName = code.substring(0, 4) + "_" + code.substring(4);
-            ThaiMessageFunctionCodeContentType enumValue = ThaiMessageFunctionCodeContentType.valueOf(enumName);
-            return enumValue;
-        } catch (IllegalArgumentException e) {
-            log.warn("Thai message function code '{}' not found in JAXB enum, returning null", code);
-            return null;
-        }
+        log.debug("Marshalling ThaiMessageFunctionCode: {} ({}) -> {}",
+                entity.getDescriptionEn(), entity.getDescriptionTh(), code);
+        return code;
     }
 
     /**
-     * Convert JAXB enum to database entity for XML unmarshalling.
+     * Unmarshal: Convert XML String (message function code) to ThaiMessageFunctionCode entity from database
      *
-     * @param enumValue The JAXB enum value
-     * @return The database entity
-     * @throws Exception if conversion fails
+     * @param code The message function code from XML (DBNG01, TIVC01, RCTC01, etc.)
+     * @return ThaiMessageFunctionCode entity from database, or placeholder if not found
      */
     @Override
-    public ThaiMessageFunctionCode unmarshal(ThaiMessageFunctionCodeContentType enumValue) throws Exception {
-        if (enumValue == null) {
+    public ThaiMessageFunctionCode unmarshal(String code) throws Exception {
+        if (code == null || code.trim().isEmpty()) {
             return null;
         }
 
-        // Get the actual code value from enum (DBNG_01 -> DBNG01)
-        String code = enumValue.value();
+        String trimmedCode = code.trim();
 
-        return repository.findByCode(code)
-                .orElseGet(() -> createPlaceholder(code));
+        if (repository == null) {
+            log.warn("Repository not initialized, creating placeholder for code: {}", trimmedCode);
+            return createPlaceholder(trimmedCode);
+        }
+
+        // Try to fetch from database
+        return repository.findByCode(trimmedCode)
+                .orElseGet(() -> {
+                    log.warn("Thai message function code '{}' not found in database, creating placeholder", trimmedCode);
+                    return createPlaceholder(trimmedCode);
+                });
     }
 
     /**
@@ -141,11 +136,14 @@ public class ThaiMessageFunctionCodeAdapter extends XmlAdapter<ThaiMessageFuncti
      * Convert code string to entity.
      */
     public static ThaiMessageFunctionCode toEntity(String code) {
-        if (code == null) {
+        if (code == null || code.trim().isEmpty()) {
             return null;
         }
-        return repository.findByCode(code)
-                .orElseGet(() -> createPlaceholder(code));
+        if (repository == null) {
+            return createPlaceholder(code.trim());
+        }
+        return repository.findByCode(code.trim())
+                .orElseGet(() -> createPlaceholder(code.trim()));
     }
 
     /**
@@ -156,31 +154,37 @@ public class ThaiMessageFunctionCodeAdapter extends XmlAdapter<ThaiMessageFuncti
     }
 
     /**
-     * Convert enum to entity.
+     * Validate if a message function code exists in the database.
      */
-    public static ThaiMessageFunctionCode fromEnum(ThaiMessageFunctionCodeContentType enumValue) {
-        if (enumValue == null) {
-            return null;
+    public static boolean isValid(String code) {
+        if (repository == null || code == null || code.trim().isEmpty()) {
+            return false;
         }
-        return toEntity(enumValue.value());
+        return repository.findByCode(code.trim()).isPresent();
     }
 
     /**
-     * Convert entity to enum.
+     * Get English description from code.
      */
-    public static ThaiMessageFunctionCodeContentType toEnum(ThaiMessageFunctionCode entity) {
-        if (entity == null || entity.getCode() == null) {
+    public static String getEnglishDescription(String code) {
+        if (repository == null || code == null || code.trim().isEmpty()) {
             return null;
         }
+        return repository.findByCode(code.trim())
+                .map(ThaiMessageFunctionCode::getDescriptionEn)
+                .orElse(null);
+    }
 
-        try {
-            String code = entity.getCode();
-            String enumName = code.substring(0, 4) + "_" + code.substring(4);
-            return ThaiMessageFunctionCodeContentType.valueOf(enumName);
-        } catch (IllegalArgumentException e) {
-            log.warn("Thai message function code '{}' not found in JAXB enum", entity.getCode());
+    /**
+     * Get Thai description from code.
+     */
+    public static String getThaiDescription(String code) {
+        if (repository == null || code == null || code.trim().isEmpty()) {
             return null;
         }
+        return repository.findByCode(code.trim())
+                .map(ThaiMessageFunctionCode::getDescriptionTh)
+                .orElse(null);
     }
 
     // Document type check helpers

@@ -2,7 +2,6 @@ package com.wpanther.etax.xml.category;
 
 import com.wpanther.etax.adapter.ThaiCategoryCodeAdapter;
 import com.wpanther.etax.entity.ThaiCategoryCode;
-import com.wpanther.etax.generated.invoice.qdt.ThaiCategoryCodeType;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -10,19 +9,20 @@ import java.io.Serializable;
 
 /**
  * Custom JAXB implementation for Thai Category Code
- * Replaces the generated ThaiCategoryCodeTypeImpl with database-backed implementation
+ * Database-backed implementation for Thai document reference categories
  *
  * This class:
- * - Implements the generated ThaiCategoryCodeType interface
- * - Maintains the exact same XML structure as the generated implementation
+ * - Maintains XML structure for Thai category codes
  * - Uses XmlAdapter to fetch values from database (2 category codes)
  * - Preserves namespace: urn:etda:uncefact:codelist:standard:ThaiCategoryCode:1
  * - Supports both marshalling (Java -> XML) and unmarshalling (XML -> Java)
  * - Handles document reference categories for Thai e-Tax Invoice system
+ *
+ * Note: This is an alternative to ThaiCategoryCodeType with additional attributes support
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ThaiCategoryCodeType", propOrder = {"value"})
-public class ThaiCategoryCodeTypeWrapper implements Serializable, ThaiCategoryCodeType {
+public class ThaiCategoryCodeTypeWrapper implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -54,13 +54,11 @@ public class ThaiCategoryCodeTypeWrapper implements Serializable, ThaiCategoryCo
         this.value = new ThaiCategoryCode(code);
     }
 
-    // Interface implementation - getValue/setValue work with String for compatibility
-    @Override
+    // Value getters/setters
     public String getValue() {
         return value != null ? value.getCode() : null;
     }
 
-    @Override
     public void setValue(String code) {
         if (code != null) {
             this.value = new ThaiCategoryCode(code);
@@ -78,42 +76,35 @@ public class ThaiCategoryCodeTypeWrapper implements Serializable, ThaiCategoryCo
         this.value = value;
     }
 
-    @Override
+    // Attribute getters/setters
     public String getListID() {
         return listID;
     }
 
-    @Override
     public void setListID(String value) {
         this.listID = value;
     }
 
-    @Override
     public String getListAgencyID() {
         return listAgencyID;
     }
 
-    @Override
     public void setListAgencyID(String value) {
         this.listAgencyID = value;
     }
 
-    @Override
     public String getListVersionID() {
         return listVersionID;
     }
 
-    @Override
     public void setListVersionID(String value) {
         this.listVersionID = value;
     }
 
-    @Override
     public String getListURI() {
         return listURI;
     }
 
-    @Override
     public void setListURI(String value) {
         this.listURI = value;
     }

@@ -7,23 +7,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import un.unece.uncefact.codelist.standard.iso.iso3alphacurrencycode._2012_08_31.ISO3AlphaCurrencyCodeContentType;
 
 /**
- * JAXB XmlAdapter to convert between JAXB enum values and database-backed ISOCurrencyCode entities
+ * JAXB XML Adapter for ISO 4217 Three-letter Currency Code
+ *
+ * Converts between XML String values and database-backed ISOCurrencyCode entities.
  *
  * This adapter:
- * - Marshals ISOCurrencyCode entities to JAXB enum values for XML output
- * - Unmarshals JAXB enum values to ISOCurrencyCode entities from database
- * - Maintains full JAXB namespace compatibility
+ * - Marshals ISOCurrencyCode entities to their code strings for XML output
+ * - Unmarshals XML code strings to ISOCurrencyCode entities from database
+ * - Maintains full JAXB namespace compatibility with ISO 4217 schema
  * - Handles missing codes gracefully by creating placeholder entities
- * - Supports all 172 ISO 4217 currency codes
  *
  * Standard: ISO 4217 alpha-3
- * Namespace: urn:un:unece:uncefact:codelist:standard:ISO:ISO3AlphaCurrencyCode:2012-08-31
+ * Total Currencies: 172 official codes
+ * Code Format: 3 uppercase letters (THB, USD, EUR, etc.)
  */
 @Component
-public class ISOCurrencyCodeAdapter extends XmlAdapter<ISO3AlphaCurrencyCodeContentType, ISOCurrencyCode> {
+public class ISOCurrencyCodeAdapter extends XmlAdapter<String, ISOCurrencyCode> {
 
     private static final Logger log = LoggerFactory.getLogger(ISOCurrencyCodeAdapter.class);
 
@@ -36,52 +37,50 @@ public class ISOCurrencyCodeAdapter extends XmlAdapter<ISO3AlphaCurrencyCodeCont
     }
 
     /**
-     * Marshal: Convert ISOCurrencyCode entity to JAXB enum value
+     * Marshal: Convert ISOCurrencyCode entity to XML String (currency code)
      *
-     * @param entity The ISOCurrencyCode entity
-     * @return The JAXB enum value, or null if entity is null
+     * @param entity ISOCurrencyCode entity from database
+     * @return The currency code string (THB, USD, EUR, etc.), or null if entity is null
      */
     @Override
-    public ISO3AlphaCurrencyCodeContentType marshal(ISOCurrencyCode entity) throws Exception {
+    public String marshal(ISOCurrencyCode entity) throws Exception {
         if (entity == null) {
             return null;
         }
-        String code = entity.getCode();
-        log.debug("Marshalling ISOCurrencyCode: {} ({}) -> {}",
-                  entity.getName(), entity.getNumericCode(), code);
 
-        try {
-            return ISO3AlphaCurrencyCodeContentType.valueOf(code);
-        } catch (IllegalArgumentException e) {
-            log.warn("Currency code '{}' not found in JAXB enum, cannot marshal", code);
+        String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
             return null;
         }
+
+        log.debug("Marshalling ISOCurrencyCode: {} ({}) -> {}",
+                  entity.getName(), entity.getNumericCode(), code);
+        return code.toUpperCase();
     }
 
     /**
-     * Unmarshal: Convert JAXB enum value to ISOCurrencyCode entity from database
+     * Unmarshal: Convert XML String (currency code) to ISOCurrencyCode entity from database
      *
-     * @param enumValue The JAXB enum value (e.g., THB, USD, EUR)
+     * @param code The currency code from XML (THB, USD, EUR, etc.)
      * @return ISOCurrencyCode entity from database, or placeholder if not found
      */
     @Override
-    public ISOCurrencyCode unmarshal(ISO3AlphaCurrencyCodeContentType enumValue) throws Exception {
-        if (enumValue == null) {
+    public ISOCurrencyCode unmarshal(String code) throws Exception {
+        if (code == null || code.trim().isEmpty()) {
             return null;
         }
 
-        String code = enumValue.name();
+        String upperCode = code.trim().toUpperCase();
 
         if (repository == null) {
-            log.warn("Repository not initialized, creating placeholder for code: {}", code);
-            return createPlaceholder(code);
+            log.warn("Repository not initialized, creating placeholder for code: {}", upperCode);
+            return createPlaceholder(upperCode);
         }
 
-        // Try to fetch from database
-        return repository.findByCode(code)
+        return repository.findByCode(upperCode)
                 .orElseGet(() -> {
-                    log.warn("Currency code '{}' not found in database, creating placeholder", code);
-                    return createPlaceholder(code);
+                    log.warn("Currency code '{}' not found in database, creating placeholder", upperCode);
+                    return createPlaceholder(upperCode);
                 });
     }
 
@@ -89,7 +88,7 @@ public class ISOCurrencyCodeAdapter extends XmlAdapter<ISO3AlphaCurrencyCodeCont
      * Create a placeholder entity for codes not found in database
      * This allows XML unmarshalling to continue even with unknown codes
      */
-    private ISOCurrencyCode createPlaceholder(String code) {
+    private static ISOCurrencyCode createPlaceholder(String code) {
         ISOCurrencyCode placeholder = new ISOCurrencyCode(code);
         placeholder.setName("Unknown Currency: " + code);
         placeholder.setIsActive(false);
@@ -97,17 +96,41 @@ public class ISOCurrencyCodeAdapter extends XmlAdapter<ISO3AlphaCurrencyCodeCont
         return placeholder;
     }
 
+    // Static Helper Methods
+
+    /**
+     * Convert code string to entity.
+     */
+    public static ISOCurrencyCode toEntity(String code) {
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
+        String upperCode = code.trim().toUpperCase();
+        if (repository == null) {
+            return createPlaceholder(upperCode);
+        }
+        return repository.findByCode(upperCode)
+                .orElseGet(() -> createPlaceholder(upperCode));
+    }
+
+    /**
+     * Convert entity to code string.
+     */
+    public static String toCode(ISOCurrencyCode entity) {
+        return entity != null ? entity.getCode() : null;
+    }
+
     /**
      * Validate if a currency code exists in the database
      *
-     * @param code The currency code
+     * @param code The currency code (e.g., "THB", "USD")
      * @return true if code exists and is active
      */
     public static boolean isValid(String code) {
         if (repository == null || code == null || code.trim().isEmpty()) {
             return false;
         }
-        return repository.existsByCode(code.trim().toUpperCase());
+        return repository.findByCode(code.trim().toUpperCase()).isPresent();
     }
 
     /**
@@ -156,13 +179,26 @@ public class ISOCurrencyCodeAdapter extends XmlAdapter<ISO3AlphaCurrencyCodeCont
     }
 
     /**
+     * Normalize currency code to uppercase
+     *
+     * @param code Currency code
+     * @return Normalized uppercase code
+     */
+    public static String normalize(String code) {
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
+        return code.trim().toUpperCase();
+    }
+
+    /**
      * Check if currency is Thai Baht
      *
      * @param code The currency code
      * @return true if THB
      */
     public static boolean isThaiBasht(String code) {
-        return "THB".equalsIgnoreCase(code);
+        return "THB".equalsIgnoreCase(code != null ? code.trim() : null);
     }
 
     /**
@@ -172,7 +208,27 @@ public class ISOCurrencyCodeAdapter extends XmlAdapter<ISO3AlphaCurrencyCodeCont
      * @return true if USD
      */
     public static boolean isUSDollar(String code) {
-        return "USD".equalsIgnoreCase(code);
+        return "USD".equalsIgnoreCase(code != null ? code.trim() : null);
+    }
+
+    /**
+     * Check if currency is Euro
+     *
+     * @param code The currency code
+     * @return true if EUR
+     */
+    public static boolean isEuro(String code) {
+        return "EUR".equalsIgnoreCase(code != null ? code.trim() : null);
+    }
+
+    /**
+     * Check if currency is Japanese Yen
+     *
+     * @param code The currency code
+     * @return true if JPY
+     */
+    public static boolean isJapaneseYen(String code) {
+        return "JPY".equalsIgnoreCase(code != null ? code.trim() : null);
     }
 
     /**
