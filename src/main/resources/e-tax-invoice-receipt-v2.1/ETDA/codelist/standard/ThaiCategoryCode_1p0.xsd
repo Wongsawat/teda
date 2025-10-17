@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited by Office Of Standard,ETDA  -->
+<!-- ====================================================================== -->
+<!-- =====        Thai Category - Code List Schema    ===== -->
+<!-- ====================================================================== -->
+<!--
+Schema agency:  ETDA
+Schema version: 1.0
+Schema date:    Feb 2025
+
+Code list name:    Thai Category Code
+Code list agency:   ETDA
+Code list version:  1
+
+© Copyright ETDA, 2025
+
+-->
+<!-- ========================================================================= -->
+<!-- ===== Category Code - https://vocabulary.uncefact.org/categoryCode  ===== -->
+
+<!-- ========================================================================= -->
+<!-- The code specifying the category of this referenced document. -->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2"
+  targetNamespace="urn:etda:uncefact:codelist:standard:ThaiCategoryCode:1"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0"
+  xmlns:thaiCategory="urn:etda:uncefact:codelist:standard:ThaiCategoryCode:1">
+  <!-- ======================================================================= -->
+  <!-- ===== Element Declarations                                        ===== -->
+  <!-- ======================================================================= -->
+  <!-- ===== Root Element                                                ===== -->
+  <!-- ======================================================================= -->
+  <xsd:element name="ThaiCategoryCode"
+    type="thaiCategory:ThaiCategoryCodeContentType"/>
+  <xsd:simpleType name="ThaiCategoryCodeContentType">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="01">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="en">
+            <ccts:Name>อ้างอิงเอกสารฉบับเดิมกรณี 1.ยกเลิก 2.เพิ่มหนี้ 3.ลดหนี้</ccts:Name>           
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="02">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="en">
+            <ccts:Name>อ้างอิงเอกสารเพื่อออกเงินรับล่วงหน้า</ccts:Name>            
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

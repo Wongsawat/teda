@@ -1,159 +1,100 @@
 #!/bin/bash
 # JAXB Code Generation Script for Thai e-Tax Invoice
+# This script uses Maven to generate JAXB classes from XSD
 # Run: ./generate-jaxb.sh
 
 set -e  # Exit on error
 
-# Configuration
-BASE_DIR="e-tax-invoice-receipt-v2.1"
-OUTPUT_DIR="generated-src/main/java"
-BASE_PACKAGE="com.example.etax.generated"
-
 # Colors for output
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo -e "${GREEN}=== Thai e-Tax Invoice JAXB Code Generation ===${NC}\n"
+echo -e "${GREEN}╔════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${GREEN}║  Thai e-Tax Invoice JAXB Code Generation (Maven)          ║${NC}"
+echo -e "${GREEN}╚════════════════════════════════════════════════════════════╝${NC}"
+echo ""
 
-# Create output directory
-mkdir -p "$OUTPUT_DIR"
+# Check if Maven is installed
+if ! command -v mvn &> /dev/null; then
+    echo -e "${RED}✗ Maven is not installed${NC}"
+    echo "  Please install Maven: https://maven.apache.org/install.html"
+    exit 1
+fi
 
-# Function to generate with error handling
-generate() {
-    local name=$1
-    local package=$2
-    local files=$3
+echo -e "${BLUE}📋 Configuration:${NC}"
+echo "  XSD Location: src/main/resources/e-tax-invoice-receipt-v2.1/"
+echo "  Bindings: src/main/resources/jaxb-bindings.xjb"
+echo "  Output: target/generated-sources/jaxb/"
+echo ""
 
-    echo -e "${YELLOW}Generating $name...${NC}"
-    if xjc -d "$OUTPUT_DIR" \
-           -p "$package" \
-           -encoding UTF-8 \
-           -no-header \
-           -quiet \
-           $files 2>/dev/null; then
-        echo -e "${GREEN}✓ $name generated successfully${NC}"
-    else
-        echo -e "${RED}✗ Failed to generate $name${NC}"
-        return 1
-    fi
+# Clean previous generated code
+echo -e "${YELLOW}🧹 Cleaning previous generated code...${NC}"
+if mvn clean -q; then
+    echo -e "${GREEN}✓ Clean successful${NC}"
+else
+    echo -e "${RED}✗ Clean failed${NC}"
+    exit 1
+fi
+echo ""
+
+# Generate JAXB sources
+echo -e "${YELLOW}⚙️  Generating JAXB classes from XSD...${NC}"
+if mvn generate-sources; then
     echo ""
-}
-
-# 1. ISO Country Codes
-generate "ISO Country Codes" \
-    "${BASE_PACKAGE}.iso.country" \
-    "${BASE_DIR}/uncefact/identifierlist/standard/ISO_ISOTwo-letterCountryCode_SecondEdition2006.xsd"
-
-# 2. ISO Currency Codes
-generate "ISO Currency Codes" \
-    "${BASE_PACKAGE}.iso.currency" \
-    "${BASE_DIR}/uncefact/codelist/standard/ISO_ISO3AlphaCurrencyCode_2012-08-31.xsd"
-
-# 3. ISO Language Codes
-generate "ISO Language Codes" \
-    "${BASE_PACKAGE}.iso.language" \
-    "${BASE_DIR}/uncefact/codelist/standard/ISO_ISO2AlphaLanguageCode_2006-10-27.xsd"
-
-# 4. Address Type Code
-generate "Address Type Code" \
-    "${BASE_PACKAGE}.unece.address" \
-    "${BASE_DIR}/uncefact/codelist/standard/UNECE_AddressType_D14A.xsd"
-
-# 5. Allowance Charge Identification Code
-generate "Allowance Charge Identification Code" \
-    "${BASE_PACKAGE}.unece.allowancecharge" \
-    "${BASE_DIR}/uncefact/codelist/standard/UNECE_AllowanceChargeIdentificationCode_D14A.xsd"
-
-# 6. Allowance Charge Reason Code
-generate "Allowance Charge Reason Code" \
-    "${BASE_PACKAGE}.unece.reason" \
-    "${BASE_DIR}/uncefact/codelist/standard/UNECE_AllowanceChargeReasonCode_D15B.xsd"
-
-# 7. Delivery Terms Code
-generate "Delivery Terms Code" \
-    "${BASE_PACKAGE}.unece.delivery" \
-    "${BASE_DIR}/uncefact/codelist/standard/UNECE_DeliveryTermsCode_2010.xsd"
-
-# 8. Document Name Code
-generate "Document Name Code" \
-    "${BASE_PACKAGE}.unece.document" \
-    "${BASE_DIR}/uncefact/codelist/standard/UNECE_DocumentNameCode_Invoice_D14A.xsd"
-
-# 9. Duty Tax Fee Type Code
-generate "Duty Tax Fee Type Code" \
-    "${BASE_PACKAGE}.unece.tax" \
-    "${BASE_DIR}/uncefact/codelist/standard/UNECE_DutyTaxFeeTypeCode_D14A.xsd"
-
-# 10. Freight Cost Code
-generate "Freight Cost Code" \
-    "${BASE_PACKAGE}.unece.freight" \
-    "${BASE_DIR}/uncefact/identifierlist/standard/UNECE_FreightCostCode_4.xsd"
-
-# 11. Message Function Code
-generate "Message Function Code" \
-    "${BASE_PACKAGE}.unece.message" \
-    "${BASE_DIR}/uncefact/codelist/standard/UNECE_MessageFunctionCode_D14A.xsd"
-
-# 12. Payment Terms Type Code
-generate "Payment Terms Type Code" \
-    "${BASE_PACKAGE}.unece.payment" \
-    "${BASE_DIR}/uncefact/codelist/standard/UNECE_PaymentTermsTypeCode_D14A.xsd"
-
-# 13. Payment Terms Description Identifier
-generate "Payment Terms Description Identifier" \
-    "${BASE_PACKAGE}.unece.paymentdesc" \
-    "${BASE_DIR}/uncefact/identifierlist/standard/UNECE_PaymentTermsDescriptionIdentifier_D14A.xsd"
-
-# 14. Reference Type Code (Large - 798 codes)
-generate "Reference Type Code" \
-    "${BASE_PACKAGE}.unece.reference" \
-    "${BASE_DIR}/uncefact/codelist/standard/UNECE_ReferenceTypeCode_D14A.xsd"
-
-# 15. Thai Category Code
-generate "Thai Category Code" \
-    "${BASE_PACKAGE}.thai.category" \
-    "${BASE_DIR}/ETDA/codelist/standard/ThaiCategoryCode_1p0.xsd"
-
-# 16. Thai Document Name Code
-generate "Thai Document Name Code" \
-    "${BASE_PACKAGE}.thai.document" \
-    "${BASE_DIR}/ETDA/codelist/standard/ThaiDocumentNameCode_Invoice_1p0.xsd"
-
-# 17. Thai Message Function Code
-generate "Thai Message Function Code" \
-    "${BASE_PACKAGE}.thai.message" \
-    "${BASE_DIR}/ETDA/codelist/standard/ThaiMessageFunctionCode_1p0.xsd"
-
-# 18. Thai Province (ISO Subdivision)
-generate "Thai Province Code" \
-    "${BASE_PACKAGE}.thai.province" \
-    "${BASE_DIR}/ETDA/codelist/standard/ThaiISOCountrySubdivisionCode_1p0.xsd"
-
-# 19. Thai Purpose Code
-generate "Thai Purpose Code" \
-    "${BASE_PACKAGE}.thai.purpose" \
-    "${BASE_DIR}/ETDA/codelist/standard/ThaiPurposeCode_Invoice_1p0.xsd"
-
-# 20. TISI City Name
-generate "TISI City Name" \
-    "${BASE_PACKAGE}.thai.city" \
-    "${BASE_DIR}/ETDA/codelist/standard/TISICityName_1p0.xsd"
-
-# 21. TISI City Subdivision Name
-generate "TISI City Subdivision Name" \
-    "${BASE_PACKAGE}.thai.subdivision" \
-    "${BASE_DIR}/ETDA/codelist/standard/TISICitySubDivisionName_1p0.xsd"
-
-echo -e "${GREEN}=== Generation Complete ===${NC}"
-echo -e "Generated classes are in: ${YELLOW}$OUTPUT_DIR${NC}"
+    echo -e "${GREEN}✓ JAXB generation successful${NC}"
+else
+    echo ""
+    echo -e "${RED}✗ JAXB generation failed${NC}"
+    exit 1
+fi
 echo ""
-echo "Next steps:"
-echo "  1. Review generated classes in $OUTPUT_DIR"
-echo "  2. Add them to your IDE source path"
-echo "  3. Use them in your application"
+
+# Count generated files
+GENERATED_COUNT=$(find target/generated-sources/jaxb -name "*.java" 2>/dev/null | wc -l)
+
+echo -e "${GREEN}╔════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${GREEN}║  Generation Complete                                       ║${NC}"
+echo -e "${GREEN}╚════════════════════════════════════════════════════════════╝${NC}"
 echo ""
-echo "Example usage:"
-echo "  import ${BASE_PACKAGE}.iso.country.*;"
-echo "  ISOTwoletterCountryCodeContentType thailand = ISOTwoletterCountryCodeContentType.TH;"
+echo -e "${BLUE}📊 Summary:${NC}"
+echo "  Generated files: ${GREEN}${GENERATED_COUNT}${NC} Java classes"
+echo "  Location: ${YELLOW}target/generated-sources/jaxb/${NC}"
+echo ""
+
+# List generated packages
+if [ -d "target/generated-sources/jaxb/com/wpanther/etax/generated/invoice" ]; then
+    echo -e "${BLUE}📦 Generated packages:${NC}"
+    find target/generated-sources/jaxb/com/wpanther/etax/generated/invoice -maxdepth 1 -type d | \
+        grep -v "^target/generated-sources/jaxb/com/wpanther/etax/generated/invoice$" | \
+        while read -r dir; do
+            pkg=$(basename "$dir")
+            count=$(find "$dir" -name "*.java" | wc -l)
+            echo "  • ${pkg}: ${count} classes"
+        done
+    echo ""
+fi
+
+echo -e "${BLUE}📝 Next steps:${NC}"
+echo "  1. Refresh your IDE to see generated classes"
+echo "  2. Generated code is in target/ (not committed to git)"
+echo "  3. Use 'mvn compile' to compile everything"
+echo ""
+
+echo -e "${BLUE}💡 Usage example:${NC}"
+cat << 'EOF'
+  import com.wpanther.etax.generated.invoice.rsm.impl.*;
+  import com.wpanther.etax.adapter.*;
+
+  // Create invoice using database-backed entities
+  ISOCurrencyCode thb = ISOCurrencyCodeAdapter.toEntity("THB");
+  TaxInvoice_CrossIndustryInvoiceTypeImpl invoice =
+      new TaxInvoice_CrossIndustryInvoiceTypeImpl();
+
+  // See SIMPLE_EXAMPLE.md for complete examples
+EOF
+echo ""
+
+echo -e "${GREEN}✨ Done!${NC}"
