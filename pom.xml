@@ -10,15 +10,16 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Thai e-Tax Invoice</name>
-    <description>Thai e-Tax Invoice JAXB Generated Classes</description>
+    <name>Thai e-Tax Invoice Library</name>
+    <description>Reusable Java library for Thai e-Tax Invoice JAXB and database-backed code lists</description>
 
-    <parent>
+    <!-- Remove Spring Boot parent for pure library packaging -->
+    <!-- <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.0</version>
         <relativePath/>
-    </parent>
+    </parent> -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,19 +29,19 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Starter Data JPA -->
+        <!-- JPA API (for entity/repository usage) -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
-
-        <!-- PostgreSQL Driver -->
+        <!-- Optional: Spring Data JPA for repository interfaces -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>3.2.0</version>
+            <scope>provided</scope>
         </dependency>
-
         <!-- Jakarta XML Binding API -->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
@@ -55,16 +56,24 @@
             <version>${jaxb.version}</version>
         </dependency>
 
-        <!-- SLF4J API (included in Spring Boot, but explicit for clarity) -->
+        <!-- SLF4J API -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+
+        <!-- Optional: PostgreSQL Driver for consumers -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
-            <!-- JAXB XJC Plugin -->
+            <!-- JAXB XJC Plugin (for code generation, optional for consumers) -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
@@ -109,12 +118,6 @@
                     <target>17</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
-            </plugin>
-
-            <!-- Spring Boot Maven Plugin -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
