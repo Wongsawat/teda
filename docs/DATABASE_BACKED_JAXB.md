@@ -117,7 +117,7 @@ Preserves exact namespace prefix as per ETDA schema:
         )
     }
 )
-package com.example.etax.xml.country;
+package com.wpanther.etax.core.xml.country;
 ```
 
 ## Usage Examples
@@ -222,16 +222,21 @@ System.out.println(country.getName()); // "UNITED STATES"
 
 ## Migration Path
 
-For Thai e-Tax Invoice schema:
+For Thai e-Tax Invoice schema, **20 code lists** are database-backed:
 
 | Code List | Count | Approach | Reason |
 |-----------|-------|----------|--------|
-| ISO Country | 252 + 2 | Database | Frequent updates, Thai extensions |
-| ISO Currency | 179 | Enum | Static, small |
-| ISO Language | 184 | Enum | Static, small |
-| Reference Types | 798 | **Database** | Exceeds enum limit |
-| Thai Subdivisions | 8,940 | **Database** | Far exceeds limit |
-| Thai Categories | ~50 | Enum or Database | Either works |
+| ISO Country Code | 252 | Database | Frequent updates, Thai extensions |
+| ISO Currency Code | 180+ | Database | Dynamic, Thai-specific |
+| ISO Language Code | 180+ | Database | Dynamic, Thai-specific |
+| UNECE Reference Type Code | 798 | Database | Exceeds enum limit |
+| UNECE Document Name Code (Invoice) | 17 | Database | Shared by all documents |
+| UNECE Freight Cost Code | 66 | Database | Shipping logistics |
+| TISI Subdistrict (Thai) | 8,940 | Database | Far exceeds enum limit |
+| Thai Province Code | 77 | Database | Thai administrative regions |
+| Thai Document Name Code | 12 | Database | Thai-specific document types |
+| Thai Message Function Code | 25 | Database | Thai message functions |
+| ... (10 more) | ... | Database | Various Thai-specific codes |
 
 ## Database Schema
 
@@ -254,18 +259,19 @@ See `iso_country_code.sql` for complete schema with:
 ## Files Created
 
 ```
-src/main/java/com/example/etax/
+src/main/java/com/wpanther/etax/core/
 ├── entity/
 │   └── ISOCountryCode.java              # JPA entity
 ├── repository/
 │   └── ISOCountryCodeRepository.java    # Spring Data repository
 ├── adapter/
-│   └── ISOCountryCodeAdapter.java       # JAXB XmlAdapter
-├── xml/country/
-│   ├── ISOTwoletterCountryCodeType.java # Custom JAXB type
-│   └── package-info.java                # Namespace configuration
-└── example/
-    └── CountryCodeXmlExample.java       # Usage examples
+│   └── common/
+│       └── ISOCountryCodeAdapter.java   # JAXB XmlAdapter
+├── xml/
+│   └── country/
+│       ├── ISOTwoletterCountryCodeType.java # Custom JAXB type
+│       └── package-info.java                # Namespace configuration
+└── [20 code lists with this pattern]
 ```
 
 ## Configuration Required
@@ -282,7 +288,7 @@ spring.jpa.show-sql=true
 ### Spring Boot Application
 ```java
 @SpringBootApplication
-@ComponentScan(basePackages = "com.example.etax")
+@ComponentScan(basePackages = "com.wpanther.etax")
 public class ETaxApplication {
     public static void main(String[] args) {
         SpringApplication.run(ETaxApplication.class, args);
@@ -307,4 +313,12 @@ This approach provides the best of both worlds:
 - **Full namespace preservation** as required by ETDA schema
 - **Production-ready** with proper error handling and logging
 
-Apply this pattern to the 798 Reference Type Codes and 8,940 Thai Subdivision codes that exceed JAXB enum limitations.
+**Status**: This pattern has been successfully applied to **20 code lists** in this library:
+- UNECE Reference Type Codes (798 codes)
+- Thai Subdivisions (8,940 codes)
+- ISO Country Codes (252 codes)
+- UNECE Document Name Code Invoice (17 codes)
+- UNECE Freight Cost Codes (66 codes)
+- ... (15 more)
+
+All 20 code lists share the same adapter pattern in `src/main/java/com/wpanther/etax/core/adapter/common/` and are shared across TaxInvoice, Receipt, DebitCreditNote, CancellationNote, AbbreviatedTaxInvoice, and Invoice documents.

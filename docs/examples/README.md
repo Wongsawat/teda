@@ -70,13 +70,17 @@ psql -U postgres -c "CREATE DATABASE etax;"
 
 2. Load schema and data:
 ```bash
+# Navigate to db directory
 cd /home/wpanther/projects/teda/src/main/resources/db
 
-# Load schemas
-psql -U postgres -d etax -f schema/*.sql
+# Load all SQL files (schema and data combined)
+for file in *.sql; do
+    psql -U postgres -d etax -f "$file"
+done
 
-# Load data
-psql -U postgres -d etax -f data/*.sql
+# Or load specific files
+psql -U postgres -d etax -f iso_country_code.sql
+psql -U postgres -d etax -f iso_country_code_data.sql
 ```
 
 3. Copy `application.properties.example` to your project's `src/main/resources/application.properties` and update credentials.
@@ -178,21 +182,32 @@ public class CountryService {
 
 ## Available Repositories
 
-The library provides these Spring Data JPA repositories:
+The library provides **20 Spring Data JPA repositories** for database-backed code lists:
 
-| Repository | Entity | Description |
-|-----------|--------|-------------|
-| `ISOCountryCodeRepository` | `ISOCountryCode` | 252 ISO country codes |
-| `ISOCurrencyCodeRepository` | `ISOCurrencyCode` | 180+ currency codes |
-| `ISOLanguageCodeRepository` | `ISOLanguageCode` | 180+ language codes |
-| `ThaiProvinceCodeRepository` | `ThaiProvinceCode` | 77 Thai provinces |
-| `TISISubdistrictRepository` | `TISISubdistrict` | 8,940 Thai subdivisions |
-| `ThaiDocumentNameCodeRepository` | `ThaiDocumentNameCode` | 12 document types |
-| `DutyTaxFeeTypeCodeRepository` | `DutyTaxFeeTypeCode` | Tax type codes |
-| `UNECEReferenceTypeCodeRepository` | `UNECEReferenceTypeCode` | 798 reference types |
-| And 11+ more... | | |
+| Repository | Entity | Records | Description |
+|-----------|--------|---------|-------------|
+| `ISOCountryCodeRepository` | `ISOCountryCode` | 252 | ISO country codes |
+| `ISOCurrencyCodeRepository` | `ISOCurrencyCode` | 180+ | Currency codes |
+| `ISOLanguageCodeRepository` | `ISOLanguageCode` | 180+ | Language codes |
+| `ThaiProvinceCodeRepository` | `ThaiProvinceCode` | 77 | Thai provinces |
+| `TISISubdistrictRepository` | `TISISubdistrict` | 8,940 | Thai subdivisions |
+| `TISICityNameRepository` | `TISICityName` | 190 | Thai city names |
+| `ThaiDocumentNameCodeRepository` | `ThaiDocumentNameCode` | 12 | Thai document types |
+| `ThaiMessageFunctionCodeRepository` | `ThaiMessageFunctionCode` | 25 | Thai message functions |
+| `ThaiCategoryCodeRepository` | `ThaiCategoryCode` | ~50 | Thai categories |
+| `MessageFunctionCodeRepository` | `MessageFunctionCode` | 65 | UN/CEFACT message functions |
+| `UNECEReferenceTypeCodeRepository` | `UNECEReferenceTypeCode` | 798 | Reference types |
+| `UNECEDocumentNameCodeInvoiceRepository` | `UNECEDocumentNameCodeInvoice` | 17 | Document name codes |
+| `FreightCostCodeRepository` | `FreightCostCode` | 66 | Freight cost codes |
+| `DutyTaxFeeTypeCodeRepository` | `DutyTaxFeeTypeCode` | 53 | Tax type codes |
+| `PaymentTermsTypeCodeRepository` | `PaymentTermsTypeCode` | 79 | Payment terms |
+| `PaymentTermsDescriptionIdentifierRepository` | `PaymentTermsDescriptionIdentifier` | 7 | Payment descriptions |
+| `DeliveryTermsCodeRepository` | `DeliveryTermsCode` | 15 | Delivery terms (INCOTERMS) |
+| `AddressTypeRepository` | `AddressType` | 9 | Address types |
+| `AllowanceChargeIdentificationCodeRepository` | `AllowanceChargeIdentificationCode` | 144 | Allowance/charge IDs |
+| `AllowanceChargeReasonCodeRepository` | `AllowanceChargeReasonCode` | 139 | Allowance/charge reasons |
 
-All repositories extend `JpaRepository` and provide:
+All repositories are located in `com.wpanther.etax.core.repository` and extend `JpaRepository`. They provide:
 - `findByCode(String code)` - Find by code
 - `findByActiveTrue()` - Find all active records
 - `existsByCode(String code)` - Check if code exists
@@ -269,13 +284,21 @@ psql -U postgres -d etax -f iso_country_code_data.sql
 
 1. Review the example files in this directory
 2. Copy and adapt the examples to your project
-3. Read the migration guides in `docs/migrations/` for detailed information about each code list
+3. Read the migration guides in `docs/` for detailed information about each code list
 4. Refer to the main [README.md](../README.md) for architecture details
 
-## Support
+## Related Documentation
 
 For more information:
-- [README.md](../README.md) - Main project documentation
-- [QUICK_START.md](../QUICK_START.md) - Quick start guide
-- [JAXB_INTEGRATION_GUIDE.md](../JAXB_INTEGRATION_GUIDE.md) - JAXB integration details
-- [DATABASE_BACKED_JAXB.md](../DATABASE_BACKED_JAXB.md) - Architecture explanation
+- [../README.md](../README.md) - Main project documentation
+- [../CLAUDE.md](../CLAUDE.md) - Project guidance for Claude Code
+- [../QUICK_START.md](../QUICK_START.md) - Quick start guide
+- [../JAXB_GENERATION_SUMMARY.md](../JAXB_GENERATION_SUMMARY.md) - Generated code summary (748+ classes)
+- [../JAXB_INTEGRATION_GUIDE.md](../JAXB_INTEGRATION_GUIDE.md) - JAXB integration details
+- [../DATABASE_BACKED_JAXB.md](../DATABASE_BACKED_JAXB.md) - Architecture explanation
+- Migration guides (20 files):
+  - ISO_COUNTRY_CODE_MIGRATION.md
+  - UNECE_REFERENCE_CODE_MIGRATION.md
+  - FREIGHT_COST_CODE_MIGRATION.md
+  - UNECE_DOCUMENT_NAME_CODE_INVOICE_MIGRATION.md
+  - ... (16 more)

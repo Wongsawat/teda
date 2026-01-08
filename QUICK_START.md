@@ -55,8 +55,8 @@ mvn clean compile
 # Run the example application
 mvn spring-boot:run
 
-# Or run specific example class
-mvn exec:java -Dexec.mainClass="com.example.etax.example.CountryCodeXmlExample"
+# Note: This is a library - add to your project as a dependency
+# See README.md for usage examples
 ```
 
 ## Expected Output
@@ -99,26 +99,42 @@ Round-trip successful: true
 ## File Structure
 
 ```
-src/main/java/com/example/etax/
-├── ETaxApplication.java                     # Spring Boot main application
-├── adapter/
-│   └── ISOCountryCodeAdapter.java          # JAXB XmlAdapter (XML ↔ Database)
+src/main/java/com/wpanther/etax/core/
 ├── entity/
 │   └── ISOCountryCode.java                 # JPA entity (database model)
 ├── repository/
 │   └── ISOCountryCodeRepository.java       # Spring Data repository
-├── xml/country/
-│   ├── ISOTwoletterCountryCodeType.java   # Custom JAXB type (replaces enum)
-│   └── package-info.java                   # Namespace configuration
-└── example/
-    └── CountryCodeXmlExample.java          # Usage examples
+├── adapter/
+│   └── common/
+│       └── ISOCountryCodeAdapter.java      # JAXB XmlAdapter (XML ↔ Database)
+├── xml/
+│   └── country/
+│       ├── ISOTwoletterCountryCodeType.java # Custom JAXB type (replaces enum)
+│       └── package-info.java               # Namespace configuration
+└── [20 code lists with this pattern]
 
 src/main/resources/
-└── application.properties                   # Spring Boot configuration
+├── application.properties                   # Spring Boot configuration
+├── jaxb-bindings-taxinvoice.xjb            # TaxInvoice JAXB binding config
+├── jaxb-bindings-receipt.xjb               # Receipt JAXB binding config
+├── jaxb-bindings-debitcreditnote.xjb       # DebitCreditNote JAXB binding config
+├── jaxb-bindings-cancellationnote.xjb      # CancellationNote JAXB binding config
+├── jaxb-bindings-abbreviatedtaxinvoice.xjb # AbbreviatedTaxInvoice JAXB binding config
+├── jaxb-bindings-invoice.xjb               # Generic Invoice JAXB binding config
+└── db/                                     # Database migration scripts (42 files)
+    ├── iso_country_code.sql
+    ├── iso_country_code_data.sql
+    └── [40 more SQL files]
 
-target/generated-sources/jaxb/              # Original generated enums (for reference)
-└── com/example/etax/generated/iso/country/
-    └── ISOTwoletterCountryCodeContentType.java  # 3,324-line enum (NOT USED)
+target/generated-sources/jaxb/              # Generated JAXB classes (748+ classes)
+└── com/wpanther/etax/generated/
+    ├── common/                             # Shared UDT/QDT classes (116 classes)
+    ├── taxinvoice/                         # TaxInvoice RSM/RAM classes (~80 classes)
+    ├── receipt/                            # Receipt RSM/RAM classes (~76 classes)
+    ├── debitcreditnote/                    # DebitCreditNote RSM/RAM classes (~76 classes)
+    ├── cancellationnote/                   # CancellationNote RSM/RAM classes (~74 classes)
+    ├── abbreviatedtaxinvoice/              # AbbreviatedTaxInvoice RSM/RAM classes (~80 classes)
+    └── invoice/                            # Generic Invoice RSM/RAM/QDT classes (~146 classes)
 ```
 
 ## How It Works
@@ -265,7 +281,7 @@ Error: Connection refused
 ```
 Warning: Repository not initialized, creating placeholder for code: TH
 ```
-**Solution**: Ensure `@ComponentScan` includes `com.example.etax` package
+**Solution**: Ensure `@ComponentScan` includes `com.wpanther.etax` package
 
 ### Namespace Mismatch
 ```
@@ -292,4 +308,4 @@ For issues or questions:
 1. Check logs in console output
 2. Verify database connectivity: `psql -U postgres -d etax -c "SELECT version();"`
 3. Test repository: `psql -U postgres -d etax -c "SELECT * FROM iso_country_code LIMIT 5;"`
-4. Enable debug logging: `logging.level.com.example.etax=DEBUG` in application.properties
+4. Enable debug logging: `logging.level.com.wpanther.etax=DEBUG` in application.properties

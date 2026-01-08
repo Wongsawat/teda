@@ -43,12 +43,12 @@ PostgreSQL Database
 
 | Component | Count | Description |
 |-----------|-------|-------------|
-| Custom Java Files | 101 | Entities, repositories, adapters, examples |
-| Generated JAXB Classes | 293+ | Root schema, business entities, data types |
+| Custom Java Files | 82 | 20 entities, 20 repos, 20 adapters, 21 XML types |
+| Generated JAXB Classes | 748+ | 6 document types with shared UDT/QDT |
 | XSD Schemas | 35+ | Thai e-Tax Invoice v2.1 specification |
-| Database Tables | 19 | Code list tables with indexes and views |
+| Database Tables | 20 | Code list tables with indexes and views |
 | SQL Migration Files | 42 | Schema DDL and data insertion scripts |
-| Documentation Files | 25 | Architecture, migration guides, examples |
+| Documentation Files | 24 | Architecture, migration guides, examples |
 | Python Scripts | 8 | XSD to SQL data extraction utilities |
 
 ## Technology Stack
@@ -117,18 +117,28 @@ teda/
 ├── pom.xml                                 # Maven configuration
 ├── src/
 │   └── main/
-│       ├── java/com/wpanther/etax/core/    # Library source code (entities, repositories, adapters, xml types)
+│       ├── java/com/wpanther/etax/core/
+│       │   ├── entity/                     # 20 JPA entities (database models)
+│       │   ├── repository/                 # 20 Spring Data repositories
+│       │   ├── adapter/common/              # 20 JAXB XmlAdapters (XML ↔ Database)
+│       │   └── xml/                        # 21 custom JAXB types
 │       └── resources/
-│           ├── jaxb-bindings.xjb           # JAXB binding configuration
+│           ├── jaxb-bindings-taxinvoice.xjb       # TaxInvoice JAXB binding config
+│           ├── jaxb-bindings-receipt.xjb          # Receipt JAXB binding config
+│           ├── jaxb-bindings-debitcreditnote.xjb  # DebitCreditNote JAXB binding config
+│           ├── jaxb-bindings-cancellationnote.xjb # CancellationNote JAXB binding config
+│           ├── jaxb-bindings-abbreviatedtaxinvoice.xjb # AbbreviatedTaxInvoice JAXB binding config
+│           ├── jaxb-bindings-invoice.xjb          # Generic Invoice JAXB binding config
+│           ├── db/                         # 42 SQL migration scripts
 │           └── e-tax-invoice-receipt-v2.1/ # XSD schemas (35+ files)
 ├── target/
-│   └── generated-sources/jaxb/             # Generated JAXB classes (293+)
-├── Documentation/                          # 25 documentation files
+│   └── generated-sources/jaxb/             # Generated JAXB classes (748+)
+├── Documentation/                          # 24 documentation files
 │   ├── QUICK_START.md
 │   ├── DATABASE_BACKED_JAXB.md
 │   ├── JAXB_GENERATION_SUMMARY.md
 │   ├── JAXB_INTEGRATION_GUIDE.md
-│   └── *_MIGRATION.md (19 files)
+│   └── *_MIGRATION.md (20 files)
 └── Database Migration Files/               # 42 SQL scripts
     ├── iso_country_code.sql
     ├── iso_country_code_data.sql
@@ -149,15 +159,15 @@ Located in [src/main/resources/e-tax-invoice-receipt-v2.1/](src/main/resources/e
 
 Located in [src/main/java/com/wpanther/etax/](src/main/java/com/wpanther/etax/)
 
-#### Entity Layer (19 JPA Entities)
+#### Entity Layer (20 JPA Entities)
 Database models for code lists with metadata:
 - [ISOCountryCode.java](src/main/java/com/wpanther/etax/entity/ISOCountryCode.java) - 252 ISO country codes
 - [ISOCurrencyCode.java](src/main/java/com/wpanther/etax/entity/ISOCurrencyCode.java) - ISO 4217 currencies
 - [TISISubdistrict.java](src/main/java/com/wpanther/etax/entity/TISISubdistrict.java) - 8,940 Thai subdivisions
 - [UNECEReferenceTypeCode.java](src/main/java/com/wpanther/etax/entity/UNECEReferenceTypeCode.java) - 798 reference types
-- And 15 more code list entities
+- And 16 more code list entities
 
-#### Repository Layer (19 Spring Data Repositories)
+#### Repository Layer (20 Spring Data Repositories)
 Database access with query methods:
 ```java
 public interface ISOCountryCodeRepository extends JpaRepository<ISOCountryCode, String> {
@@ -168,7 +178,7 @@ public interface ISOCountryCodeRepository extends JpaRepository<ISOCountryCode, 
 ```
 
 
-#### Adapter Layer (19 JAXB XmlAdapters)
+#### Adapter Layer (20 JAXB XmlAdapters)
 Bridge between XML and database:
 
 ```java
@@ -185,7 +195,7 @@ public class ISOCountryCodeAdapter extends XmlAdapter<String, ISOCountryCode> {
 }
 ```
 
-#### XML Layer (19 Custom JAXB Types)
+#### XML Layer (21 Custom JAXB Types)
 Replace generated enums with database-backed types:
 ```java
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -205,15 +215,27 @@ public class ISOTwoletterCountryCodeType {
 
 Located in [target/generated-sources/jaxb/](target/generated-sources/jaxb/)
 
-293+ classes organized into 4 packages:
-- **rsm** (Root Schema Module): Main invoice document types (6 classes)
-- **ram** (Reusable Aggregate Entities): Business entities like parties, addresses, taxes (74 classes)
-- **qdt** (Qualified Data Types): Thai-specific data types (72 classes)
-- **udt** (Unqualified Data Types): UN/CEFACT standard types (44 classes)
+748+ classes organized into 7 packages:
+- **common** (Shared by all documents): UDT/QDT shared classes (116 classes)
+  - **udt** (Unqualified Data Types): UN/CEFACT standard types (44 classes)
+  - **qdt** (Thai Qualified Data Types): Thai-specific data types (72 classes)
+- **taxinvoice** (TaxInvoice-specific): ~80 classes
+  - **rsm** (Root Schema Module): Main invoice document types (6 classes)
+  - **ram** (Reusable Aggregate Entities): Business entities (74 classes)
+- **receipt** (Receipt-specific): ~76 classes
+  - **rsm**: Receipt document types (6 classes)
+  - **ram**: Receipt business entities (70 classes)
+- **debitcreditnote** (DebitCreditNote-specific): ~76 classes
+- **cancellationnote** (CancellationNote-specific): ~74 classes
+- **abbreviatedtaxinvoice** (AbbreviatedTaxInvoice-specific): ~80 classes
+- **invoice** (Generic Invoice-specific): ~146 classes
+  - **qdt**: Generic Qualified Data Types (66 classes, different from Thai)
+  - **rsm**: Generic invoice document types (6 classes)
+  - **ram**: Generic business entities (74 classes)
 
 ### 4. Database Tables
 
-19 PostgreSQL tables with full metadata:
+20 PostgreSQL tables with full metadata:
 
 | Table | Records | Description |
 |-------|---------|-------------|
@@ -225,7 +247,7 @@ Located in [target/generated-sources/jaxb/](target/generated-sources/jaxb/)
 | thai_province_code | 77 | Thai provinces |
 | thai_document_name_code | 12 | Thai document type codes |
 | thai_message_function_code | 25 | Thai message function codes |
-| ... | ... | 11 more code list tables |
+| ... | ... | 12 more code list tables |
 
 Each table includes:
 - Primary key constraint
@@ -288,7 +310,7 @@ Use `XmlAdapter` to bridge between XML and PostgreSQL database while maintaining
 
 ## Documentation
 
-Comprehensive documentation is available in 25 files:
+Comprehensive documentation is available in 24 files:
 
 ### Getting Started
 - [QUICK_START.md](QUICK_START.md) - Quick start guide with examples
@@ -296,11 +318,11 @@ Comprehensive documentation is available in 25 files:
 
 ### Architecture & Design
 - [DATABASE_BACKED_JAXB.md](DATABASE_BACKED_JAXB.md) - Core architecture explanation
-- [JAXB_GENERATION_SUMMARY.md](JAXB_GENERATION_SUMMARY.md) - Generated code summary (293+ classes)
+- [JAXB_GENERATION_SUMMARY.md](JAXB_GENERATION_SUMMARY.md) - Generated code summary (748+ classes)
 - [JAXB_INTEGRATION_GUIDE.md](JAXB_INTEGRATION_GUIDE.md) - Integration guide
 - [XSD_DEPENDENCY_HIERARCHY.md](XSD_DEPENDENCY_HIERARCHY.md) - XSD dependency tree
 
-### Database Migration Guides (19 files)
+### Database Migration Guides (20 files)
 Each code list has a dedicated migration guide with:
 - Schema DDL
 - Data insertion SQL
@@ -346,6 +368,7 @@ The project implements **ETDA e-Tax Invoice Specification v2.1** with:
 - **388**: Tax Invoice (ใบกำกับภาษี)
 - **80**: Receipt (ใบเสร็จรับเงิน)
 - **81**: Abbreviated Tax Invoice (ใบกำกับภาษีอย่างย่อ)
+- **380**: Cancellation Note (ใบแจ้งยกเลิก)
 - **381**: Credit Note (ใบลดหนี้)
 - **383**: Debit Note (ใบเพิ่มหนี้)
 

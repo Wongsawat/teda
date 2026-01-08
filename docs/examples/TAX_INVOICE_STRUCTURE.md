@@ -9,6 +9,7 @@ This guide explains the structure of ETDA Thai e-Tax Invoice (TaxInvoice_CrossIn
 | 388 | ใบกำกับภาษี | Tax Invoice | Standard tax invoice for VAT-registered businesses |
 | 80 | ใบเสร็จรับเงิน | Receipt | Payment receipt |
 | 81 | ใบกำกับภาษีอย่างย่อ | Abbreviated Tax Invoice | Simplified tax invoice (retail) |
+| 380 | ใบแจ้งยกเลิก | Cancellation Note | Void/cancel documents |
 | 381 | ใบลดหนี้ | Credit Note | Refund or price reduction |
 | 383 | ใบเพิ่มหนี้ | Debit Note | Additional charges |
 
@@ -179,10 +180,11 @@ Your library provides database-backed code lists for:
 | Province Codes | `thai_province_code` | 77 | Thai provinces |
 | District/Sub-district | `tisi_subdistrict` | 8,940 | Thai subdivisions |
 | Reference Type Codes | `unece_reference_type_code` | 798 | Document references |
+| Document Name Codes (Invoice) | `document_name_code_invoice` | 17 | UN/CEFACT document types |
 | Tax Type Codes | `duty_tax_fee_type_code` | - | Tax categories |
 | Payment Terms | `payment_terms_type_code` | - | Payment terms |
 | Delivery Terms | `delivery_terms_code` | - | INCOTERMS |
-| Document Name Codes | `thai_document_name_code` | 12 | Document types |
+| Document Name Codes | `thai_document_name_code` | 12 | Thai document types |
 
 ## Calculation Examples
 

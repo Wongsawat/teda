@@ -6,25 +6,27 @@ This is a simplified, practical example showing how to work with the JAXB-genera
 
 ## Key Points
 
-1. **Generated code uses enums**: The JAXB-generated code references enum types like `ISO3AlphaCurrencyCodeContentType`
-2. **Your adapters use Strings**: Your database-backed adapters work with String codes, not enums
-3. **Integration strategy**: Convert between enum and String when needed
+1. **Generated code has 6 document types**: TaxInvoice, Receipt, DebitCreditNote, CancellationNote, AbbreviatedTaxInvoice, and Invoice
+2. **Shared common types**: UDT (UnqualifiedDataType) and Thai QDT (QualifiedDataType) are shared across all document types
+3. **Database-backed adapters**: Use Spring-injected repositories to fetch entities from PostgreSQL
+4. **Integration strategy**: Use repositories and adapters for database lookups, then convert to XML types for marshalling
 
 ## Working Example
 
 ```java
 package com.wpanther.etax.example;
 
-import com.wpanther.etax.adapter.*;
-import com.wpanther.etax.entity.*;
-import com.wpanther.etax.generated.invoice.rsm.impl.TaxInvoice_CrossIndustryInvoiceTypeImpl;
+import com.wpanther.etax.core.adapter.common.*;
+import com.wpanther.etax.core.entity.*;
+import com.wpanther.etax.core.repository.*;
+import com.wpanther.etax.core.xml.isocountry.ISOTwoletterCountryCodeType;
+import com.wpanther.etax.core.xml.isocurrency.ISOThreeletterCurrencyCodeType;
+import com.wpanther.etax.generated.taxinvoice.rsm.TaxInvoice_CrossIndustryInvoiceType;
 import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.stereotype.Service;
 
-import javax.xml.namespace.QName;
 import java.io.*;
 
 /**
@@ -33,23 +35,23 @@ import java.io.*;
 @Service
 public class TaxInvoiceService {
 
-    private final ISOCurrencyCodeAdapter currencyAdapter;
-    private final ISOCountryCodeAdapter countryAdapter;
-    private final ThaiDocumentNameCodeAdapter documentNameAdapter;
+    private final ISOCurrencyCodeRepository currencyRepository;
+    private final ISOCountryCodeRepository countryRepository;
+    private final ThaiDocumentNameCodeRepository documentNameRepository;
     private final JAXBContext jaxbContext;
 
     public TaxInvoiceService(
-            ISOCurrencyCodeAdapter currencyAdapter,
-            ISOCountryCodeAdapter countryAdapter,
-            ThaiDocumentNameCodeAdapter documentNameAdapter) throws Exception {
+            ISOCurrencyCodeRepository currencyRepository,
+            ISOCountryCodeRepository countryRepository,
+            ThaiDocumentNameCodeRepository documentNameRepository) throws Exception {
 
-        this.currencyAdapter = currencyAdapter;
-        this.countryAdapter = countryAdapter;
-        this.documentNameAdapter = documentNameAdapter;
+        this.currencyRepository = currencyRepository;
+        this.countryRepository = countryRepository;
+        this.documentNameRepository = documentNameRepository;
 
         // Initialize JAXB context for the root element
         this.jaxbContext = JAXBContext.newInstance(
-            TaxInvoice_CrossIndustryInvoiceTypeImpl.class
+            TaxInvoice_CrossIndustryInvoiceType.class
         );
     }
 
@@ -61,12 +63,8 @@ public class TaxInvoiceService {
         // Step 1: Unmarshal XML to JAXB objects
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-        @SuppressWarnings("unchecked")
-        JAXBElement<TaxInvoice_CrossIndustryInvoiceTypeImpl> element =
-            (JAXBElement<TaxInvoice_CrossIndustryInvoiceTypeImpl>)
-            unmarshaller.unmarshal(xmlInput);
-
-        TaxInvoice_CrossIndustryInvoiceTypeImpl invoice = element.getValue();
+        TaxInvoice_CrossIndustryInvoiceType invoice =
+            (TaxInvoice_CrossIndustryInvoiceType) unmarshaller.unmarshal(xmlInput);
 
         // Step 2: Extract codes from JAXB objects
         if (invoice.getExchangedDocument() != null) {
@@ -77,19 +75,22 @@ public class TaxInvoiceService {
 
             System.out.println("Invoice Number: " + invoiceNumber);
 
-            // Get document type code (comes from JAXB as enum)
+            // Get document type code (comes from JAXB as enum value)
             if (invoice.getExchangedDocument().getTypeCode() != null) {
-                // The value() method returns the enum
+                // The getValue() method returns the code as String
                 String docTypeCode = invoice.getExchangedDocument()
                     .getTypeCode().getValue();
 
-                // Step 3: Use adapter to get database entity
+                // Step 3: Use repository to get database entity
                 ThaiDocumentNameCode docType =
-                    ThaiDocumentNameCodeAdapter.toEntity(docTypeCode);
+                    documentNameRepository.findByCode(docTypeCode)
+                        .orElse(null);
 
-                System.out.println("Document Type: " + docType.getCode());
-                System.out.println("Description (EN): " + docType.getDescriptionEn());
-                System.out.println("Description (TH): " + docType.getDescriptionTh());
+                if (docType != null) {
+                    System.out.println("Document Type: " + docType.getCode());
+                    System.out.println("Description (EN): " + docType.getDescriptionEn());
+                    System.out.println("Description (TH): " + docType.getDescriptionTh());
+                }
             }
         }
 
@@ -101,19 +102,21 @@ public class TaxInvoiceService {
             String currencyCode = invoice.getSupplyChainTradeTransaction()
                 .getApplicableHeaderTradeSettlement()
                 .getInvoiceCurrencyCode()
-                .getValue(); // Returns enum value as String
+                .getValue(); // Returns code as String
 
-            // Use adapter to get database entity with full details
+            // Use repository to get database entity with full details
             ISOCurrencyCode currency =
-                ISOCurrencyCodeAdapter.toEntity(currencyCode);
+                currencyRepository.findByCode(currencyCode).orElse(null);
 
-            System.out.println("Currency: " + currency.getCode());
-            System.out.println("Currency Name: " + currency.getName());
-            System.out.println("Decimal Places: " + currency.getDecimalPlaces());
+            if (currency != null) {
+                System.out.println("Currency: " + currency.getCode());
+                System.out.println("Currency Name: " + currency.getName());
+                System.out.println("Decimal Places: " + currency.getDecimalPlaces());
 
-            // Use business methods from database entity
-            if (currency.isThaiBasht()) {
-                System.out.println("This is Thai Baht!");
+                // Use business methods from database entity
+                if (currency.isThaiBaht()) {
+                    System.out.println("This is Thai Baht!");
+                }
             }
         }
     }
@@ -121,29 +124,35 @@ public class TaxInvoiceService {
     /**
      * Example 2: Create invoice programmatically using database entities
      */
-    public TaxInvoice_CrossIndustryInvoiceTypeImpl createInvoiceExample() {
+    public TaxInvoice_CrossIndustryInvoiceType createInvoiceExample() {
 
-        // Step 1: Look up database-backed entities
-        ISOCurrencyCode thbCurrency = ISOCurrencyCodeAdapter.toEntity("THB");
-        ISOCountryCode thailandCountry = ISOCountryCodeAdapter.toEntity("TH");
-        ThaiDocumentNameCode invoiceType = ThaiDocumentNameCodeAdapter.toEntity("T01");
+        // Step 1: Look up database-backed entities using repositories
+        ISOCurrencyCode thbCurrency = currencyRepository.findByCode("THB").orElse(null);
+        ISOCountryCode thailandCountry = countryRepository.findByCode("TH").orElse(null);
+        ThaiDocumentNameCode invoiceType = documentNameRepository.findByCode("388").orElse(null);
 
         // Step 2: Create JAXB invoice object
-        TaxInvoice_CrossIndustryInvoiceTypeImpl invoice =
-            new TaxInvoice_CrossIndustryInvoiceTypeImpl();
+        TaxInvoice_CrossIndustryInvoiceType invoice =
+            new TaxInvoice_CrossIndustryInvoiceType();
 
         // Step 3: Build the invoice structure
         // (This would involve creating ExchangedDocument, SupplyChainTradeTransaction, etc.)
         // For this example, we'll show the conceptual approach
 
         System.out.println("Creating invoice with:");
-        System.out.println("  Currency: " + thbCurrency.getCode() + " (" + thbCurrency.getName() + ")");
-        System.out.println("  Country: " + thailandCountry.getCode() + " (" + thailandCountry.getName() + ")");
-        System.out.println("  Document Type: " + invoiceType.getCode());
+        if (thbCurrency != null) {
+            System.out.println("  Currency: " + thbCurrency.getCode() + " (" + thbCurrency.getName() + ")");
+        }
+        if (thailandCountry != null) {
+            System.out.println("  Country: " + thailandCountry.getCode() + " (" + thailandCountry.getName() + ")");
+        }
+        if (invoiceType != null) {
+            System.out.println("  Document Type: " + invoiceType.getCode());
+        }
 
         // In real implementation, you would:
-        // 1. Create all JAXB implementation objects (*Impl classes)
-        // 2. Convert your database entity codes to JAXB enum values
+        // 1. Create all JAXB objects using the generated classes
+        // 2. Set XML types using database entities
         // 3. Set all required fields according to Thai e-Tax specification
 
         return invoice;
@@ -152,40 +161,51 @@ public class TaxInvoiceService {
     /**
      * Example 3: Marshal invoice to XML
      */
-    public String marshalToXml(TaxInvoice_CrossIndustryInvoiceTypeImpl invoice)
+    public String marshalToXml(TaxInvoice_CrossIndustryInvoiceType invoice)
             throws Exception {
 
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
-        // Create JAXBElement with proper namespace
-        QName qName = new QName(
-            "urn:etda:uncefact:data:standard:TaxInvoice_CrossIndustryInvoice:2",
-            "TaxInvoice_CrossIndustryInvoice"
-        );
-
-        JAXBElement<TaxInvoice_CrossIndustryInvoiceTypeImpl> element =
-            new JAXBElement<>(qName, TaxInvoice_CrossIndustryInvoiceTypeImpl.class, invoice);
-
         StringWriter writer = new StringWriter();
-        marshaller.marshal(element, writer);
+        marshaller.marshal(invoice, writer);
 
         return writer.toString();
     }
 
     /**
-     * Helper: Convert String code to database entity
+     * Example 4: Create XML type from database entity
      */
-    public ISOCurrencyCode getCurrencyFromCode(String code) {
-        return ISOCurrencyCodeAdapter.toEntity(code);
+    public String createCountryXml(String countryCode) {
+        // Fetch from database
+        ISOCountryCode country = countryRepository.findByCode(countryCode).orElse(null);
+
+        if (country == null) {
+            return null;
+        }
+
+        // Create XML type wrapper
+        ISOTwoletterCountryCodeType countryType = ISOTwoletterCountryCodeType.of(country);
+
+        // Now you can use countryType in JAXB objects
+        return countryType.getCode(); // Returns "TH"
     }
 
     /**
-     * Helper: Convert database entity to String code
+     * Example 5: Using adapter static helper methods
      */
-    public String getCodeFromCurrency(ISOCurrencyCode currency) {
-        return ISOCurrencyCodeAdapter.toCode(currency);
+    public void validateCodes(String countryCode, String currencyCode) {
+        // Check if codes are valid using adapter static methods
+        boolean validCountry = ISOCountryCodeAdapter.isValid(countryCode);
+        boolean validCurrency = ISOCurrencyCodeAdapter.isValid(currencyCode);
+
+        System.out.println("Country " + countryCode + " is valid: " + validCountry);
+        System.out.println("Currency " + currencyCode + " is valid: " + validCurrency);
+
+        // Get document name using adapter
+        String docName = ThaiDocumentNameCodeAdapter.getDocumentName("388");
+        System.out.println("Document name for code 388: " + docName);
     }
 }
 ```
@@ -199,11 +219,11 @@ XML File
    ↓
 JAXB Unmarshal
    ↓
-JAXB Objects (with enum values)
+JAXB Objects (with String/enum values)
    ↓
 Extract String codes
    ↓
-YourAdapter.toEntity(code) ← Database lookup
+repository.findByCode(code) ← Database lookup
    ↓
 Your Entity Objects (with full data)
    ↓
@@ -215,15 +235,13 @@ Business Logic
 ```
 Business Logic
    ↓
-Your Entity Objects
+Your Entity Objects (from repository)
    ↓
-YourAdapter.toCode(entity)
+Custom XML Type: of(entity)
    ↓
-String codes
+XML Type with database-backed entity
    ↓
-Convert to JAXB enum (if needed)
-   ↓
-Create JAXB Objects
+Set in JAXB objects
    ↓
 JAXB Marshal
    ↓
@@ -235,82 +253,98 @@ XML File
 ### 1. Database Entity Lookup
 
 ```java
-// Your adapters provide static helper methods
-ISOCurrencyCode thb = ISOCurrencyCodeAdapter.toEntity("THB");
+// Use Spring-injected repositories
+@Autowired
+private ISOCountryCodeRepository countryRepository;
+
+// Fetch entity from database
+ISOCountryCode thb = countryRepository.findByCode("TH").orElse(null);
 
 // Now you have full database-backed entity
-System.out.println(thb.getName());  // "Thai Baht"
-System.out.println(thb.getNumericCode());  // "764"
-System.out.println(thb.getDecimalPlaces());  // 2
-
-// Use business methods
-if (thb.isThaiBasht()) {
-    // Special handling for THB
+if (thb != null) {
+    System.out.println(thb.getName());  // "THAILAND"
+    System.out.println(thb.getNumericCode());  // "764"
+    System.out.println(thb.isActive());  // true
 }
 ```
 
-### 2. Working with JAXB Generated Types
-
-The generated code has this pattern:
-- **Interface**: `CurrencyCodeType` (in `qdt` package)
-- **Implementation**: `CurrencyCodeTypeImpl` (in `qdt.impl` package)
-
-Always use the `Impl` classes when creating objects:
+### 2. Creating XML Types from Entities
 
 ```java
-// CORRECT
-CurrencyCodeTypeImpl currency = new CurrencyCodeTypeImpl();
-currency.setValue("THB");  // Set the enum value
+// Fetch entity from repository
+ISOCountryCode thailand = countryRepository.findByCode("TH").orElse(null);
 
-// WRONG - can't instantiate interface
-CurrencyCodeType currency = new CurrencyCodeType(); // Won't compile
+// Create custom XML type wrapper
+ISOTwoletterCountryCodeType countryType = ISOTwoletterCountryCodeType.of(thailand);
+
+// Use in JAXB objects
+invoice.setCountry(countryType);
 ```
 
-### 3. Enum vs String Conversion
+### 3. Using Generated JAXB Types
 
-The JAXB types use enums, but they have `getValue()` and `setValue()` methods that work with Strings:
+The generated code is organized into 6 document types:
 
-```java
-// Get String from JAXB enum
-String code = jaxbCurrencyCode.getValue();  // Returns "THB" as String
+- **taxinvoice**: `com.wpanther.etax.generated.taxinvoice.*`
+  - `rsm`: Root schema module (TaxInvoice_CrossIndustryInvoiceType)
+  - `ram`: Reusable aggregate business entities
 
-// Set JAXB enum from String
-jaxbCurrencyCode.setValue("THB");  // Sets enum value
-```
+- **receipt**: `com.wpanther.etax.generated.receipt.*`
+  - `rsm`: Receipt_CrossIndustryInvoiceType
+
+- **debitcreditnote**: `com.wpanther.etax.generated.debitcreditnote.*`
+  - `rsm`: DebitCreditNote_CrossIndustryInvoiceType
+
+- **cancellationnote**: `com.wpanther.etax.generated.cancellationnote.*`
+  - `rsm`: CancellationNote_CrossIndustryInvoiceType
+
+- **abbreviatedtaxinvoice**: `com.wpanther.etax.generated.abbreviatedtaxinvoice.*`
+  - `rsm`: AbbreviatedTaxInvoice_CrossIndustryInvoiceType
+
+- **invoice**: `com.wpanther.etax.generated.invoice.*`
+  - `rsm`: Invoice_CrossIndustryInvoiceType (generic UN/CEFACT)
+
+All types share:
+- **common.udt**: Unqualified data types (44 classes)
+- **common.qdt**: Thai qualified data types (72 classes)
 
 ## Practical Workflow
 
 1. **For XML Reading**:
    - Unmarshal XML → JAXB objects
    - Extract code strings from JAXB objects
-   - Use `YourAdapter.toEntity(code)` to get database entities
+   - Use `repository.findByCode()` to get database entities
    - Work with database entities in your business logic
 
 2. **For XML Writing**:
    - Work with database entities in business logic
-   - Use `YourAdapter.toCode(entity)` to get code strings
-   - Set codes on JAXB objects using `setValue(code)`
+   - Use `CustomXmlType.of(entity)` to create XML wrapper
+   - Set XML types on JAXB objects
    - Marshal JAXB objects → XML
 
 ## Benefits
 
 ✅ **XML Compliance**: JAXB handles all XML serialization correctly
-✅ **Database Power**: You get full database-backed entities with all fields and business methods
-✅ **Clean Code**: Business logic uses your entities, not JAXB classes
+✅ **Database Power**: Full database-backed entities with all fields and business methods
+✅ **Clean Code**: Business logic uses entities, not JAXB classes
 ✅ **Maintainable**: When XSD changes, just regenerate JAXB code
 
 ## Files
 
-- Generated JAXB: `target/generated-sources/jaxb/com/wpanther/etax/generated/invoice/`
-- Your entities: `src/main/java/com/wpanther/etax/entity/`
-- Your adapters: `src/main/java/com/wpanther/etax/adapter/`
+- Generated JAXB: `target/generated-sources/jaxb/com/wpanther/etax/generated/`
+  - `taxinvoice/`, `receipt/`, `debitcreditnote/`, `cancellationnote/`, `abbreviatedtaxinvoice/`, `invoice/`
+  - `common/udt/`, `common/qdt/`
+- Your entities: `src/main/java/com/wpanther/etax/core/entity/`
+- Your repositories: `src/main/java/com/wpanther/etax/core/repository/`
+- Your adapters: `src/main/java/com/wpanther/etax/core/adapter/common/`
+- Your XML types: `src/main/java/com/wpanther/etax/core/xml/`
 - Integration guide: `JAXB_INTEGRATION_GUIDE.md`
 
 ## Next Steps
 
 The example above shows the pattern. For a complete implementation:
 
-1. Study the generated JAXB classes structure
+1. Study the generated JAXB classes structure (all 6 document types)
 2. Create builder/factory classes to construct JAXB objects
 3. Create mapper classes to convert between JAXB and your business models
 4. Keep JAXB objects isolated to XML processing layer
