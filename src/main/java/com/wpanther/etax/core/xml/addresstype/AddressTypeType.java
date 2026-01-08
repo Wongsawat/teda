@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.addresstype;
 
-import com.wpanther.etax.core.adapter.AddressTypeAdapter;
+import com.wpanther.etax.core.adapter.taxinvoice.AddressTypeAdapter;
 import com.wpanther.etax.core.entity.AddressType;
 
 import jakarta.xml.bind.annotation.*;

@@ -58,7 +58,7 @@
  *
  * @see com.wpanther.etax.core.entity.ISOLanguageCode
  * @see com.wpanther.etax.core.repository.ISOLanguageCodeRepository
- * @see com.wpanther.etax.core.adapter.ISOLanguageCodeAdapter
+ * @see com.wpanther.etax.core.adapter.taxinvoice.ISOLanguageCodeAdapter
  * @see ISOLanguageCodeType
  */
 @XmlSchema(

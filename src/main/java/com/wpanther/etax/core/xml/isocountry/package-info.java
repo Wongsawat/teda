@@ -85,7 +85,7 @@
  *
  * @see com.wpanther.etax.core.entity.ISOCountryCode
  * @see com.wpanther.etax.core.repository.ISOCountryCodeRepository
- * @see com.wpanther.etax.core.adapter.ISOCountryCodeAdapter
+ * @see com.wpanther.etax.core.adapter.taxinvoice.ISOCountryCodeAdapter
  * @see ISOCountryCodeType
  */
 @XmlSchema(

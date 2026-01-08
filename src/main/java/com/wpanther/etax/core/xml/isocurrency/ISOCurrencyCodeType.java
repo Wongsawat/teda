@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.isocurrency;
 
-import com.wpanther.etax.core.adapter.ISOCurrencyCodeAdapter;
+import com.wpanther.etax.core.adapter.taxinvoice.ISOCurrencyCodeAdapter;
 import com.wpanther.etax.core.entity.ISOCurrencyCode;
 
 import jakarta.xml.bind.annotation.*;

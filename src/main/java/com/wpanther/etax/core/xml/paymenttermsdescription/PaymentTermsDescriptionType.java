@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.paymenttermsdescription;
 
-import com.wpanther.etax.core.adapter.PaymentTermsDescriptionIdentifierAdapter;
+import com.wpanther.etax.core.adapter.taxinvoice.PaymentTermsDescriptionIdentifierAdapter;
 import com.wpanther.etax.core.entity.PaymentTermsDescriptionIdentifier;
 
 import jakarta.xml.bind.annotation.*;

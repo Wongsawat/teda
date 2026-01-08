@@ -67,7 +67,7 @@
  *
  * @see com.wpanther.etax.core.entity.ThaiCategoryCode
  * @see com.wpanther.etax.core.repository.ThaiCategoryCodeRepository
- * @see com.wpanther.etax.core.adapter.ThaiCategoryCodeAdapter
+ * @see com.wpanther.etax.core.adapter.taxinvoice.ThaiCategoryCodeAdapter
  * @see ThaiCategoryCodeType
  */
 @XmlSchema(

@@ -122,7 +122,7 @@
  *
  * @see com.wpanther.etax.core.entity.ThaiMessageFunctionCode
  * @see com.wpanther.etax.core.repository.ThaiMessageFunctionCodeRepository
- * @see com.wpanther.etax.core.adapter.ThaiMessageFunctionCodeAdapter
+ * @see com.wpanther.etax.core.adapter.taxinvoice.ThaiMessageFunctionCodeAdapter
  * @see ThaiMessageFunctionCodeType
  */
 @XmlSchema(

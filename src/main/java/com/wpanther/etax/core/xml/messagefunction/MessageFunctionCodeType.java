@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.messagefunction;
 
-import com.wpanther.etax.core.adapter.MessageFunctionCodeAdapter;
+import com.wpanther.etax.core.adapter.taxinvoice.MessageFunctionCodeAdapter;
 import com.wpanther.etax.core.entity.MessageFunctionCode;
 
 import jakarta.xml.bind.annotation.*;

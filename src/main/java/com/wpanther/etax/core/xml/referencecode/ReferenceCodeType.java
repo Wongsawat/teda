@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.referencecode;
 
-import com.wpanther.etax.core.adapter.UNECEReferenceTypeCodeAdapter;
+import com.wpanther.etax.core.adapter.taxinvoice.UNECEReferenceTypeCodeAdapter;
 import com.wpanther.etax.core.entity.UNECEReferenceTypeCode;
 
 import jakarta.xml.bind.annotation.*;

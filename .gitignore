@@ -70,3 +70,6 @@ logs/
 # JVM crash logs
 hs_err_pid*
 replay_pid*
+
+# Claude Code
+CLAUDE.md

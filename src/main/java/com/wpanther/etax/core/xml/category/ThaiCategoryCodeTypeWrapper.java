@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.category;
 
-import com.wpanther.etax.core.adapter.ThaiCategoryCodeAdapter;
+import com.wpanther.etax.core.adapter.taxinvoice.ThaiCategoryCodeAdapter;
 import com.wpanther.etax.core.entity.ThaiCategoryCode;
 
 import jakarta.xml.bind.annotation.*;

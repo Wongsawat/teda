@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.country;
 
-import com.wpanther.etax.core.adapter.ISOCountryCodeAdapter;
+import com.wpanther.etax.core.adapter.taxinvoice.ISOCountryCodeAdapter;
 import com.wpanther.etax.core.entity.ISOCountryCode;
 
 import jakarta.xml.bind.annotation.*;

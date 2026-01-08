@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.province;
 
-import com.wpanther.etax.core.adapter.ThaiProvinceCodeAdapter;
+import com.wpanther.etax.core.adapter.taxinvoice.ThaiProvinceCodeAdapter;
 import com.wpanther.etax.core.entity.ThaiProvinceCode;
 
 import jakarta.xml.bind.annotation.*;

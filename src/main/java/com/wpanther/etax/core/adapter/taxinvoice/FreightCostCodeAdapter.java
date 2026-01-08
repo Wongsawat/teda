@@ -1,4 +1,4 @@
-package com.wpanther.etax.core.adapter;
+package com.wpanther.etax.core.adapter.taxinvoice;
 
 import com.wpanther.etax.core.repository.FreightCostCodeRepository;
 import com.wpanther.etax.core.entity.FreightCostCode;
