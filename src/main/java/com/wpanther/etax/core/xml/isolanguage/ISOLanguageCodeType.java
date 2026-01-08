@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.isolanguage;
 
-import com.wpanther.etax.core.adapter.taxinvoice.ISOLanguageCodeAdapter;
+import com.wpanther.etax.core.adapter.common.ISOLanguageCodeAdapter;
 import com.wpanther.etax.core.entity.ISOLanguageCode;
 
 import jakarta.xml.bind.annotation.XmlAccessType;

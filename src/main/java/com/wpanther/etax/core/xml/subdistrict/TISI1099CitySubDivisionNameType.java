@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.subdistrict;
 
-import com.wpanther.etax.core.adapter.taxinvoice.TISISubdistrictAdapter;
+import com.wpanther.etax.core.adapter.common.TISISubdistrictAdapter;
 import com.wpanther.etax.core.entity.TISISubdistrict;
 
 import jakarta.xml.bind.annotation.*;

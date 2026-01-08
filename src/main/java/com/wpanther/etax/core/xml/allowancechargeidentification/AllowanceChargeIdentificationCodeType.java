@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.allowancechargeidentification;
 
-import com.wpanther.etax.core.adapter.taxinvoice.AllowanceChargeIdentificationCodeAdapter;
+import com.wpanther.etax.core.adapter.common.AllowanceChargeIdentificationCodeAdapter;
 import com.wpanther.etax.core.entity.AllowanceChargeIdentificationCode;
 
 import jakarta.xml.bind.annotation.*;

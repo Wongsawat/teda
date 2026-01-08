@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.thaimessagefunction;
 
-import com.wpanther.etax.core.adapter.taxinvoice.ThaiMessageFunctionCodeAdapter;
+import com.wpanther.etax.core.adapter.common.ThaiMessageFunctionCodeAdapter;
 import com.wpanther.etax.core.entity.ThaiMessageFunctionCode;
 
 import jakarta.xml.bind.annotation.XmlAccessType;

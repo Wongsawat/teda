@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.dutytaxfee;
 
-import com.wpanther.etax.core.adapter.taxinvoice.DutyTaxFeeTypeCodeAdapter;
+import com.wpanther.etax.core.adapter.common.DutyTaxFeeTypeCodeAdapter;
 import com.wpanther.etax.core.entity.DutyTaxFeeTypeCode;
 
 import jakarta.xml.bind.annotation.*;

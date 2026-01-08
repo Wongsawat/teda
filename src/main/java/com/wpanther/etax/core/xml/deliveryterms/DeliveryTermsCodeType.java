@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.deliveryterms;
 
-import com.wpanther.etax.core.adapter.taxinvoice.DeliveryTermsCodeAdapter;
+import com.wpanther.etax.core.adapter.common.DeliveryTermsCodeAdapter;
 import com.wpanther.etax.core.entity.DeliveryTermsCode;
 
 import jakarta.xml.bind.annotation.*;

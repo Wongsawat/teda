@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.documentname;
 
-import com.wpanther.etax.core.adapter.taxinvoice.ThaiDocumentNameCodeAdapter;
+import com.wpanther.etax.core.adapter.common.ThaiDocumentNameCodeAdapter;
 import com.wpanther.etax.core.entity.ThaiDocumentNameCode;
 
 import jakarta.xml.bind.annotation.*;

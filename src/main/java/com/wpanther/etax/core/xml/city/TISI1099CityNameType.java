@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.city;
 
-import com.wpanther.etax.core.adapter.taxinvoice.TISICityNameAdapter;
+import com.wpanther.etax.core.adapter.common.TISICityNameAdapter;
 import com.wpanther.etax.core.entity.TISICityName;
 
 import jakarta.xml.bind.annotation.*;

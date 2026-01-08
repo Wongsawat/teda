@@ -18,18 +18,20 @@
         </jxb:globalBindings>
     </jxb:bindings>
 
-    <!-- TaxInvoice-specific package mappings -->
+    <!-- Shared UDT/QDT packages (used by TaxInvoice AND Receipt) -->
     <jxb:bindings schemaLocation="e-tax-invoice-receipt-v2.1/uncefact/data/standard/UnqualifiedDataType_16p0.xsd">
         <jxb:schemaBindings>
-            <jxb:package name="com.wpanther.etax.generated.taxinvoice.udt"/>
+            <jxb:package name="com.wpanther.etax.generated.common.udt"/>
         </jxb:schemaBindings>
     </jxb:bindings>
 
     <jxb:bindings schemaLocation="e-tax-invoice-receipt-v2.1/ETDA/data/standard/QualifiedDataType_1p0.xsd">
         <jxb:schemaBindings>
-            <jxb:package name="com.wpanther.etax.generated.taxinvoice.qdt"/>
+            <jxb:package name="com.wpanther.etax.generated.common.qdt"/>
         </jxb:schemaBindings>
     </jxb:bindings>
+
+    <!-- TaxInvoice-specific package mappings -->
 
     <jxb:bindings schemaLocation="e-tax-invoice-receipt-v2.1/ETDA/data/standard/TaxInvoice_ReusableAggregateBusinessInformationEntity_2p1.xsd">
         <jxb:schemaBindings>

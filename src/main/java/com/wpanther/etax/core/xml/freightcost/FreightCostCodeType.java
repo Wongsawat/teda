@@ -1,6 +1,6 @@
 package com.wpanther.etax.core.xml.freightcost;
 
-import com.wpanther.etax.core.adapter.taxinvoice.FreightCostCodeAdapter;
+import com.wpanther.etax.core.adapter.common.FreightCostCodeAdapter;
 import com.wpanther.etax.core.entity.FreightCostCode;
 
 import jakarta.xml.bind.annotation.*;
