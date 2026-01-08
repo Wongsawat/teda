@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jxb:bindings version="3.0"
+              xmlns:jxb="https://jakarta.ee/xml/ns/jaxb"
+              xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Global Bindings (identical to TaxInvoice/Receipt/Invoice) -->
+    <jxb:bindings>
+        <jxb:globalBindings
+            generateValueClass="false"
+            generateElementProperty="false"
+            choiceContentProperty="false"
+            enableJavaNamingConventions="true"
+            underscoreBinding="asCharInWord"
+            typesafeEnumMaxMembers="9000">
+            <jxb:serializable uid="1"/>
+        </jxb:globalBindings>
+    </jxb:bindings>
+
+    <!-- Shared UDT/QDT packages (same as TaxInvoice/Receipt) -->
+    <jxb:bindings schemaLocation="e-tax-invoice-receipt-v2.1/uncefact/data/standard/UnqualifiedDataType_16p0.xsd">
+        <jxb:schemaBindings>
+            <jxb:package name="com.wpanther.etax.generated.common.udt"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+
+    <jxb:bindings schemaLocation="e-tax-invoice-receipt-v2.1/ETDA/data/standard/QualifiedDataType_1p0.xsd">
+        <jxb:schemaBindings>
+            <jxb:package name="com.wpanther.etax.generated.common.qdt"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+
+    <!-- DebitCreditNote-specific RAM and RSM packages -->
+    <jxb:bindings schemaLocation="e-tax-invoice-receipt-v2.1/ETDA/data/standard/DebitCreditNote_ReusableAggregateBusinessInformationEntity_2p1.xsd">
+        <jxb:schemaBindings>
+            <jxb:package name="com.wpanther.etax.generated.debitcreditnote.ram"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+
+    <jxb:bindings schemaLocation="e-tax-invoice-receipt-v2.1/ETDA/data/standard/DebitCreditNote_CrossIndustryInvoice_2p1.xsd">
+        <jxb:schemaBindings>
+            <jxb:package name="com.wpanther.etax.generated.debitcreditnote.rsm"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+
+</jxb:bindings>

@@ -36,7 +36,7 @@
             <version>3.1.0</version>
         </dependency>
         <!-- Optional: Spring Data JPA for repository interfaces -->
-        <dependency>
+    <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>3.2.0</version>
@@ -158,6 +158,82 @@
                             </sources>
                             <xjbSources>
                                 <xjbSource>${basedir}/src/main/resources/jaxb-bindings-receipt.xjb</xjbSource>
+                            </xjbSources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
+                            <clearOutputDir>false</clearOutputDir>
+                            <encoding>UTF-8</encoding>
+                            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
+                            <extension>true</extension>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>xjc-invoice</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/main/resources/e-tax-invoice-receipt-v2.1/ETDA/data/standard/Invoice_CrossIndustryInvoice_2p1.xsd</source>
+                            </sources>
+                            <xjbSources>
+                                <xjbSource>${basedir}/src/main/resources/jaxb-bindings-invoice.xjb</xjbSource>
+                            </xjbSources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
+                            <clearOutputDir>false</clearOutputDir>
+                            <encoding>UTF-8</encoding>
+                            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
+                            <extension>true</extension>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>xjc-debitcreditnote</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/main/resources/e-tax-invoice-receipt-v2.1/ETDA/data/standard/DebitCreditNote_CrossIndustryInvoice_2p1.xsd</source>
+                            </sources>
+                            <xjbSources>
+                                <xjbSource>${basedir}/src/main/resources/jaxb-bindings-debitcreditnote.xjb</xjbSource>
+                            </xjbSources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
+                            <clearOutputDir>false</clearOutputDir>
+                            <encoding>UTF-8</encoding>
+                            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
+                            <extension>true</extension>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>xjc-cancellationnote</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/main/resources/e-tax-invoice-receipt-v2.1/ETDA/data/standard/CancellationNote_CrossIndustryInvoice_2p1.xsd</source>
+                            </sources>
+                            <xjbSources>
+                                <xjbSource>${basedir}/src/main/resources/jaxb-bindings-cancellationnote.xjb</xjbSource>
+                            </xjbSources>
+                            <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
+                            <clearOutputDir>false</clearOutputDir>
+                            <encoding>UTF-8</encoding>
+                            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
+                            <extension>true</extension>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>xjc-abbreviatedtaxinvoice</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/main/resources/e-tax-invoice-receipt-v2.1/ETDA/data/standard/AbbreviatedTaxInvoice_CrossIndustryInvoice_2p1.xsd</source>
+                            </sources>
+                            <xjbSources>
+                                <xjbSource>${basedir}/src/main/resources/jaxb-bindings-abbreviatedtaxinvoice.xjb</xjbSource>
                             </xjbSources>
                             <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
                             <clearOutputDir>false</clearOutputDir>
