@@ -113,6 +113,14 @@ src/main/java/com/wpanther/etax/core/
 │       └── package-info.java               # Namespace configuration
 └── [20 code lists with this pattern]
 
+src/main/java/com/wpanther/etax/validation/  # Schematron validation module
+├── SchematronValidator.java                # Validation interface
+├── SchematronValidatorImpl.java            # Implementation
+├── DocumentSchematron.java                 # Document type enum
+├── SchematronValidationResult.java         # Result model
+├── SchematronError.java                    # Error model
+└── SchematronValidationException.java      # Exception
+
 src/main/resources/
 ├── application.properties                   # Spring Boot configuration
 ├── jaxb-bindings-taxinvoice.xjb            # TaxInvoice JAXB binding config
@@ -244,6 +252,57 @@ public class ISOCountryCode {
 - ✅ Unlimited values
 - ✅ Update via SQL, no recompilation
 - ✅ Full JAXB compatibility maintained
+
+## Schematron Validation
+
+The library includes runtime Schematron validation for Thai e-Tax Invoice business rules.
+
+### Supported Document Types
+
+| Document Type | Rules | Prefix |
+|---------------|-------|--------|
+| Tax Invoice | 91 rules | TIV-* |
+| Receipt | 75 rules | RCT-* |
+| Debit/Credit Note | 76 rules | DCN-* |
+| Invoice | 5 rules | INV-* |
+| Cancellation Note | 0 rules | CN-* |
+| Abbreviated Tax Invoice | 0 rules | ATI-* |
+
+### Usage Example
+
+```java
+import com.wpanther.etax.validation.SchematronValidator;
+import com.wpanther.etax.validation.DocumentSchematron;
+import com.wpanther.etax.validation.SchematronValidationResult;
+
+@Autowired
+private SchematronValidator schematronValidator;
+
+public void validateInvoice(String xmlContent) {
+    SchematronValidationResult result = schematronValidator.validate(
+        xmlContent,
+        DocumentSchematron.TAX_INVOICE
+    );
+
+    if (result.isValid()) {
+        System.out.println("Validation passed!");
+    } else {
+        System.out.println("Validation failed with " + result.getErrors().size() + " errors");
+        for (SchematronError error : result.getErrors()) {
+            System.out.println("  [" + error.getRuleId() + "] " + error.getMessage());
+        }
+    }
+}
+```
+
+### Dependencies
+
+The library includes all required dependencies:
+- ph-schematron-api 8.0.6
+- ph-schematron-pure 8.0.6
+- Saxon-HE 10.8
+
+For detailed usage, see [docs/SCHEMATRON_VALIDATION.md](docs/SCHEMATRON_VALIDATION.md).
 
 ## Next Steps
 

@@ -24,6 +24,7 @@ This project implements the **Thai e-Tax Invoice Specification v2.1** (based on 
 
 - **Spring Data JPA Support**: Integrates with JPA repositories for database-backed code lists
 - **Comprehensive Documentation**: 25+ detailed documentation files included
+- **Schematron Validation**: Runtime business rule validation using ph-schematron 8.0.6 (~300 rules)
 
 ## Architecture
 
@@ -43,12 +44,12 @@ PostgreSQL Database
 
 | Component | Count | Description |
 |-----------|-------|-------------|
-| Custom Java Files | 82 | 20 entities, 20 repos, 20 adapters, 21 XML types |
+| Custom Java Files | 88 | 20 entities, 20 repos, 20 adapters, 21 XML types, 6 validation classes |
 | Generated JAXB Classes | 748+ | 6 document types with shared UDT/QDT |
 | XSD Schemas | 35+ | Thai e-Tax Invoice v2.1 specification |
 | Database Tables | 20 | Code list tables with indexes and views |
 | SQL Migration Files | 42 | Schema DDL and data insertion scripts |
-| Documentation Files | 24 | Architecture, migration guides, examples |
+| Documentation Files | 25 | Architecture, migration guides, examples, Schematron guide |
 | Python Scripts | 8 | XSD to SQL data extraction utilities |
 
 ## Technology Stack
@@ -58,6 +59,8 @@ PostgreSQL Database
 - **Jakarta XML Binding 4.0**: JAXB implementation for XML marshalling
 - **Spring Data JPA**: Database access layer with repositories
 - **PostgreSQL 12+**: Relational database for code list storage
+- **ph-schematron 8.0.6**: Schematron validation for business rules
+- **Saxon-HE 10.8**: XSLT 2.0 processor for Schematron
 - **Maven 3.6+**: Build automation and dependency management
 
 ## Prerequisites
@@ -117,11 +120,19 @@ teda/
 ├── pom.xml                                 # Maven configuration
 ├── src/
 │   └── main/
-│       ├── java/com/wpanther/etax/core/
-│       │   ├── entity/                     # 20 JPA entities (database models)
-│       │   ├── repository/                 # 20 Spring Data repositories
-│       │   ├── adapter/common/              # 20 JAXB XmlAdapters (XML ↔ Database)
-│       │   └── xml/                        # 21 custom JAXB types
+│       ├── java/com/wpanther/etax/
+│       │   ├── core/
+│       │   │   ├── entity/                     # 20 JPA entities (database models)
+│       │   │   ├── repository/                 # 20 Spring Data repositories
+│       │   │   ├── adapter/common/              # 20 JAXB XmlAdapters (XML ↔ Database)
+│       │   │   └── xml/                        # 21 custom JAXB types
+│       │   └── validation/                    # Schematron validation module
+│       │       ├── SchematronValidator.java    # Validation interface
+│       │       ├── SchematronValidatorImpl.java# Implementation
+│       │       ├── DocumentSchematron.java     # Document type enum
+│       │       ├── SchematronValidationResult.java # Result model
+│       │       ├── SchematronError.java        # Error model
+│       │       └── SchematronValidationException.java # Exception
 │       └── resources/
 │           ├── jaxb-bindings-taxinvoice.xjb       # TaxInvoice JAXB binding config
 │           ├── jaxb-bindings-receipt.xjb          # Receipt JAXB binding config
@@ -133,11 +144,12 @@ teda/
 │           └── e-tax-invoice-receipt-v2.1/ # XSD schemas (35+ files)
 ├── target/
 │   └── generated-sources/jaxb/             # Generated JAXB classes (748+)
-├── Documentation/                          # 24 documentation files
+├── Documentation/                          # 25 documentation files
 │   ├── QUICK_START.md
 │   ├── DATABASE_BACKED_JAXB.md
 │   ├── JAXB_GENERATION_SUMMARY.md
 │   ├── JAXB_INTEGRATION_GUIDE.md
+│   ├── SCHEMATRON_VALIDATION.md
 │   └── *_MIGRATION.md (20 files)
 └── Database Migration Files/               # 42 SQL scripts
     ├── iso_country_code.sql
@@ -310,7 +322,7 @@ Use `XmlAdapter` to bridge between XML and PostgreSQL database while maintaining
 
 ## Documentation
 
-Comprehensive documentation is available in 24 files:
+Comprehensive documentation is available in 25 files:
 
 ### Getting Started
 - [QUICK_START.md](QUICK_START.md) - Quick start guide with examples
@@ -321,6 +333,7 @@ Comprehensive documentation is available in 24 files:
 - [JAXB_GENERATION_SUMMARY.md](JAXB_GENERATION_SUMMARY.md) - Generated code summary (748+ classes)
 - [JAXB_INTEGRATION_GUIDE.md](JAXB_INTEGRATION_GUIDE.md) - Integration guide
 - [XSD_DEPENDENCY_HIERARCHY.md](XSD_DEPENDENCY_HIERARCHY.md) - XSD dependency tree
+- [SCHEMATRON_VALIDATION.md](docs/SCHEMATRON_VALIDATION.md) - Schematron validation guide
 
 ### Database Migration Guides (20 files)
 Each code list has a dedicated migration guide with:
@@ -400,6 +413,7 @@ The project implements **ETDA e-Tax Invoice Specification v2.1** with:
 - **Standards-Compliant**: ETDA v2.1, UN/CEFACT, ISO, W3C XML Signature
 - **Well-Documented**: 25 documentation files with examples
 - **Scalable**: Handles large datasets efficiently with caching and lazy loading
+- **Business Rule Validation**: Schematron validation for ~300 Thai e-Tax business rules
 
 ## Troubleshooting
 
