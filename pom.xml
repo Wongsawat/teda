@@ -63,6 +63,24 @@
             <version>2.0.9</version>
         </dependency>
 
+        <!-- PH-Schematron for Schematron validation -->
+        <dependency>
+            <groupId>com.helger.schematron</groupId>
+            <artifactId>ph-schematron-api</artifactId>
+            <version>8.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.helger.schematron</groupId>
+            <artifactId>ph-schematron-pure</artifactId>
+            <version>8.0.6</version>
+        </dependency>
+        <!-- Required Saxon-HE dependency for XSLT 2.0 support -->
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>10.8</version>
+        </dependency>
+
         <!-- Optional: PostgreSQL Driver for consumers -->
         <dependency>
             <groupId>org.postgresql</groupId>
