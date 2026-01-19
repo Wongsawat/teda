@@ -1,8 +1,18 @@
+#!/bin/bash
+
+# Color codes for output
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+echo ""
+echo -e "${YELLOW}⚙️  Forcing JAXB regeneration (using -Pforce-jaxb)...${NC}"
 echo ""
 
-# Generate JAXB sources
-echo -e "${YELLOW}⚙️  Generating JAXB classes from XSD...${NC}"
-if mvn generate-sources; then
+# Force JAXB generation with force-jaxb profile
+if mvn clean generate-sources -Pforce-jaxb; then
     echo ""
     echo -e "${GREEN}✓ JAXB generation successful${NC}"
 else
@@ -25,10 +35,10 @@ echo "  Location: ${YELLOW}target/generated-sources/jaxb/${NC}"
 echo ""
 
 # List generated packages
-if [ -d "target/generated-sources/jaxb/com/wpanther/etax/generated/invoice" ]; then
+if [ -d "target/generated-sources/jaxb/com/wpanther/etax/generated" ]; then
     echo -e "${BLUE}📦 Generated packages:${NC}"
-    find target/generated-sources/jaxb/com/wpanther/etax/generated/invoice -maxdepth 1 -type d | \
-        grep -v "^target/generated-sources/jaxb/com/wpanther/etax/generated/invoice$" | \
+    find target/generated-sources/jaxb/com/wpanther/etax/generated -maxdepth 1 -type d | \
+        grep -v "^target/generated-sources/jaxb/com/wpanther/etax/generated$" | \
         while read -r dir; do
             pkg=$(basename "$dir")
             count=$(find "$dir" -name "*.java" | wc -l)
@@ -37,23 +47,33 @@ if [ -d "target/generated-sources/jaxb/com/wpanther/etax/generated/invoice" ]; t
     echo ""
 fi
 
-echo -e "${BLUE}📝 Next steps:${NC}"
-echo "  1. Refresh your IDE to see generated classes"
-echo "  2. Generated code is in target/ (not committed to git)"
-echo "  3. Use 'mvn compile' to compile everything"
+echo -e "${BLUE}📝 Build Optimization:${NC}"
+echo "  Since XSD files are stable and never change, you can speed up builds:"
+echo ""
+echo -e "${GREEN}  Fast builds (skip JAXB):${NC}"
+echo "    mvn clean install -Pskip-jaxb"
+echo "    ${YELLOW}Saves 30-60 seconds per build!${NC}"
+echo ""
+echo -e "${GREEN}  Auto-detection (default):${NC}"
+echo "    mvn install"
+echo "    ${YELLOW}Skips generation if XSD/XJB files unchanged${NC}"
+echo ""
+echo -e "${GREEN}  Force regeneration:${NC}"
+echo "    mvn generate-sources -Pforce-jaxb"
+echo "    ${YELLOW}Always regenerates (like this script)${NC}"
 echo ""
 
 echo -e "${BLUE}💡 Usage example:${NC}"
 cat << 'EOF'
-  import com.wpanther.etax.generated.invoice.rsm.impl.*;
-  import com.wpanther.etax.adapter.*;
+  import com.wpanther.etax.generated.taxinvoice.rsm.*;
+  import com.wpanther.etax.adapter.common.*;
 
   // Create invoice using database-backed entities
   ISOCurrencyCode thb = ISOCurrencyCodeAdapter.toEntity("THB");
-  TaxInvoice_CrossIndustryInvoiceTypeImpl invoice =
-      new TaxInvoice_CrossIndustryInvoiceTypeImpl();
+  TaxInvoice_CrossIndustryInvoiceType invoice =
+      objectFactory.createTaxInvoice_CrossIndustryInvoiceType();
 
-  // See SIMPLE_EXAMPLE.md for complete examples
+  // See CLAUDE.md for complete examples
 EOF
 echo ""
 
