@@ -304,6 +304,35 @@ The library includes all required dependencies:
 
 For detailed usage, see [docs/SCHEMATRON_VALIDATION.md](docs/SCHEMATRON_VALIDATION.md).
 
+## Running Tests
+
+The library includes comprehensive integration tests for all 20 code list repositories using Testcontainers and PostgreSQL.
+
+### Run All Tests
+```bash
+mvn test
+```
+
+### Run Repository Integration Tests
+```bash
+# With Docker
+mvn test -Dtest="*RepositoryTest" -Pskip-jaxb
+
+# With Podman (requires DOCKER_HOST configuration)
+DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock" \
+TESTCONTAINERS_RYUK_DISABLED=true \
+mvn test -Dtest="*RepositoryTest" -Pskip-jaxb
+
+# Single repository test
+mvn test -Dtest=ISOCountryCodeRepositoryTest -Pskip-jaxb
+```
+
+### Test Coverage
+- 20 repository test classes
+- 200+ individual tests
+- Tests for query methods, business logic, and edge cases
+- Uses Testcontainers for real PostgreSQL database testing
+
 ## Next Steps
 
 1. **Apply to Large Code Lists**

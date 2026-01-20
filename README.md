@@ -44,13 +44,14 @@ PostgreSQL Database
 
 | Component | Count | Description |
 |-----------|-------|-------------|
-| Custom Java Files | 88 | 20 entities, 20 repos, 20 adapters, 21 XML types, 6 validation classes |
+| Custom Java Files | 108 | 20 entities, 20 repos, 20 adapters, 21 XML types, 6 validation classes, 20 test classes, 1 test config |
 | Generated JAXB Classes | 748+ | 6 document types with shared UDT/QDT |
 | XSD Schemas | 35+ | Thai e-Tax Invoice v2.1 specification |
 | Database Tables | 20 | Code list tables with indexes and views |
 | SQL Migration Files | 42 | Schema DDL and data insertion scripts |
 | Documentation Files | 25 | Architecture, migration guides, examples, Schematron guide |
 | Python Scripts | 8 | XSD to SQL data extraction utilities |
+| Integration Tests | 20 | Repository tests with Testcontainers (200+ tests total) |
 
 ## Technology Stack
 
@@ -119,29 +120,43 @@ mvn clean compile package
 teda/
 ├── pom.xml                                 # Maven configuration
 ├── src/
-│   └── main/
-│       ├── java/com/wpanther/etax/
-│       │   ├── core/
-│       │   │   ├── entity/                     # 20 JPA entities (database models)
-│       │   │   ├── repository/                 # 20 Spring Data repositories
-│       │   │   ├── adapter/common/              # 20 JAXB XmlAdapters (XML ↔ Database)
-│       │   │   └── xml/                        # 21 custom JAXB types
-│       │   └── validation/                    # Schematron validation module
-│       │       ├── SchematronValidator.java    # Validation interface
-│       │       ├── SchematronValidatorImpl.java# Implementation
-│       │       ├── DocumentSchematron.java     # Document type enum
-│       │       ├── SchematronValidationResult.java # Result model
-│       │       ├── SchematronError.java        # Error model
-│       │       └── SchematronValidationException.java # Exception
-│       └── resources/
-│           ├── jaxb-bindings-taxinvoice.xjb       # TaxInvoice JAXB binding config
-│           ├── jaxb-bindings-receipt.xjb          # Receipt JAXB binding config
-│           ├── jaxb-bindings-debitcreditnote.xjb  # DebitCreditNote JAXB binding config
-│           ├── jaxb-bindings-cancellationnote.xjb # CancellationNote JAXB binding config
-│           ├── jaxb-bindings-abbreviatedtaxinvoice.xjb # AbbreviatedTaxInvoice JAXB binding config
-│           ├── jaxb-bindings-invoice.xjb          # Generic Invoice JAXB binding config
-│           ├── db/                         # 42 SQL migration scripts
-│           └── e-tax-invoice-receipt-v2.1/ # XSD schemas (35+ files)
+│   ├── main/
+│   │   ├── java/com/wpanther/etax/
+│   │   │   ├── core/
+│   │   │   │   ├── entity/                     # 20 JPA entities (database models)
+│   │   │   │   ├── repository/                 # 20 Spring Data repositories
+│   │   │   │   ├── adapter/common/              # 20 JAXB XmlAdapters (XML ↔ Database)
+│   │   │   │   └── xml/                        # 21 custom JAXB types
+│   │   │   └── validation/                    # Schematron validation module
+│   │   │       ├── SchematronValidator.java    # Validation interface
+│   │   │       ├── SchematronValidatorImpl.java# Implementation
+│   │   │       ├── DocumentSchematron.java     # Document type enum
+│   │   │       ├── SchematronValidationResult.java # Result model
+│   │   │       ├── SchematronError.java        # Error model
+│   │   │       └── SchematronValidationException.java # Exception
+│   │   └── resources/
+│   │       ├── jaxb-bindings-taxinvoice.xjb       # TaxInvoice JAXB binding config
+│   │       ├── jaxb-bindings-receipt.xjb          # Receipt JAXB binding config
+│   │       ├── jaxb-bindings-debitcreditnote.xjb  # DebitCreditNote JAXB binding config
+│   │       ├── jaxb-bindings-cancellationnote.xjb # CancellationNote JAXB binding config
+│   │       ├── jaxb-bindings-abbreviatedtaxinvoice.xjb # AbbreviatedTaxInvoice JAXB binding config
+│   │       ├── jaxb-bindings-invoice.xjb          # Generic Invoice JAXB binding config
+│   │       ├── db/                         # 42 SQL migration scripts
+│   │       └── e-tax-invoice-receipt-v2.1/ # XSD schemas (35+ files)
+│   └── test/
+│       └── java/com/wpanther/etax/
+│           ├── core/
+│           │   ├── config/                     # Test configuration
+│           │   │   ├── PostgresTestContainer.java  # Testcontainers base class
+│           │   │   ├── DatabaseInitializer.java     # Schema/data initializer
+│           │   │   └── TestApplication.java         # Spring Boot test config
+│           │   └── repository/                 # 20 repository integration tests
+│           │       ├── AddressTypeRepositoryTest.java
+│           │       ├── ISOCountryCodeRepositoryTest.java
+│           │       ├── ISOCurrencyCodeRepositoryTest.java
+│           │       └── ... (17 more)
+│           └── validation/                    # Schematron validation tests
+│               └── SchematronValidatorTest.java
 ├── target/
 │   └── generated-sources/jaxb/             # Generated JAXB classes (748+)
 ├── Documentation/                          # 25 documentation files
@@ -360,8 +375,16 @@ mvn clean generate-sources
 # Compile project
 mvn clean compile
 
-# Run tests
+# Run all tests
 mvn test
+
+# Run repository integration tests (requires Docker/Podman)
+mvn test -Dtest="*RepositoryTest" -Pskip-jaxb
+
+# With Podman instead of Docker
+DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock" \
+TESTCONTAINERS_RYUK_DISABLED=true \
+mvn test -Dtest="*RepositoryTest" -Pskip-jaxb
 
 # Package as JAR
 mvn clean package
@@ -412,6 +435,7 @@ The project implements **ETDA e-Tax Invoice Specification v2.1** with:
 - **Production-Ready**: Spring Boot, PostgreSQL, comprehensive error handling
 - **Standards-Compliant**: ETDA v2.1, UN/CEFACT, ISO, W3C XML Signature
 - **Well-Documented**: 25 documentation files with examples
+- **Comprehensive Test Coverage**: 20 repository integration tests with 200+ tests using Testcontainers
 - **Scalable**: Handles large datasets efficiently with caching and lazy loading
 - **Business Rule Validation**: Schematron validation for ~300 Thai e-Tax business rules
 
