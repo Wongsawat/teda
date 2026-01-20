@@ -99,7 +99,7 @@ public class ISOCountryCode {
         this.etdaExtension = etdaExtension;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 

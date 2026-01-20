@@ -40,7 +40,7 @@ public class ISOLanguageCode {
     private String codeLower;
 
     @Column(name = "is_active")
-    private Boolean isActive = true;
+    private Boolean active = true;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -158,12 +158,12 @@ public class ISOLanguageCode {
         return codeLower;
     }
 
-    public Boolean getIsActive() {
-        return isActive;
+    public Boolean isActive() {
+        return active;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -193,7 +193,7 @@ public class ISOLanguageCode {
         return "ISOLanguageCode{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
-                ", isActive=" + isActive +
+                ", active=" + active +
                 '}';
     }
 }

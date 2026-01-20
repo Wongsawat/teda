@@ -152,7 +152,7 @@ public class ISOCountryCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XX", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
         assertTrue(result.getName().contains("Unknown"));
         verify(repository).findByCode("XX");
     }
@@ -195,7 +195,7 @@ public class ISOCountryCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XX", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
         assertTrue(result.getName().contains("Unknown"));
     }
 
@@ -240,7 +240,7 @@ public class ISOCountryCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XX", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
     }
 
     @Test
@@ -668,7 +668,7 @@ public class ISOCountryCodeAdapterTest {
 
         ISOCountryCode result = adapter.unmarshal("XX");
 
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
     }
 
     @Test
@@ -693,7 +693,7 @@ public class ISOCountryCodeAdapterTest {
         ISOCountryCode result = adapter.unmarshal("XX");
 
         assertNotNull(result);
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
     }
 
     @Test

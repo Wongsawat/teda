@@ -190,7 +190,7 @@ public class DutyTaxFeeTypeCode {
         isSummary = summary;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 

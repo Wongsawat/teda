@@ -100,7 +100,7 @@ public class ThaiProvinceCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("99", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
         assertTrue(result.getNameTh().contains("Unknown"));
         verify(repository).findByCodeAndActive("99");
     }
@@ -142,7 +142,7 @@ public class ThaiProvinceCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("99", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
         assertTrue(result.getNameTh().contains("Unknown"));
         assertTrue(result.getNameEn().contains("Unknown"));
     }
@@ -307,7 +307,7 @@ public class ThaiProvinceCodeAdapterTest {
 
         ThaiProvinceCode result = adapter.unmarshal("99");
 
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
     }
 
     // Integration Tests
@@ -320,7 +320,7 @@ public class ThaiProvinceCodeAdapterTest {
         ThaiProvinceCode result = adapter.unmarshal("99");
 
         assertNotNull(result);
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
         assertTrue(result.getNameTh().contains("Unknown"));
     }
 

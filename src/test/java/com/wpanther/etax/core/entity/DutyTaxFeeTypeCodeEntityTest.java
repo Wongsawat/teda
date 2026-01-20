@@ -23,7 +23,7 @@ public class DutyTaxFeeTypeCodeEntityTest {
         assertFalse(entity.isVat());
         assertFalse(entity.isExempt());
         assertFalse(entity.isSummary());
-        assertTrue(entity.getActive());
+        assertTrue(entity.isActive());
     }
 
     @Test
@@ -139,7 +139,7 @@ public class DutyTaxFeeTypeCodeEntityTest {
     public void testSetActive() {
         DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode();
         entity.setActive(false);
-        assertFalse(entity.getActive());
+        assertFalse(entity.isActive());
     }
 
     // Audit Field Tests

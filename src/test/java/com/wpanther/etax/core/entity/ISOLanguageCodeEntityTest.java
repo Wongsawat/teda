@@ -18,7 +18,7 @@ public class ISOLanguageCodeEntityTest {
         assertNotNull(entity);
         assertNull(entity.getCode());
         assertNull(entity.getName());
-        assertTrue(entity.getIsActive());
+        assertTrue(entity.isActive());
     }
 
     @Test
@@ -88,8 +88,8 @@ public class ISOLanguageCodeEntityTest {
     @DisplayName("SetIsActive should set active flag")
     public void testSetIsActive() {
         ISOLanguageCode entity = new ISOLanguageCode();
-        entity.setIsActive(false);
-        assertFalse(entity.getIsActive());
+        entity.setActive(false);
+        assertFalse(entity.isActive());
     }
 
     @Test
@@ -304,7 +304,7 @@ public class ISOLanguageCodeEntityTest {
     @DisplayName("ToString should include code and name")
     public void testToString() {
         ISOLanguageCode entity = new ISOLanguageCode("th", "Thai");
-        entity.setIsActive(true);
+        entity.setActive(true);
 
         String result = entity.toString();
 

@@ -133,7 +133,7 @@ public class UNECEReferenceTypeCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XXX", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
         assertTrue(result.getName().contains("Unknown"));
     }
 
@@ -171,7 +171,7 @@ public class UNECEReferenceTypeCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XXX", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
     }
 
     // Static Helper Method Tests
@@ -323,7 +323,7 @@ public class UNECEReferenceTypeCodeAdapterTest {
 
         UNECEReferenceTypeCode result = adapter.unmarshal("XXX");
 
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
     }
 
     @Test
@@ -346,7 +346,7 @@ public class UNECEReferenceTypeCodeAdapterTest {
         UNECEReferenceTypeCode result = adapter.unmarshal("XXX");
 
         assertNotNull(result);
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
     }
 
     @Test

@@ -20,7 +20,7 @@ public class ThaiProvinceCodeEntityTest {
         assertNull(entity.getNameTh());
         assertNull(entity.getNameEn());
         assertNull(entity.getRegion());
-        assertTrue(entity.getActive());
+        assertTrue(entity.isActive());
         assertNull(entity.getCreatedAt());
         assertNull(entity.getUpdatedAt());
     }
@@ -103,7 +103,7 @@ public class ThaiProvinceCodeEntityTest {
     public void testSetActive() {
         ThaiProvinceCode entity = new ThaiProvinceCode();
         entity.setActive(false);
-        assertFalse(entity.getActive());
+        assertFalse(entity.isActive());
     }
 
     // Equals/HashCode Tests

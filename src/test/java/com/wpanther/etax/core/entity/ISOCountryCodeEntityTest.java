@@ -22,7 +22,7 @@ public class ISOCountryCodeEntityTest {
         assertNull(entity.getCreatedAt());
         assertNull(entity.getUpdatedAt());
         assertFalse(entity.getEtdaExtension());
-        assertTrue(entity.getActive());
+        assertTrue(entity.isActive());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class ISOCountryCodeEntityTest {
     public void testSetActive() {
         ISOCountryCode entity = new ISOCountryCode();
         entity.setActive(false);
-        assertFalse(entity.getActive());
+        assertFalse(entity.isActive());
     }
 
     // Business Logic Tests

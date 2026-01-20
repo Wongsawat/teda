@@ -21,7 +21,7 @@ public class ThaiMessageFunctionCodeEntityTest {
         assertNull(entity.getDescriptionTh());
         assertNull(entity.getDocumentType());
         assertNull(entity.getCategory());
-        assertTrue(entity.getActive());
+        assertTrue(entity.isActive());
     }
 
     @Test
@@ -110,7 +110,7 @@ public class ThaiMessageFunctionCodeEntityTest {
     public void testSetActive() {
         ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
         entity.setActive(false);
-        assertFalse(entity.getActive());
+        assertFalse(entity.isActive());
     }
 
     // Audit Field Tests

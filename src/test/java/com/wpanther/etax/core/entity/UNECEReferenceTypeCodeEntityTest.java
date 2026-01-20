@@ -20,7 +20,7 @@ public class UNECEReferenceTypeCodeEntityTest {
         assertNull(entity.getName());
         assertNull(entity.getDescription());
         assertFalse(entity.getEtdaExtension());
-        assertTrue(entity.getActive());
+        assertTrue(entity.isActive());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class UNECEReferenceTypeCodeEntityTest {
     public void testSetActive() {
         UNECEReferenceTypeCode entity = new UNECEReferenceTypeCode();
         entity.setActive(false);
-        assertFalse(entity.getActive());
+        assertFalse(entity.isActive());
     }
 
     // Audit Field Tests

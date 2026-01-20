@@ -42,7 +42,7 @@ public class ISOCurrencyCode {
     private Integer minorUnits;
 
     @Column(name = "is_active")
-    private Boolean isActive = true;
+    private Boolean active = true;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -210,12 +210,12 @@ public class ISOCurrencyCode {
         this.minorUnits = minorUnits;
     }
 
-    public Boolean getIsActive() {
-        return isActive;
+    public Boolean isActive() {
+        return active;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -247,7 +247,7 @@ public class ISOCurrencyCode {
                 ", name='" + name + '\'' +
                 ", numericCode='" + numericCode + '\'' +
                 ", minorUnits=" + minorUnits +
-                ", isActive=" + isActive +
+                ", active=" + active +
                 '}';
     }
 }

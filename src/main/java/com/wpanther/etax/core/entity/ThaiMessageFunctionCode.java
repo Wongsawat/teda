@@ -107,7 +107,7 @@ public class ThaiMessageFunctionCode {
         this.category = category;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 

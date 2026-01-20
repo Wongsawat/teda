@@ -138,7 +138,7 @@ public class ThaiMessageFunctionCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XXXXX", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
         assertTrue(result.getDescriptionEn().contains("Unknown"));
     }
 
@@ -168,7 +168,7 @@ public class ThaiMessageFunctionCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XXXXX", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
     }
 
     // Static Helper Method Tests
@@ -200,7 +200,7 @@ public class ThaiMessageFunctionCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XXXXX", result.getCode());
-        assertFalse(result.getActive());
+        assertFalse(result.isActive());
     }
 
     @Test

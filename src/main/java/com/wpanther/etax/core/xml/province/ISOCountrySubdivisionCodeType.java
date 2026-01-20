@@ -80,7 +80,7 @@ public class ISOCountrySubdivisionCodeType {
      * Check if the province code is active
      */
     public boolean isActive() {
-        return value != null && Boolean.TRUE.equals(value.getActive());
+        return value != null && Boolean.TRUE.equals(value.isActive());
     }
 
     @Override

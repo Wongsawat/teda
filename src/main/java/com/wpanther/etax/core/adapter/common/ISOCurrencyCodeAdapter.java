@@ -92,7 +92,7 @@ public class ISOCurrencyCodeAdapter extends XmlAdapter<String, ISOCurrencyCode> 
     private static ISOCurrencyCode createPlaceholder(String code) {
         ISOCurrencyCode placeholder = new ISOCurrencyCode(code);
         placeholder.setName("Unknown Currency: " + code);
-        placeholder.setIsActive(false);
+        placeholder.setActive(false);
         placeholder.setMinorUnits(2); // Default to 2 decimal places
         return placeholder;
     }

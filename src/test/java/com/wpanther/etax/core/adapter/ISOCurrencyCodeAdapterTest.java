@@ -37,16 +37,16 @@ public class ISOCurrencyCodeAdapterTest {
         adapter.setRepository(repository);
 
         thaiBaht = new ISOCurrencyCode("THB", "Thai Baht", "764", 2);
-        thaiBaht.setIsActive(true);
+        thaiBaht.setActive(true);
 
         usDollar = new ISOCurrencyCode("USD", "US Dollar", "840", 2);
-        usDollar.setIsActive(true);
+        usDollar.setActive(true);
 
         euro = new ISOCurrencyCode("EUR", "Euro", "978", 2);
-        euro.setIsActive(true);
+        euro.setActive(true);
 
         japaneseYen = new ISOCurrencyCode("JPY", "Japanese Yen", "392", 0);
-        japaneseYen.setIsActive(true);
+        japaneseYen.setActive(true);
     }
 
     // Marshal Tests
@@ -138,7 +138,7 @@ public class ISOCurrencyCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XXX", result.getCode());
-        assertFalse(result.getIsActive());
+        assertFalse(result.isActive());
         assertTrue(result.getName().contains("Unknown"));
     }
 
@@ -176,7 +176,7 @@ public class ISOCurrencyCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XXX", result.getCode());
-        assertFalse(result.getIsActive());
+        assertFalse(result.isActive());
     }
 
     // Static Helper Method Tests
@@ -208,7 +208,7 @@ public class ISOCurrencyCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XXX", result.getCode());
-        assertFalse(result.getIsActive());
+        assertFalse(result.isActive());
     }
 
     @Test
@@ -633,7 +633,7 @@ public class ISOCurrencyCodeAdapterTest {
 
         ISOCurrencyCode result = adapter.unmarshal("XXX");
 
-        assertFalse(result.getIsActive());
+        assertFalse(result.isActive());
     }
 
     @Test

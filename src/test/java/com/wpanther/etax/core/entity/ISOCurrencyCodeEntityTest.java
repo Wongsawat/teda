@@ -21,7 +21,7 @@ public class ISOCurrencyCodeEntityTest {
         assertNull(entity.getDescription());
         assertNull(entity.getNumericCode());
         assertNull(entity.getMinorUnits());
-        assertTrue(entity.getIsActive());
+        assertTrue(entity.isActive());
     }
 
     @Test
@@ -125,8 +125,8 @@ public class ISOCurrencyCodeEntityTest {
     @DisplayName("SetIsActive should set active flag")
     public void testSetIsActive() {
         ISOCurrencyCode entity = new ISOCurrencyCode();
-        entity.setIsActive(false);
-        assertFalse(entity.getIsActive());
+        entity.setActive(false);
+        assertFalse(entity.isActive());
     }
 
     // Audit Field Tests
@@ -370,7 +370,7 @@ public class ISOCurrencyCodeEntityTest {
     @DisplayName("ToString should include code and name")
     public void testToString() {
         ISOCurrencyCode entity = new ISOCurrencyCode("THB", "Thai Baht", "764", 2);
-        entity.setIsActive(true);
+        entity.setActive(true);
 
         String result = entity.toString();
 

@@ -102,7 +102,7 @@ public class ThaiProvinceCode {
         this.region = region;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 

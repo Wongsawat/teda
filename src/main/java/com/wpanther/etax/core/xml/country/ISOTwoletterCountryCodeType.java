@@ -71,7 +71,7 @@ public class ISOTwoletterCountryCodeType {
      * Check if the country code is active
      */
     public boolean isActive() {
-        return value != null && Boolean.TRUE.equals(value.getActive());
+        return value != null && Boolean.TRUE.equals(value.isActive());
     }
 
     @Override
