@@ -9,20 +9,20 @@ CREATE TABLE thai_category_code (
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE thai_category_code IS 'Thai e-Tax Invoice category codes for document references (cancellation, debit/credit notes, advance payments)';
+COMMENT ON TABLE thai_category_code IS 'Thai e-Tax Invoice category codes for document references (cancellation, debit/credit notes, advance payments)';;
 
 -- Add comments to columns
-COMMENT ON COLUMN thai_category_code.code IS 'Category code (2 digits)';
-COMMENT ON COLUMN thai_category_code.name_th IS 'Thai name/description of the category';
-COMMENT ON COLUMN thai_category_code.name_en IS 'English translation of the category';
-COMMENT ON COLUMN thai_category_code.description IS 'Detailed explanation of when to use this category';
+COMMENT ON COLUMN thai_category_code.code IS 'Category code (2 digits)';;
+COMMENT ON COLUMN thai_category_code.name_th IS 'Thai name/description of the category';;
+COMMENT ON COLUMN thai_category_code.name_en IS 'English translation of the category';;
+COMMENT ON COLUMN thai_category_code.description IS 'Detailed explanation of when to use this category';;
 
 -- Create index for faster lookups
-CREATE INDEX idx_thai_category_code_name_th ON thai_category_code(name_th);
-CREATE INDEX idx_thai_category_code_name_en ON thai_category_code(name_en);
+CREATE INDEX idx_thai_category_code_name_th ON thai_category_code(name_th);;
+CREATE INDEX idx_thai_category_code_name_en ON thai_category_code(name_en);;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_thai_category_code_timestamp()
@@ -31,12 +31,12 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_thai_category_code_timestamp
     BEFORE UPDATE ON thai_category_code
     FOR EACH ROW
-    EXECUTE FUNCTION update_thai_category_code_timestamp();
+    EXECUTE FUNCTION update_thai_category_code_timestamp();;
 
 -- Insert enumeration values from schema
 INSERT INTO thai_category_code (code, name_th, name_en, description) VALUES
@@ -49,7 +49,7 @@ INSERT INTO thai_category_code (code, name_th, name_en, description) VALUES
  'อ้างอิงเอกสารเพื่อออกเงินรับล่วงหน้า',
  'Reference to document for advance payment receipt',
  'Used when referencing documents related to advance payments or prepayments. This category is used when issuing receipts for payments received before the actual goods/services delivery or final invoice.'
-);
+);;
 
 -- Create view for active categories
 CREATE VIEW thai_category_code_active AS
@@ -61,4 +61,4 @@ SELECT
 FROM thai_category_code
 ORDER BY code;
 
-COMMENT ON VIEW thai_category_code_active IS 'Active Thai category codes for e-Tax Invoice document references';
+COMMENT ON VIEW thai_category_code_active IS 'Active Thai category codes for e-Tax Invoice document references';;

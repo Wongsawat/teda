@@ -12,23 +12,23 @@ CREATE TABLE unece_reference_type_code (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_reference_code_format CHECK (code ~ '^[A-Z0-9]+$')
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE unece_reference_type_code IS 'UN/CEFACT Reference Type Code (Code List 61153) for e-Tax Invoice reference documents';
+COMMENT ON TABLE unece_reference_type_code IS 'UN/CEFACT Reference Type Code (Code List 61153) for e-Tax Invoice reference documents';;
 
 -- Add comments to columns
-COMMENT ON COLUMN unece_reference_type_code.code IS 'UN/CEFACT reference type code (alphanumeric, typically 3 characters)';
-COMMENT ON COLUMN unece_reference_type_code.name IS 'Official name of the reference type';
-COMMENT ON COLUMN unece_reference_type_code.description IS 'Detailed description of the reference type usage';
-COMMENT ON COLUMN unece_reference_type_code.is_etda_extension IS 'True if this is an ETDA custom extension for Thai e-Tax Invoice (80, 81, 380, 388, T01, T02, T03, T04, T05, T06, T07)';
-COMMENT ON COLUMN unece_reference_type_code.is_active IS 'True if the code is currently active/valid';
+COMMENT ON COLUMN unece_reference_type_code.code IS 'UN/CEFACT reference type code (alphanumeric, typically 3 characters)';;
+COMMENT ON COLUMN unece_reference_type_code.name IS 'Official name of the reference type';;
+COMMENT ON COLUMN unece_reference_type_code.description IS 'Detailed description of the reference type usage';;
+COMMENT ON COLUMN unece_reference_type_code.is_etda_extension IS 'True if this is an ETDA custom extension for Thai e-Tax Invoice (80, 81, 380, 388, T01, T02, T03, T04, T05, T06, T07)';;
+COMMENT ON COLUMN unece_reference_type_code.is_active IS 'True if the code is currently active/valid';;
 
 -- Create indexes for faster lookups
-CREATE INDEX idx_unece_reference_type_code_name ON unece_reference_type_code(name);
-CREATE INDEX idx_unece_reference_type_code_is_etda_extension ON unece_reference_type_code(is_etda_extension);
-CREATE INDEX idx_unece_reference_type_code_is_active ON unece_reference_type_code(is_active);
-CREATE INDEX idx_unece_reference_type_code_name_lower ON unece_reference_type_code(LOWER(name));
+CREATE INDEX idx_unece_reference_type_code_name ON unece_reference_type_code(name);;
+CREATE INDEX idx_unece_reference_type_code_is_etda_extension ON unece_reference_type_code(is_etda_extension);;
+CREATE INDEX idx_unece_reference_type_code_is_active ON unece_reference_type_code(is_active);;
+CREATE INDEX idx_unece_reference_type_code_name_lower ON unece_reference_type_code(LOWER(name));;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_unece_reference_type_code_timestamp()
@@ -37,12 +37,12 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_unece_reference_type_code_timestamp
     BEFORE UPDATE ON unece_reference_type_code
     FOR EACH ROW
-    EXECUTE FUNCTION update_unece_reference_type_code_timestamp();
+    EXECUTE FUNCTION update_unece_reference_type_code_timestamp();;
 
 -- Note: The actual data insertion (798 records) should be done via a separate script
 -- that extracts the enumeration values from the XSD file
@@ -98,11 +98,11 @@ WHERE is_active = true
   )
 ORDER BY code;
 
-COMMENT ON VIEW unece_reference_type_code_active IS 'Active UN/CEFACT reference type codes';
-COMMENT ON VIEW unece_reference_type_code_standard IS 'Standard UN/CEFACT codes (excluding ETDA extensions)';
-COMMENT ON VIEW unece_reference_type_code_etda_extensions IS 'ETDA Thai e-Tax Invoice extension codes (11 codes: 80, 81, 380, 388, T01-T07)';
-COMMENT ON VIEW unece_reference_type_code_invoice IS 'Invoice and order related reference type codes';
-COMMENT ON VIEW unece_reference_type_code_financial IS 'Financial and payment related reference type codes';
+COMMENT ON VIEW unece_reference_type_code_active IS 'Active UN/CEFACT reference type codes';;
+COMMENT ON VIEW unece_reference_type_code_standard IS 'Standard UN/CEFACT codes (excluding ETDA extensions)';;
+COMMENT ON VIEW unece_reference_type_code_etda_extensions IS 'ETDA Thai e-Tax Invoice extension codes (11 codes: 80, 81, 380, 388, T01-T07)';;
+COMMENT ON VIEW unece_reference_type_code_invoice IS 'Invoice and order related reference type codes';;
+COMMENT ON VIEW unece_reference_type_code_financial IS 'Financial and payment related reference type codes';;
 
 -- Create function for reference type code lookup
 CREATE OR REPLACE FUNCTION get_reference_type_name(ref_code VARCHAR(10))
@@ -116,6 +116,6 @@ BEGIN
 
     RETURN ref_name;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION get_reference_type_name(VARCHAR) IS 'Get reference type name from UN/CEFACT reference type code';
+COMMENT ON FUNCTION get_reference_type_name(VARCHAR) IS 'Get reference type name from UN/CEFACT reference type code';;

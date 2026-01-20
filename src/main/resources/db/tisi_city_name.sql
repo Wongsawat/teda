@@ -9,21 +9,21 @@ CREATE TABLE tisi_city_name (
     district_code VARCHAR(2) GENERATED ALWAYS AS (SUBSTRING(code, 3, 2)) STORED,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE tisi_city_name IS 'TISI 1099-2548 standard Thai city/district names for e-Tax Invoice addresses';
+COMMENT ON TABLE tisi_city_name IS 'TISI 1099-2548 standard Thai city/district names for e-Tax Invoice addresses';;
 
 -- Add comments to columns
-COMMENT ON COLUMN tisi_city_name.code IS 'TISI 1099-2548 city/district code (4 digits)';
-COMMENT ON COLUMN tisi_city_name.name_th IS 'Thai name of city/district (เขต/อำเภอ/เทศบาล)';
-COMMENT ON COLUMN tisi_city_name.province_code IS 'Province code (first 2 digits of code)';
-COMMENT ON COLUMN tisi_city_name.district_code IS 'District code (last 2 digits of code)';
+COMMENT ON COLUMN tisi_city_name.code IS 'TISI 1099-2548 city/district code (4 digits)';;
+COMMENT ON COLUMN tisi_city_name.name_th IS 'Thai name of city/district (เขต/อำเภอ/เทศบาล)';;
+COMMENT ON COLUMN tisi_city_name.province_code IS 'Province code (first 2 digits of code)';;
+COMMENT ON COLUMN tisi_city_name.district_code IS 'District code (last 2 digits of code)';;
 
 -- Create indexes for faster lookups
-CREATE INDEX idx_tisi_city_name_name_th ON tisi_city_name(name_th);
-CREATE INDEX idx_tisi_city_name_province_code ON tisi_city_name(province_code);
-CREATE INDEX idx_tisi_city_name_district_code ON tisi_city_name(district_code);
+CREATE INDEX idx_tisi_city_name_name_th ON tisi_city_name(name_th);;
+CREATE INDEX idx_tisi_city_name_province_code ON tisi_city_name(province_code);;
+CREATE INDEX idx_tisi_city_name_district_code ON tisi_city_name(district_code);;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_tisi_city_name_timestamp()
@@ -32,12 +32,12 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_tisi_city_name_timestamp
     BEFORE UPDATE ON tisi_city_name
     FOR EACH ROW
-    EXECUTE FUNCTION update_tisi_city_name_timestamp();
+    EXECUTE FUNCTION update_tisi_city_name_timestamp();;
 
 -- Note: The actual data insertion (958 records) should be done via a separate script
 -- that extracts the enumeration values from the XSD file
@@ -51,5 +51,5 @@ INSERT INTO tisi_city_name (code, name_th) VALUES
 ('1005', 'เขตบางเขน'),
 -- ... (953 more records)
 ('9613', 'เจาะไอร้อง'),
-('9705', '');
+('9705', '');;
 */

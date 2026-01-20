@@ -18,23 +18,23 @@ CREATE TABLE tisi_subdistrict (
         FOREIGN KEY (city_code)
         REFERENCES tisi_city_name(code)
         ON DELETE RESTRICT
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE tisi_subdistrict IS 'TISI 1099-2548 standard Thai subdistrict names (ตำบล/แขวง) for e-Tax Invoice addresses';
+COMMENT ON TABLE tisi_subdistrict IS 'TISI 1099-2548 standard Thai subdistrict names (ตำบล/แขวง) for e-Tax Invoice addresses';;
 
 -- Add comments to columns
-COMMENT ON COLUMN tisi_subdistrict.code IS 'TISI 1099-2548 subdistrict code (6 digits: PPDDSS)';
-COMMENT ON COLUMN tisi_subdistrict.name_th IS 'Thai name of subdistrict (ตำบล/แขวง)';
-COMMENT ON COLUMN tisi_subdistrict.province_code IS 'Province code (first 2 digits)';
-COMMENT ON COLUMN tisi_subdistrict.city_code IS 'City/District code (first 4 digits)';
-COMMENT ON COLUMN tisi_subdistrict.subdistrict_code IS 'Subdistrict code (last 2 digits)';
+COMMENT ON COLUMN tisi_subdistrict.code IS 'TISI 1099-2548 subdistrict code (6 digits: PPDDSS)';;
+COMMENT ON COLUMN tisi_subdistrict.name_th IS 'Thai name of subdistrict (ตำบล/แขวง)';;
+COMMENT ON COLUMN tisi_subdistrict.province_code IS 'Province code (first 2 digits)';;
+COMMENT ON COLUMN tisi_subdistrict.city_code IS 'City/District code (first 4 digits)';;
+COMMENT ON COLUMN tisi_subdistrict.subdistrict_code IS 'Subdistrict code (last 2 digits)';;
 
 -- Create indexes for faster lookups
-CREATE INDEX idx_tisi_subdistrict_name_th ON tisi_subdistrict(name_th);
-CREATE INDEX idx_tisi_subdistrict_province_code ON tisi_subdistrict(province_code);
-CREATE INDEX idx_tisi_subdistrict_city_code ON tisi_subdistrict(city_code);
-CREATE INDEX idx_tisi_subdistrict_code_pattern ON tisi_subdistrict(subdistrict_code);
+CREATE INDEX idx_tisi_subdistrict_name_th ON tisi_subdistrict(name_th);;
+CREATE INDEX idx_tisi_subdistrict_province_code ON tisi_subdistrict(province_code);;
+CREATE INDEX idx_tisi_subdistrict_city_code ON tisi_subdistrict(city_code);;
+CREATE INDEX idx_tisi_subdistrict_code_pattern ON tisi_subdistrict(subdistrict_code);;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_tisi_subdistrict_timestamp()
@@ -43,12 +43,12 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_tisi_subdistrict_timestamp
     BEFORE UPDATE ON tisi_subdistrict
     FOR EACH ROW
-    EXECUTE FUNCTION update_tisi_subdistrict_timestamp();
+    EXECUTE FUNCTION update_tisi_subdistrict_timestamp();;
 
 -- Create view for complete address hierarchy
 CREATE VIEW v_thai_address_hierarchy AS
@@ -65,7 +65,7 @@ FROM tisi_subdistrict s
 JOIN tisi_city_name c ON s.city_code = c.code
 JOIN thai_province p ON s.province_code = p.code;
 
-COMMENT ON VIEW v_thai_address_hierarchy IS 'Complete Thai address hierarchy: subdistrict > city/district > province';
+COMMENT ON VIEW v_thai_address_hierarchy IS 'Complete Thai address hierarchy: subdistrict > city/district > province';;
 
 -- Note: The actual data insertion (8,940 records) should be done via a separate script
 -- that extracts the enumeration values from the XSD file
@@ -78,5 +78,5 @@ INSERT INTO tisi_subdistrict (code, name_th) VALUES
 ('100104', 'สำราญราษฎร์'),
 -- ... (8,936 more records)
 ('961303', 'มะรือโบออก'),
-('970596', 'โคกสอาด*');
+('970596', 'โคกสอาด*');;
 */

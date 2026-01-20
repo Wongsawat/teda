@@ -11,22 +11,22 @@ CREATE TABLE freight_cost_code (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_freight_code_format CHECK (code ~ '^[0-9]{6}$')
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE freight_cost_code IS 'UN/CEFACT Recommendation 23 freight and shipping cost codes for e-Tax Invoice transportation charges';
+COMMENT ON TABLE freight_cost_code IS 'UN/CEFACT Recommendation 23 freight and shipping cost codes for e-Tax Invoice transportation charges';;
 
 -- Add comments to columns
-COMMENT ON COLUMN freight_cost_code.code IS 'Freight cost code (6 digits: 100000-609999)';
-COMMENT ON COLUMN freight_cost_code.name IS 'Description of the freight cost/charge';
-COMMENT ON COLUMN freight_cost_code.category IS 'High-level category (Basic Freight, Container Services, Terminal Charges, etc.)';
-COMMENT ON COLUMN freight_cost_code.code_group IS 'First 3 digits of code for grouping (100-609)';
+COMMENT ON COLUMN freight_cost_code.code IS 'Freight cost code (6 digits: 100000-609999)';;
+COMMENT ON COLUMN freight_cost_code.name IS 'Description of the freight cost/charge';;
+COMMENT ON COLUMN freight_cost_code.category IS 'High-level category (Basic Freight, Container Services, Terminal Charges, etc.)';;
+COMMENT ON COLUMN freight_cost_code.code_group IS 'First 3 digits of code for grouping (100-609)';;
 
 -- Create indexes for faster lookups
-CREATE INDEX idx_freight_cost_code_name ON freight_cost_code USING GIN (to_tsvector('english', name));
-CREATE INDEX idx_freight_cost_code_category ON freight_cost_code(category);
-CREATE INDEX idx_freight_cost_code_group ON freight_cost_code(code_group);
-CREATE INDEX idx_freight_cost_code_name_pattern ON freight_cost_code(name text_pattern_ops);
+CREATE INDEX idx_freight_cost_code_name ON freight_cost_code USING GIN (to_tsvector('english', name));;
+CREATE INDEX idx_freight_cost_code_category ON freight_cost_code(category);;
+CREATE INDEX idx_freight_cost_code_group ON freight_cost_code(code_group);;
+CREATE INDEX idx_freight_cost_code_name_pattern ON freight_cost_code(name text_pattern_ops);;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_freight_cost_code_timestamp()
@@ -35,12 +35,12 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_freight_cost_code_timestamp
     BEFORE UPDATE ON freight_cost_code
     FOR EACH ROW
-    EXECUTE FUNCTION update_freight_cost_code_timestamp();
+    EXECUTE FUNCTION update_freight_cost_code_timestamp();;
 
 -- Note: The actual data insertion (1,641 records) should be done via a separate script
 -- that extracts the enumeration values from the XSD file
@@ -56,7 +56,7 @@ INSERT INTO freight_cost_code (code, name, category) VALUES
 ('101006', 'Minimum freight LCL cargo', 'Basic Freight'),
 ('101007', 'Minimum freight FCL cargo', 'Basic Freight'),
 -- ... (1,634 more records)
-('609144', 'Sweeping 45 feet container', 'Container Services');
+('609144', 'Sweeping 45 feet container', 'Container Services');;
 */
 
 -- Create views for common freight cost categories
@@ -90,10 +90,10 @@ FROM freight_cost_code
 GROUP BY code_group
 ORDER BY code_group;
 
-COMMENT ON VIEW freight_cost_code_basic IS 'Basic freight charges (code group 101)';
-COMMENT ON VIEW freight_cost_code_container IS 'All container-related freight charges';
-COMMENT ON VIEW freight_cost_code_dangerous_goods IS 'Dangerous/hazardous goods handling charges';
-COMMENT ON VIEW freight_cost_code_group_summary IS 'Summary of freight cost codes by 3-digit group';
+COMMENT ON VIEW freight_cost_code_basic IS 'Basic freight charges (code group 101)';;
+COMMENT ON VIEW freight_cost_code_container IS 'All container-related freight charges';;
+COMMENT ON VIEW freight_cost_code_dangerous_goods IS 'Dangerous/hazardous goods handling charges';;
+COMMENT ON VIEW freight_cost_code_group_summary IS 'Summary of freight cost codes by 3-digit group';;
 
 -- Create full-text search function
 CREATE OR REPLACE FUNCTION search_freight_cost_code(search_term TEXT)
@@ -115,6 +115,6 @@ BEGIN
     ORDER BY rank DESC, f.code
     LIMIT 50;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION search_freight_cost_code(TEXT) IS 'Full-text search freight cost codes by name';
+COMMENT ON FUNCTION search_freight_cost_code(TEXT) IS 'Full-text search freight cost codes by name';;

@@ -11,24 +11,24 @@ CREATE TABLE thai_document_name_code (
     is_thai_extension BOOLEAN DEFAULT false,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE thai_document_name_code IS 'Thai e-Tax Invoice document type codes (invoice, receipt, tax invoice, credit/debit notes, etc.)';
+COMMENT ON TABLE thai_document_name_code IS 'Thai e-Tax Invoice document type codes (invoice, receipt, tax invoice, credit/debit notes, etc.)';;
 
 -- Add comments to columns
-COMMENT ON COLUMN thai_document_name_code.code IS 'Document type code (80, 81, 82, 380, 388, T01-T07)';
-COMMENT ON COLUMN thai_document_name_code.name_th IS 'Thai name of the document type';
-COMMENT ON COLUMN thai_document_name_code.name_en IS 'English name of the document type';
-COMMENT ON COLUMN thai_document_name_code.description IS 'Detailed description of the document type';
-COMMENT ON COLUMN thai_document_name_code.is_standard_code IS 'True if this is a UN/CEFACT standard code';
-COMMENT ON COLUMN thai_document_name_code.is_thai_extension IS 'True if this is a Thai-specific extension (T01-T07)';
+COMMENT ON COLUMN thai_document_name_code.code IS 'Document type code (80, 81, 82, 380, 388, T01-T07)';;
+COMMENT ON COLUMN thai_document_name_code.name_th IS 'Thai name of the document type';;
+COMMENT ON COLUMN thai_document_name_code.name_en IS 'English name of the document type';;
+COMMENT ON COLUMN thai_document_name_code.description IS 'Detailed description of the document type';;
+COMMENT ON COLUMN thai_document_name_code.is_standard_code IS 'True if this is a UN/CEFACT standard code';;
+COMMENT ON COLUMN thai_document_name_code.is_thai_extension IS 'True if this is a Thai-specific extension (T01-T07)';;
 
 -- Create indexes for faster lookups
-CREATE INDEX idx_thai_document_name_code_name_th ON thai_document_name_code(name_th);
-CREATE INDEX idx_thai_document_name_code_name_en ON thai_document_name_code(name_en);
-CREATE INDEX idx_thai_document_name_code_is_standard ON thai_document_name_code(is_standard_code);
-CREATE INDEX idx_thai_document_name_code_is_thai ON thai_document_name_code(is_thai_extension);
+CREATE INDEX idx_thai_document_name_code_name_th ON thai_document_name_code(name_th);;
+CREATE INDEX idx_thai_document_name_code_name_en ON thai_document_name_code(name_en);;
+CREATE INDEX idx_thai_document_name_code_is_standard ON thai_document_name_code(is_standard_code);;
+CREATE INDEX idx_thai_document_name_code_is_thai ON thai_document_name_code(is_thai_extension);;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_thai_document_name_code_timestamp()
@@ -37,12 +37,12 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_thai_document_name_code_timestamp
     BEFORE UPDATE ON thai_document_name_code
     FOR EACH ROW
-    EXECUTE FUNCTION update_thai_document_name_code_timestamp();
+    EXECUTE FUNCTION update_thai_document_name_code_timestamp();;
 
 -- Insert enumeration values from schema
 INSERT INTO thai_document_name_code (code, name_th, name_en, description, is_standard_code, is_thai_extension) VALUES
@@ -118,7 +118,7 @@ INSERT INTO thai_document_name_code (code, name_th, name_en, description, is_sta
  'ใบแจ้งยกเลิก',
  'Cancellation note',
  'Cancellation note',
- false, true);
+ false, true);;
 
 -- Create views for different document categories
 CREATE VIEW thai_document_name_code_standard AS
@@ -140,6 +140,6 @@ FROM thai_document_name_code
 WHERE name_en LIKE '%Tax Invoice%' OR name_en LIKE '%tax invoice%'
 ORDER BY code;
 
-COMMENT ON VIEW thai_document_name_code_standard IS 'UN/CEFACT standard document type codes (80, 81, 82, 380, 388)';
-COMMENT ON VIEW thai_document_name_code_thai_extension IS 'Thai-specific extension document type codes (T01-T07)';
-COMMENT ON VIEW thai_document_name_code_tax_invoice IS 'All document types that include tax invoice functionality';
+COMMENT ON VIEW thai_document_name_code_standard IS 'UN/CEFACT standard document type codes (80, 81, 82, 380, 388)';;
+COMMENT ON VIEW thai_document_name_code_thai_extension IS 'Thai-specific extension document type codes (T01-T07)';;
+COMMENT ON VIEW thai_document_name_code_tax_invoice IS 'All document types that include tax invoice functionality';;

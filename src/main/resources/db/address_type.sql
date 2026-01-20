@@ -10,32 +10,32 @@ CREATE TABLE address_type (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_address_type_code_format CHECK (code ~ '^[1-3]$')
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE address_type IS 'UN/CEFACT address type codes for classifying addresses in e-Tax Invoice (postal, fiscal, physical)';
+COMMENT ON TABLE address_type IS 'UN/CEFACT address type codes for classifying addresses in e-Tax Invoice (postal, fiscal, physical)';;
 
 -- Add comments to columns
-COMMENT ON COLUMN address_type.code IS 'Address type code (1-3)';
-COMMENT ON COLUMN address_type.name IS 'Name of the address type';
-COMMENT ON COLUMN address_type.description IS 'Detailed description of the address type usage';
+COMMENT ON COLUMN address_type.code IS 'Address type code (1-3)';;
+COMMENT ON COLUMN address_type.name IS 'Name of the address type';;
+COMMENT ON COLUMN address_type.description IS 'Detailed description of the address type usage';;
 
 -- Create indexes for faster lookups
-CREATE INDEX idx_address_type_name ON address_type(name);
+CREATE INDEX idx_address_type_name ON address_type(name);;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_address_type_timestamp()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $func$
 BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$func$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_address_type_timestamp
     BEFORE UPDATE ON address_type
     FOR EACH ROW
-    EXECUTE FUNCTION update_address_type_timestamp();
+    EXECUTE FUNCTION update_address_type_timestamp();;
 
 -- Insert enumeration values from schema
 INSERT INTO address_type (code, name, description) VALUES
@@ -49,7 +49,7 @@ INSERT INTO address_type (code, name, description) VALUES
 
 ('3',
  'Physical address',
- 'The address represents an actual physical location.');
+ 'The address represents an actual physical location.');;
 
 -- Create helper function to get address type name
 CREATE OR REPLACE FUNCTION get_address_type_name(type_code VARCHAR(2))
@@ -63,9 +63,9 @@ BEGIN
 
     RETURN type_name;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION get_address_type_name(VARCHAR) IS 'Get address type name from code';
+COMMENT ON FUNCTION get_address_type_name(VARCHAR) IS 'Get address type name from code';;
 
 -- Create helper function to validate address type code
 CREATE OR REPLACE FUNCTION is_valid_address_type(type_code VARCHAR(2))
@@ -80,6 +80,6 @@ BEGIN
 
     RETURN code_exists;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION is_valid_address_type(VARCHAR) IS 'Validate if address type code exists';
+COMMENT ON FUNCTION is_valid_address_type(VARCHAR) IS 'Validate if address type code exists';;

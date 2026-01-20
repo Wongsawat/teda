@@ -14,32 +14,32 @@ CREATE TABLE duty_tax_fee_type_code (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_duty_tax_fee_type_code_format CHECK (code ~ '^[A-Z]{3}$')
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE duty_tax_fee_type_code IS 'UN/CEFACT duty, tax, and fee type codes for classifying fiscal charges on goods and services in e-Tax Invoice';
+COMMENT ON TABLE duty_tax_fee_type_code IS 'UN/CEFACT duty, tax, and fee type codes for classifying fiscal charges on goods and services in e-Tax Invoice';;
 
 -- Add comments to columns
-COMMENT ON COLUMN duty_tax_fee_type_code.code IS 'Three-letter tax type code';
-COMMENT ON COLUMN duty_tax_fee_type_code.name IS 'Name/title of the tax type';
-COMMENT ON COLUMN duty_tax_fee_type_code.description IS 'Detailed description of the tax type and its application';
-COMMENT ON COLUMN duty_tax_fee_type_code.category IS 'Tax category (VAT, GST, Customs Duty, Excise Tax, etc.)';
-COMMENT ON COLUMN duty_tax_fee_type_code.is_vat IS 'True if this is a VAT type';
-COMMENT ON COLUMN duty_tax_fee_type_code.is_exempt IS 'True if this represents tax exemption';
-COMMENT ON COLUMN duty_tax_fee_type_code.is_summary IS 'True if this represents a summary/total';
+COMMENT ON COLUMN duty_tax_fee_type_code.code IS 'Three-letter tax type code';;
+COMMENT ON COLUMN duty_tax_fee_type_code.name IS 'Name/title of the tax type';;
+COMMENT ON COLUMN duty_tax_fee_type_code.description IS 'Detailed description of the tax type and its application';;
+COMMENT ON COLUMN duty_tax_fee_type_code.category IS 'Tax category (VAT, GST, Customs Duty, Excise Tax, etc.)';;
+COMMENT ON COLUMN duty_tax_fee_type_code.is_vat IS 'True if this is a VAT type';;
+COMMENT ON COLUMN duty_tax_fee_type_code.is_exempt IS 'True if this represents tax exemption';;
+COMMENT ON COLUMN duty_tax_fee_type_code.is_summary IS 'True if this represents a summary/total';;
 
 -- Create indexes for faster lookups
-CREATE INDEX idx_duty_tax_fee_type_code_name ON duty_tax_fee_type_code(name);
-CREATE INDEX idx_duty_tax_fee_type_code_category ON duty_tax_fee_type_code(category);
-CREATE INDEX idx_duty_tax_fee_type_code_is_vat ON duty_tax_fee_type_code(is_vat);
-CREATE INDEX idx_duty_tax_fee_type_code_is_exempt ON duty_tax_fee_type_code(is_exempt);
+CREATE INDEX idx_duty_tax_fee_type_code_name ON duty_tax_fee_type_code(name);;
+CREATE INDEX idx_duty_tax_fee_type_code_category ON duty_tax_fee_type_code(category);;
+CREATE INDEX idx_duty_tax_fee_type_code_is_vat ON duty_tax_fee_type_code(is_vat);;
+CREATE INDEX idx_duty_tax_fee_type_code_is_exempt ON duty_tax_fee_type_code(is_exempt);;
 
 -- Create full-text search index
 CREATE INDEX idx_duty_tax_fee_type_code_description_fulltext
-ON duty_tax_fee_type_code USING gin(to_tsvector('english', description));
+ON duty_tax_fee_type_code USING gin(to_tsvector('english', description));;
 
 CREATE INDEX idx_duty_tax_fee_type_code_name_fulltext
-ON duty_tax_fee_type_code USING gin(to_tsvector('english', name));
+ON duty_tax_fee_type_code USING gin(to_tsvector('english', name));;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_duty_tax_fee_type_code_timestamp()
@@ -48,12 +48,12 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_duty_tax_fee_type_code_timestamp
     BEFORE UPDATE ON duty_tax_fee_type_code
     FOR EACH ROW
-    EXECUTE FUNCTION update_duty_tax_fee_type_code_timestamp();
+    EXECUTE FUNCTION update_duty_tax_fee_type_code_timestamp();;
 
 -- Note: The actual data insertion (53 records) should be done via a separate script
 -- that extracts the enumeration values from the XSD file
@@ -66,7 +66,7 @@ INSERT INTO duty_tax_fee_type_code (code, name, description, category, is_vat, i
 ('EXC', 'Excise duty', 'Customs or fiscal authorities code to identify a specific or ad valorem levy on a specific commodity, applied either domestically or at time of importation.', 'Excise Tax', false, false, false),
 ('CUD', 'Customs duty', 'Duties laid down in the Customs tariff, to which goods are liable on entering or leaving the Customs territory (CCC).', 'Customs Duty', false, false, false),
 ('FRE', 'Free', 'No tax levied.', 'Tax Exempt', false, true, false),
-('TOT', 'Total', 'The summary amount of all taxes.', 'Summary', false, false, true);
+('TOT', 'Total', 'The summary amount of all taxes.', 'Summary', false, false, true);;
 */
 
 -- Create views for major tax categories
@@ -129,14 +129,14 @@ ORDER BY
         WHEN 'TOT' THEN 9
     END;
 
-COMMENT ON VIEW duty_tax_fee_type_vat IS 'Value Added Tax (VAT) codes';
-COMMENT ON VIEW duty_tax_fee_type_gst IS 'Goods and Services Tax (GST) codes';
-COMMENT ON VIEW duty_tax_fee_type_sales_tax IS 'Sales tax codes (harmonized, provincial, state, local)';
-COMMENT ON VIEW duty_tax_fee_type_customs IS 'Customs duties and trade remedy duties';
-COMMENT ON VIEW duty_tax_fee_type_excise IS 'Excise taxes and commodity-specific taxes';
-COMMENT ON VIEW duty_tax_fee_type_environmental IS 'Environmental and energy taxes';
-COMMENT ON VIEW duty_tax_fee_type_exempt IS 'Tax exempt codes';
-COMMENT ON VIEW duty_tax_fee_type_common IS 'Most commonly used tax type codes';
+COMMENT ON VIEW duty_tax_fee_type_vat IS 'Value Added Tax (VAT) codes';;
+COMMENT ON VIEW duty_tax_fee_type_gst IS 'Goods and Services Tax (GST) codes';;
+COMMENT ON VIEW duty_tax_fee_type_sales_tax IS 'Sales tax codes (harmonized, provincial, state, local)';;
+COMMENT ON VIEW duty_tax_fee_type_customs IS 'Customs duties and trade remedy duties';;
+COMMENT ON VIEW duty_tax_fee_type_excise IS 'Excise taxes and commodity-specific taxes';;
+COMMENT ON VIEW duty_tax_fee_type_environmental IS 'Environmental and energy taxes';;
+COMMENT ON VIEW duty_tax_fee_type_exempt IS 'Tax exempt codes';;
+COMMENT ON VIEW duty_tax_fee_type_common IS 'Most commonly used tax type codes';;
 
 -- Create helper function to get tax type name
 CREATE OR REPLACE FUNCTION get_duty_tax_fee_type_name(type_code VARCHAR(10))
@@ -146,13 +146,13 @@ DECLARE
 BEGIN
     SELECT name INTO type_name
     FROM duty_tax_fee_type_code
-    WHERE code = UPPER(type_code);
+    WHERE code = UPPER(type_code);;
 
     RETURN type_name;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION get_duty_tax_fee_type_name(VARCHAR) IS 'Get tax type name from code';
+COMMENT ON FUNCTION get_duty_tax_fee_type_name(VARCHAR) IS 'Get tax type name from code';;
 
 -- Create helper function to validate tax type code
 CREATE OR REPLACE FUNCTION is_valid_duty_tax_fee_type_code(type_code VARCHAR(10))
@@ -167,9 +167,9 @@ BEGIN
 
     RETURN code_exists;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION is_valid_duty_tax_fee_type_code(VARCHAR) IS 'Validate if tax type code exists';
+COMMENT ON FUNCTION is_valid_duty_tax_fee_type_code(VARCHAR) IS 'Validate if tax type code exists';;
 
 -- Create helper function to check if code is VAT
 CREATE OR REPLACE FUNCTION is_vat_type(type_code VARCHAR(10))
@@ -179,13 +179,13 @@ DECLARE
 BEGIN
     SELECT is_vat INTO vat_flag
     FROM duty_tax_fee_type_code
-    WHERE code = UPPER(type_code);
+    WHERE code = UPPER(type_code);;
 
-    RETURN COALESCE(vat_flag, false);
+    RETURN COALESCE(vat_flag, false);;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION is_vat_type(VARCHAR) IS 'Check if tax type code is VAT';
+COMMENT ON FUNCTION is_vat_type(VARCHAR) IS 'Check if tax type code is VAT';;
 
 -- Create helper function to check if code is tax exempt
 CREATE OR REPLACE FUNCTION is_tax_exempt(type_code VARCHAR(10))
@@ -195,13 +195,13 @@ DECLARE
 BEGIN
     SELECT is_exempt INTO exempt_flag
     FROM duty_tax_fee_type_code
-    WHERE code = UPPER(type_code);
+    WHERE code = UPPER(type_code);;
 
-    RETURN COALESCE(exempt_flag, false);
+    RETURN COALESCE(exempt_flag, false);;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION is_tax_exempt(VARCHAR) IS 'Check if tax type code represents exemption';
+COMMENT ON FUNCTION is_tax_exempt(VARCHAR) IS 'Check if tax type code represents exemption';;
 
 -- Create helper function to get tax category
 CREATE OR REPLACE FUNCTION get_duty_tax_fee_category(type_code VARCHAR(10))
@@ -211,13 +211,13 @@ DECLARE
 BEGIN
     SELECT category INTO tax_category
     FROM duty_tax_fee_type_code
-    WHERE code = UPPER(type_code);
+    WHERE code = UPPER(type_code);;
 
     RETURN tax_category;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION get_duty_tax_fee_category(VARCHAR) IS 'Get tax category from code';
+COMMENT ON FUNCTION get_duty_tax_fee_category(VARCHAR) IS 'Get tax category from code';;
 
 -- Create helper function to search tax types by keyword
 CREATE OR REPLACE FUNCTION search_duty_tax_fee_types(search_term TEXT)
@@ -241,9 +241,9 @@ BEGIN
         OR dt.description ILIKE '%' || search_term || '%'
     ORDER BY dt.code;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION search_duty_tax_fee_types(TEXT) IS 'Search tax type codes by keyword in name or description';
+COMMENT ON FUNCTION search_duty_tax_fee_types(TEXT) IS 'Search tax type codes by keyword in name or description';;
 
 -- Create summary view by category
 CREATE VIEW duty_tax_fee_type_code_category_summary AS
@@ -255,4 +255,4 @@ FROM duty_tax_fee_type_code
 GROUP BY category
 ORDER BY code_count DESC, category;
 
-COMMENT ON VIEW duty_tax_fee_type_code_category_summary IS 'Summary of tax type codes grouped by category';
+COMMENT ON VIEW duty_tax_fee_type_code_category_summary IS 'Summary of tax type codes grouped by category';;

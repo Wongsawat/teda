@@ -12,23 +12,23 @@ CREATE TABLE thai_province_code (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_province_code_format CHECK (code ~ '^[0-9]+$')
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE thai_province_code IS 'Thai province codes based on ISO 3166-2:TH subdivision codes (77 provinces)';
+COMMENT ON TABLE thai_province_code IS 'Thai province codes based on ISO 3166-2:TH subdivision codes (77 provinces)';;
 
 -- Add comments to columns
-COMMENT ON COLUMN thai_province_code.code IS 'Province code (numeric, 2 digits)';
-COMMENT ON COLUMN thai_province_code.name_th IS 'Province name in Thai';
-COMMENT ON COLUMN thai_province_code.name_en IS 'Province name in English';
-COMMENT ON COLUMN thai_province_code.region IS 'Geographic region (Central, North, Northeast, South, East, West)';
-COMMENT ON COLUMN thai_province_code.is_active IS 'Active status';
+COMMENT ON COLUMN thai_province_code.code IS 'Province code (numeric, 2 digits)';;
+COMMENT ON COLUMN thai_province_code.name_th IS 'Province name in Thai';;
+COMMENT ON COLUMN thai_province_code.name_en IS 'Province name in English';;
+COMMENT ON COLUMN thai_province_code.region IS 'Geographic region (Central, North, Northeast, South, East, West)';;
+COMMENT ON COLUMN thai_province_code.is_active IS 'Active status';;
 
 -- Create indexes for faster lookups
-CREATE INDEX idx_thai_province_name ON thai_province_code(name_th);
-CREATE INDEX idx_thai_province_name_en ON thai_province_code(name_en);
-CREATE INDEX idx_thai_province_active ON thai_province_code(is_active);
-CREATE INDEX idx_thai_province_region ON thai_province_code(region);
+CREATE INDEX idx_thai_province_name ON thai_province_code(name_th);;
+CREATE INDEX idx_thai_province_name_en ON thai_province_code(name_en);;
+CREATE INDEX idx_thai_province_active ON thai_province_code(is_active);;
+CREATE INDEX idx_thai_province_region ON thai_province_code(region);;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_thai_province_code_timestamp()
@@ -37,12 +37,12 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_thai_province_code_timestamp
     BEFORE UPDATE ON thai_province_code
     FOR EACH ROW
-    EXECUTE FUNCTION update_thai_province_code_timestamp();
+    EXECUTE FUNCTION update_thai_province_code_timestamp();;
 
 -- Helper function to get province name
 CREATE OR REPLACE FUNCTION get_province_name(province_code VARCHAR(10))
@@ -56,9 +56,9 @@ BEGIN
 
     RETURN province_name;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION get_province_name(VARCHAR) IS 'Get province Thai name from code';
+COMMENT ON FUNCTION get_province_name(VARCHAR) IS 'Get province Thai name from code';;
 
 -- Helper function to validate province code
 CREATE OR REPLACE FUNCTION is_valid_province_code(province_code VARCHAR(10))
@@ -73,9 +73,9 @@ BEGIN
 
     RETURN code_exists;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION is_valid_province_code(VARCHAR) IS 'Validate if province code exists and is active';
+COMMENT ON FUNCTION is_valid_province_code(VARCHAR) IS 'Validate if province code exists and is active';;
 
 -- Create view for provinces by region
 CREATE VIEW thai_province_by_region AS
@@ -89,4 +89,4 @@ WHERE is_active = true
 GROUP BY region
 ORDER BY region;
 
-COMMENT ON VIEW thai_province_by_region IS 'Thai provinces grouped by geographic region';
+COMMENT ON VIEW thai_province_by_region IS 'Thai provinces grouped by geographic region';;

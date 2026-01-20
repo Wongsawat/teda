@@ -11,20 +11,20 @@ CREATE TABLE payment_terms_description_identifier (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_payment_terms_code_format CHECK (code ~ '^[1-7]$')
-);
+);;
 
 -- Add comment to table
-COMMENT ON TABLE payment_terms_description_identifier IS 'UN/CEFACT payment terms description identifiers for banking draft requirements in e-Tax Invoice';
+COMMENT ON TABLE payment_terms_description_identifier IS 'UN/CEFACT payment terms description identifiers for banking draft requirements in e-Tax Invoice';;
 
 -- Add comments to columns
-COMMENT ON COLUMN payment_terms_description_identifier.code IS 'Payment terms identifier code (1-7)';
-COMMENT ON COLUMN payment_terms_description_identifier.name IS 'Name of the payment terms';
-COMMENT ON COLUMN payment_terms_description_identifier.description IS 'Detailed description of payment draft requirements';
-COMMENT ON COLUMN payment_terms_description_identifier.is_draft_required IS 'Indicates whether a draft is required (false for code 6 and 7)';
+COMMENT ON COLUMN payment_terms_description_identifier.code IS 'Payment terms identifier code (1-7)';;
+COMMENT ON COLUMN payment_terms_description_identifier.name IS 'Name of the payment terms';;
+COMMENT ON COLUMN payment_terms_description_identifier.description IS 'Detailed description of payment draft requirements';;
+COMMENT ON COLUMN payment_terms_description_identifier.is_draft_required IS 'Indicates whether a draft is required (false for code 6 and 7)';;
 
 -- Create indexes for faster lookups
-CREATE INDEX idx_payment_terms_name ON payment_terms_description_identifier(name);
-CREATE INDEX idx_payment_terms_is_draft_required ON payment_terms_description_identifier(is_draft_required);
+CREATE INDEX idx_payment_terms_name ON payment_terms_description_identifier(name);;
+CREATE INDEX idx_payment_terms_is_draft_required ON payment_terms_description_identifier(is_draft_required);;
 
 -- Create trigger to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_payment_terms_description_identifier_timestamp()
@@ -33,12 +33,12 @@ BEGIN
     NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
 CREATE TRIGGER trigger_update_payment_terms_description_identifier_timestamp
     BEFORE UPDATE ON payment_terms_description_identifier
     FOR EACH ROW
-    EXECUTE FUNCTION update_payment_terms_description_identifier_timestamp();
+    EXECUTE FUNCTION update_payment_terms_description_identifier_timestamp();;
 
 -- Insert enumeration values from schema
 INSERT INTO payment_terms_description_identifier (code, name, description, is_draft_required) VALUES
@@ -75,7 +75,7 @@ INSERT INTO payment_terms_description_identifier (code, name, description, is_dr
 ('7',
  'Payment means specified in commercial account summary',
  'An indication that the payment means are specified in a commercial account summary.',
- false);
+ false);;
 
 -- Create views for different payment term categories
 CREATE VIEW payment_terms_draft_required AS
@@ -97,9 +97,9 @@ FROM payment_terms_description_identifier
 WHERE name LIKE '%bank%'
 ORDER BY code;
 
-COMMENT ON VIEW payment_terms_draft_required IS 'Payment terms requiring draft(s) (codes 1-5)';
-COMMENT ON VIEW payment_terms_no_draft IS 'Payment terms not requiring drafts (codes 6-7)';
-COMMENT ON VIEW payment_terms_banking IS 'Banking-related payment terms';
+COMMENT ON VIEW payment_terms_draft_required IS 'Payment terms requiring draft(s) (codes 1-5)';;
+COMMENT ON VIEW payment_terms_no_draft IS 'Payment terms not requiring drafts (codes 6-7)';;
+COMMENT ON VIEW payment_terms_banking IS 'Banking-related payment terms';;
 
 -- Create helper function to get payment terms name
 CREATE OR REPLACE FUNCTION get_payment_terms_name(terms_code VARCHAR(2))
@@ -113,9 +113,9 @@ BEGIN
 
     RETURN terms_name;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION get_payment_terms_name(VARCHAR) IS 'Get payment terms name from code';
+COMMENT ON FUNCTION get_payment_terms_name(VARCHAR) IS 'Get payment terms name from code';;
 
 -- Create helper function to check if draft is required
 CREATE OR REPLACE FUNCTION is_draft_required(terms_code VARCHAR(2))
@@ -127,8 +127,8 @@ BEGIN
     FROM payment_terms_description_identifier
     WHERE code = terms_code;
 
-    RETURN COALESCE(draft_required, false);
+    RETURN COALESCE(draft_required, false);;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;;
 
-COMMENT ON FUNCTION is_draft_required(VARCHAR) IS 'Check if draft is required for given payment terms code';
+COMMENT ON FUNCTION is_draft_required(VARCHAR) IS 'Check if draft is required for given payment terms code';;
