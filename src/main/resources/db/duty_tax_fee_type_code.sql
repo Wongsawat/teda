@@ -11,6 +11,7 @@ CREATE TABLE duty_tax_fee_type_code (
     is_vat BOOLEAN DEFAULT false,
     is_exempt BOOLEAN DEFAULT false,
     is_summary BOOLEAN DEFAULT false,
+    is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_duty_tax_fee_type_code_format CHECK (code ~ '^[A-Z]{3}$')
@@ -146,7 +147,7 @@ DECLARE
 BEGIN
     SELECT name INTO type_name
     FROM duty_tax_fee_type_code
-    WHERE code = UPPER(type_code);;
+    WHERE code = UPPER(type_code);
 
     RETURN type_name;
 END;
@@ -179,9 +180,9 @@ DECLARE
 BEGIN
     SELECT is_vat INTO vat_flag
     FROM duty_tax_fee_type_code
-    WHERE code = UPPER(type_code);;
+    WHERE code = UPPER(type_code);
 
-    RETURN COALESCE(vat_flag, false);;
+    RETURN COALESCE(vat_flag, false);
 END;
 $$ LANGUAGE plpgsql;;
 
@@ -195,9 +196,9 @@ DECLARE
 BEGIN
     SELECT is_exempt INTO exempt_flag
     FROM duty_tax_fee_type_code
-    WHERE code = UPPER(type_code);;
+    WHERE code = UPPER(type_code);
 
-    RETURN COALESCE(exempt_flag, false);;
+    RETURN COALESCE(exempt_flag, false);
 END;
 $$ LANGUAGE plpgsql;;
 
@@ -211,7 +212,7 @@ DECLARE
 BEGIN
     SELECT category INTO tax_category
     FROM duty_tax_fee_type_code
-    WHERE code = UPPER(type_code);;
+    WHERE code = UPPER(type_code);
 
     RETURN tax_category;
 END;

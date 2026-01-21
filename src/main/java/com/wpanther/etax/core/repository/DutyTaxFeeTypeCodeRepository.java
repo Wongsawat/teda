@@ -26,7 +26,7 @@ public interface DutyTaxFeeTypeCodeRepository extends JpaRepository<DutyTaxFeeTy
     /**
      * Find duty tax fee type code by code
      */
-    @Query("SELECT d FROM DutyTaxFeeTypeCode d WHERE d.code = :code")
+    @Query("SELECT d FROM DutyTaxFeeTypeCode d WHERE UPPER(d.code) = UPPER(:code)")
     Optional<DutyTaxFeeTypeCode> findByCode(@Param("code") String code);
 
     /**
