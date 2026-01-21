@@ -40,6 +40,7 @@ class AllowanceChargeIdentificationCodeRepositoryTest extends PostgresTestContai
     static void setUpSchema(@Autowired DataSource dataSource) {
         if (!schemaInitialized) {
             DatabaseInitializer.initializeSchema(dataSource, "allowance_charge_identification_code");
+            DatabaseInitializer.loadTestData(dataSource, "allowance_charge_identification_code");
             schemaInitialized = true;
         }
     }
