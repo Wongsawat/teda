@@ -7,11 +7,33 @@
 
     <groupId>com.wpanther</groupId>
     <artifactId>thai-etax-invoice</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Thai e-Tax Invoice Library</name>
-    <description>Reusable Java library for Thai e-Tax Invoice JAXB and database-backed code lists</description>
+    <description>Reusable Java library for Thai e-Tax Invoice JAXB and database-backed code lists (ETDA v2.1)</description>
+    <url>https://github.com/wpanther/teda</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>wpanther</id>
+            <name>wpanther</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/wpanther/teda.git</connection>
+        <developerConnection>scm:git:ssh://github.com:wpanther/teda.git</developerConnection>
+        <url>https://github.com/wpanther/teda</url>
+    </scm>
 
     <!-- Remove Spring Boot parent for pure library packaging -->
     <!-- <parent>

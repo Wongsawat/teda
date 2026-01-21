@@ -23,7 +23,7 @@ psql -U postgres -d etax -f iso_country_code_data.sql
 
 # Verify
 psql -U postgres -d etax -c "SELECT COUNT(*) FROM iso_country_code;"
-# Should show 254 rows (252 ISO + 2 Thai extensions)
+# Should show 252 rows (250 ISO + 2 Thai extensions)
 ```
 
 ## Step 2: Configure Database Connection
@@ -316,20 +316,19 @@ mvn test
 ### Run Repository Integration Tests
 ```bash
 # With Docker
-mvn test -Dtest="*RepositoryTest" -Pskip-jaxb
+mvn test -Dtest="*RepositoryTest"
 
-# With Podman (requires DOCKER_HOST configuration)
-DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock" \
-TESTCONTAINERS_RYUK_DISABLED=true \
-mvn test -Dtest="*RepositoryTest" -Pskip-jaxb
+# With Podman: set DOCKER_HOST to Podman socket
+export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
+mvn test -Dtest="*RepositoryTest"
 
 # Single repository test
-mvn test -Dtest=ISOCountryCodeRepositoryTest -Pskip-jaxb
+mvn test -Dtest=ISOCountryCodeRepositoryTest
 ```
 
 ### Test Coverage
 - 20 repository test classes
-- 200+ individual tests
+- 418 individual tests
 - Tests for query methods, business logic, and edge cases
 - Uses Testcontainers for real PostgreSQL database testing
 

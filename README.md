@@ -51,7 +51,7 @@ PostgreSQL Database
 | SQL Migration Files | 42 | Schema DDL and data insertion scripts |
 | Documentation Files | 25 | Architecture, migration guides, examples, Schematron guide |
 | Python Scripts | 8 | XSD to SQL data extraction utilities |
-| Integration Tests | 20 | Repository tests with Testcontainers (200+ tests total) |
+| Integration Tests | 20 | Repository tests with Testcontainers (418 tests total) |
 
 ## Technology Stack
 
@@ -95,7 +95,7 @@ psql -U postgres -d etax -f iso_country_code_data.sql
 
 # Verify
 psql -U postgres -d etax -c "SELECT COUNT(*) FROM iso_country_code;"
-# Should return: 252 (249 ISO + 3 ETDA extensions)
+# Should return: 252 (250 ISO + 2 ETDA extensions)
 ```
 
 
@@ -266,7 +266,7 @@ Located in [target/generated-sources/jaxb/](target/generated-sources/jaxb/)
 
 | Table | Records | Description |
 |-------|---------|-------------|
-| iso_country_code | 252 | ISO 3166-1 alpha-2 country codes + ETDA extensions |
+| iso_country_code | 252 | ISO 3166-1 alpha-2 country codes (250 ISO + 2 ETDA extensions) |
 | iso_currency_code | 180+ | ISO 4217 currency codes |
 | iso_language_code | 180+ | ISO 639-1 language codes |
 | tisi_subdistrict | 8,940 | Thai subdivisions (TISI standard) |
@@ -437,7 +437,7 @@ The project implements **ETDA e-Tax Invoice Specification v2.1** with:
 - **Production-Ready**: Spring Boot, PostgreSQL, comprehensive error handling
 - **Standards-Compliant**: ETDA v2.1, UN/CEFACT, ISO, W3C XML Signature
 - **Well-Documented**: 25 documentation files with examples
-- **Comprehensive Test Coverage**: 20 repository integration tests with 200+ tests using Testcontainers
+- **Comprehensive Test Coverage**: 20 repository integration tests with 418 tests using Testcontainers
 - **Scalable**: Handles large datasets efficiently with caching and lazy loading
 - **Business Rule Validation**: Schematron validation for ~300 Thai e-Tax business rules
 
@@ -501,7 +501,7 @@ If published to a Maven repository, add to your project's `pom.xml`:
 <dependency>
     <groupId>com.wpanther</groupId>
     <artifactId>thai-etax-invoice</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -572,6 +572,6 @@ For issues or questions:
 ---
 
 **Status**: Production Ready
-**Version**: 1.0.0-SNAPSHOT
-**Last Updated**: October 2025
+**Version**: 1.0.0
+**Last Updated**: January 2026
 **Maintained by**: wpanther
