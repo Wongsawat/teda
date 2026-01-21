@@ -3,7 +3,6 @@
 -- Source: ThaiISOCountrySubdivisionCode_1p0.xsd
 
 INSERT INTO thai_province_code (code, name_th, name_en, region) VALUES
--- Central Region (22 provinces)
 ('10', 'กรุงเทพมหานคร', 'Bangkok', 'Central'),
 ('11', 'สมุทรปราการ', 'Samut Prakan', 'Central'),
 ('12', 'นนทบุรี', 'Nonthaburi', 'Central'),
@@ -22,8 +21,26 @@ INSERT INTO thai_province_code (code, name_th, name_en, region) VALUES
 ('25', 'ปราจีนบุรี', 'Prachin Buri', 'East'),
 ('26', 'นครนายก', 'Nakhon Nayok', 'Central'),
 ('27', 'สระแก้ว', 'Sa Kaeo', 'East'),
-
--- North Region (17 provinces)
+('30', 'นครราชสีมา', 'Nakhon Ratchasima', 'Northeast'),
+('31', 'บุรีรัมย์', 'Buri Ram', 'Northeast'),
+('32', 'สุรินทร์', 'Surin', 'Northeast'),
+('33', 'ศรีสะเกษ', 'Si Sa Ket', 'Northeast'),
+('34', 'อุบลราชธานี', 'Ubon Ratchathani', 'Northeast'),
+('35', 'ยโสธร', 'Yasothon', 'Northeast'),
+('36', 'ชัยภูมิ', 'Chaiyaphum', 'Northeast'),
+('37', 'อำนาจเจริญ', 'Amnat Charoen', 'Northeast'),
+('38', 'บึงกาฬ', 'Bueng Kan', 'Northeast'),
+('39', 'หนองบัวลำภู', 'Nong Bua Lam Phu', 'Northeast'),
+('40', 'ขอนแก่น', 'Khon Kaen', 'Northeast'),
+('41', 'อุดรธานี', 'Udon Thani', 'Northeast'),
+('42', 'เลย', 'Loei', 'Northeast'),
+('43', 'หนองคาย', 'Nong Khai', 'Northeast'),
+('44', 'มหาสารคาม', 'Maha Sarakham', 'Northeast'),
+('45', 'ร้อยเอ็ด', 'Roi Et', 'Northeast'),
+('46', 'กาฬสินธุ์', 'Kalasin', 'Northeast'),
+('47', 'สกลนคร', 'Sakon Nakhon', 'Northeast'),
+('48', 'นครพนม', 'Nakhon Phanom', 'Northeast'),
+('49', 'มุกดาหาร', 'Mukdahan', 'Northeast'),
 ('50', 'เชียงใหม่', 'Chiang Mai', 'North'),
 ('51', 'ลำพูน', 'Lamphun', 'North'),
 ('52', 'ลำปาง', 'Lampang', 'North'),
@@ -41,30 +58,6 @@ INSERT INTO thai_province_code (code, name_th, name_en, region) VALUES
 ('65', 'พิษณุโลก', 'Phitsanulok', 'North'),
 ('66', 'พิจิตร', 'Phichit', 'Central'),
 ('67', 'เพชรบูรณ์', 'Phetchabun', 'North'),
-
--- Northeast Region (20 provinces)
-('30', 'นครราชสีมา', 'Nakhon Ratchasima', 'Northeast'),
-('31', 'บุรีรัมย์', 'Buriram', 'Northeast'),
-('32', 'สุรินทร์', 'Surin', 'Northeast'),
-('33', 'ศรีสะเกษ', 'Sisaket', 'Northeast'),
-('34', 'อุบลราชธานี', 'Ubon Ratchathani', 'Northeast'),
-('35', 'ยโสธร', 'Yasothon', 'Northeast'),
-('36', 'ชัยภูมิ', 'Chaiyaphum', 'Northeast'),
-('37', 'อำนาจเจริญ', 'Amnat Charoen', 'Northeast'),
-('38', 'บึงกาฬ', 'Bueng Kan', 'Northeast'),
-('39', 'หนองบัวลำภู', 'Nong Bua Lamphu', 'Northeast'),
-('40', 'ขอนแก่น', 'Khon Kaen', 'Northeast'),
-('41', 'อุดรธานี', 'Udon Thani', 'Northeast'),
-('42', 'เลย', 'Loei', 'Northeast'),
-('43', 'หนองคาย', 'Nong Khai', 'Northeast'),
-('44', 'มหาสารคาม', 'Maha Sarakham', 'Northeast'),
-('45', 'ร้อยเอ็ด', 'Roi Et', 'Northeast'),
-('46', 'กาฬสินธุ์', 'Kalasin', 'Northeast'),
-('47', 'สกลนคร', 'Sakon Nakhon', 'Northeast'),
-('48', 'นครพนม', 'Nakhon Phanom', 'Northeast'),
-('49', 'มุกดาหาร', 'Mukdahan', 'Northeast'),
-
--- South Region (14 provinces)
 ('70', 'ราชบุรี', 'Ratchaburi', 'West'),
 ('71', 'กาญจนบุรี', 'Kanchanaburi', 'West'),
 ('72', 'สุพรรณบุรี', 'Suphan Buri', 'Central'),
@@ -75,7 +68,7 @@ INSERT INTO thai_province_code (code, name_th, name_en, region) VALUES
 ('77', 'ประจวบคีรีขันธ์', 'Prachuap Khiri Khan', 'West'),
 ('80', 'นครศรีธรรมราช', 'Nakhon Si Thammarat', 'South'),
 ('81', 'กระบี่', 'Krabi', 'South'),
-('82', 'พังงา', 'Phang Nga', 'South'),
+('82', 'พังงา', 'Phangnga', 'South'),
 ('83', 'ภูเก็ต', 'Phuket', 'South'),
 ('84', 'สุราษฎร์ธานี', 'Surat Thani', 'South'),
 ('85', 'ระนอง', 'Ranong', 'South'),
@@ -86,9 +79,4 @@ INSERT INTO thai_province_code (code, name_th, name_en, region) VALUES
 ('93', 'พัทลุง', 'Phatthalung', 'South'),
 ('94', 'ปัตตานี', 'Pattani', 'South'),
 ('95', 'ยะลา', 'Yala', 'South'),
-('96', 'นราธิวาส', 'Narathiwat', 'South')
-ON CONFLICT (code) DO NOTHING;
-
--- Verify insert
-SELECT COUNT(*) as total_provinces FROM thai_province_code;
-SELECT region, COUNT(*) as count FROM thai_province_code GROUP BY region ORDER BY region;
+('96', 'นราธิวาส', 'Narathiwat', 'South');;
