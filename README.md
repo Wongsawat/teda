@@ -378,13 +378,15 @@ mvn clean compile
 # Run all tests
 mvn test
 
-# Run repository integration tests (requires Docker/Podman)
-mvn test -Dtest="*RepositoryTest" -Pskip-jaxb
+# Run repository integration tests (requires Docker or Podman)
+mvn test -Dtest="*RepositoryTest"
 
-# With Podman instead of Docker
-DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock" \
-TESTCONTAINERS_RYUK_DISABLED=true \
-mvn test -Dtest="*RepositoryTest" -Pskip-jaxb
+# With Podman: set DOCKER_HOST to Podman socket
+export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
+mvn test -Dtest="*RepositoryTest"
+
+# Run single repository test
+mvn test -Dtest=UNECEReferenceTypeCodeRepositoryTest
 
 # Package as JAR
 mvn clean package
