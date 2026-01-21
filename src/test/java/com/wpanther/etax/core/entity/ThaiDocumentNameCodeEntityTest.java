@@ -167,22 +167,22 @@ public class ThaiDocumentNameCodeEntityTest {
     // Business Logic Tests
 
     @Test
-    @DisplayName("isDebitNote should return true for code 80")
+    @DisplayName("isDebitNote should return true for code 383")
     public void testIsDebitNote() {
-        ThaiDocumentNameCode debitNote = new ThaiDocumentNameCode("80");
+        ThaiDocumentNameCode debitNote = new ThaiDocumentNameCode("383");
         assertTrue(debitNote.isDebitNote());
 
-        ThaiDocumentNameCode other = new ThaiDocumentNameCode("81");
+        ThaiDocumentNameCode other = new ThaiDocumentNameCode("381");
         assertFalse(other.isDebitNote());
     }
 
     @Test
-    @DisplayName("isCreditNote should return true for code 81")
+    @DisplayName("isCreditNote should return true for code 381")
     public void testIsCreditNote() {
-        ThaiDocumentNameCode creditNote = new ThaiDocumentNameCode("81");
+        ThaiDocumentNameCode creditNote = new ThaiDocumentNameCode("381");
         assertTrue(creditNote.isCreditNote());
 
-        ThaiDocumentNameCode other = new ThaiDocumentNameCode("80");
+        ThaiDocumentNameCode other = new ThaiDocumentNameCode("383");
         assertFalse(other.isCreditNote());
     }
 
@@ -197,56 +197,50 @@ public class ThaiDocumentNameCodeEntityTest {
     }
 
     @Test
-    @DisplayName("isTaxInvoice should return true when nameEn contains 'Tax Invoice'")
+    @DisplayName("isTaxInvoice should return true for code 388")
     public void testIsTaxInvoice() {
-        ThaiDocumentNameCode taxInvoice1 = new ThaiDocumentNameCode("388", "Tax Invoice", "Description");
-        assertTrue(taxInvoice1.isTaxInvoice());
+        ThaiDocumentNameCode taxInvoice = new ThaiDocumentNameCode("388");
+        assertTrue(taxInvoice.isTaxInvoice());
 
-        ThaiDocumentNameCode taxInvoice2 = new ThaiDocumentNameCode("T01", "Abbreviated tax invoice", "Description");
-        assertTrue(taxInvoice2.isTaxInvoice());
-
-        ThaiDocumentNameCode other = new ThaiDocumentNameCode("80", "Receipt", "Description");
+        ThaiDocumentNameCode other = new ThaiDocumentNameCode("80");
         assertFalse(other.isTaxInvoice());
     }
 
     @Test
-    @DisplayName("isTaxInvoice should handle null nameEn")
+    @DisplayName("isTaxInvoice should handle null code")
     public void testIsTaxInvoiceWithNullName() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode();
         assertFalse(entity.isTaxInvoice());
     }
 
     @Test
-    @DisplayName("isReceipt should return true when nameEn contains 'Receipt'")
+    @DisplayName("isReceipt should return true for code 80")
     public void testIsReceipt() {
-        ThaiDocumentNameCode receipt1 = new ThaiDocumentNameCode("80", "Receipt", "Description");
-        assertTrue(receipt1.isReceipt());
+        ThaiDocumentNameCode receipt = new ThaiDocumentNameCode("80");
+        assertTrue(receipt.isReceipt());
 
-        ThaiDocumentNameCode receipt2 = new ThaiDocumentNameCode("T02", "Tax receipt", "Description");
-        assertTrue(receipt2.isReceipt());
-
-        ThaiDocumentNameCode other = new ThaiDocumentNameCode("388", "Tax Invoice", "Description");
+        ThaiDocumentNameCode other = new ThaiDocumentNameCode("388");
         assertFalse(other.isReceipt());
     }
 
     @Test
-    @DisplayName("isReceipt should handle null nameEn")
+    @DisplayName("isReceipt should handle null code")
     public void testIsReceiptWithNullName() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode();
         assertFalse(entity.isReceipt());
     }
 
     @Test
-    @DisplayName("isAbbreviatedTaxInvoice should return true for codes T05 and T06")
+    @DisplayName("isAbbreviatedTaxInvoice should return true for code 81")
     public void testIsAbbreviatedTaxInvoice() {
-        ThaiDocumentNameCode t05 = new ThaiDocumentNameCode("T05");
-        assertTrue(t05.isAbbreviatedTaxInvoice());
+        ThaiDocumentNameCode abbrTax = new ThaiDocumentNameCode("81");
+        assertTrue(abbrTax.isAbbreviatedTaxInvoice());
 
-        ThaiDocumentNameCode t06 = new ThaiDocumentNameCode("T06");
-        assertTrue(t06.isAbbreviatedTaxInvoice());
-
-        ThaiDocumentNameCode other = new ThaiDocumentNameCode("T07");
+        ThaiDocumentNameCode other = new ThaiDocumentNameCode("80");
         assertFalse(other.isAbbreviatedTaxInvoice());
+
+        ThaiDocumentNameCode cancellation = new ThaiDocumentNameCode("T07");
+        assertFalse(cancellation.isAbbreviatedTaxInvoice());
 
         ThaiDocumentNameCode standard = new ThaiDocumentNameCode("388");
         assertFalse(standard.isAbbreviatedTaxInvoice());

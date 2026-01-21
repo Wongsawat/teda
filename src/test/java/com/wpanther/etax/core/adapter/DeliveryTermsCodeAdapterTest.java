@@ -35,9 +35,20 @@ public class DeliveryTermsCodeAdapterTest {
         new DeliveryTermsCodeAdapter();
         adapter.setRepository(repository);
 
+        // EXW - Group E (Departure) - Minimum seller obligation
         exw = new DeliveryTermsCode("EXW", "Ex Works");
+        exw.setIncotermGroup("E");
+        exw.setSellerObligation("Minimum");
+
+        // FOB - Group F (Main carriage unpaid) - Low seller obligation
         fob = new DeliveryTermsCode("FOB", "Free On Board");
+        fob.setIncotermGroup("F");
+        fob.setSellerObligation("Low");
+
+        // CIF - Group C (Main carriage paid) - Medium seller obligation
         cif = new DeliveryTermsCode("CIF", "Cost Insurance and Freight");
+        cif.setIncotermGroup("C");
+        cif.setSellerObligation("Medium");
     }
 
     @Test
@@ -95,7 +106,7 @@ public class DeliveryTermsCodeAdapterTest {
     @DisplayName("getSellerObligation should return obligation")
     public void testGetSellerObligation() {
         when(repository.findByCode("EXW")).thenReturn(Optional.of(exw));
-        assertEquals("Minimal", DeliveryTermsCodeAdapter.getSellerObligation("EXW"));
+        assertEquals("Minimum", DeliveryTermsCodeAdapter.getSellerObligation("EXW"));
     }
 
     @Test

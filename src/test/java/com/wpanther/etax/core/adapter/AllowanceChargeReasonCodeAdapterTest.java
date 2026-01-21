@@ -35,32 +35,32 @@ public class AllowanceChargeReasonCodeAdapterTest {
         new AllowanceChargeReasonCodeAdapter();
         adapter.setRepository(repository);
 
-        qualityIssue = new AllowanceChargeReasonCode("19", "Quality difference", "Quality difference");
-        qualityIssue.setCategory("Quality");
+        qualityIssue = new AllowanceChargeReasonCode("2", "Below specification goods", "Goods of inferior quality.");
+        qualityIssue.setCategory("Quality Issue");
 
-        discount = new AllowanceChargeReasonCode("41", "Special discount", "Special discount");
-        discount.setCategory("Discount");
+        discount = new AllowanceChargeReasonCode("19", "Trade discount", "Trade discount deducted from payment.");
+        discount.setCategory("Discount/Allowance");
 
-        zzz = new AllowanceChargeReasonCode("ZZZ", "Mutually defined", "Mutually defined");
-        zzz.setCategory("Other");
+        zzz = new AllowanceChargeReasonCode("ZZZ", "Mutually defined", "A code assigned within a code list to be used on an interim basis and as defined among trading partners until a precise code can be assigned to the code list.");
+        zzz.setCategory("Custom/Other");
     }
 
     @Test
     @DisplayName("Should marshal entity to code")
     public void testMarshal() throws Exception {
         String result = adapter.marshal(qualityIssue);
-        assertEquals("19", result);
+        assertEquals("2", result);
     }
 
     @Test
     @DisplayName("Should unmarshal valid code")
     public void testUnmarshalValidCode() throws Exception {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
 
-        AllowanceChargeReasonCode result = adapter.unmarshal("19");
+        AllowanceChargeReasonCode result = adapter.unmarshal("2");
 
         assertNotNull(result);
-        assertEquals("19", result.getCode());
+        assertEquals("2", result.getCode());
     }
 
     @Test
@@ -85,85 +85,85 @@ public class AllowanceChargeReasonCodeAdapterTest {
     @Test
     @DisplayName("getReasonName should return name")
     public void testGetReasonName() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertEquals("Quality difference", AllowanceChargeReasonCodeAdapter.getReasonName("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertEquals("Below specification goods", AllowanceChargeReasonCodeAdapter.getReasonName("2"));
     }
 
     @Test
     @DisplayName("getReasonCategory should return category")
     public void testGetReasonCategory() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertEquals("Quality", AllowanceChargeReasonCodeAdapter.getReasonCategory("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertEquals("Quality Issue", AllowanceChargeReasonCodeAdapter.getReasonCategory("2"));
     }
 
     @Test
     @DisplayName("getReasonDescription should return description")
     public void testGetReasonDescription() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertNotNull(AllowanceChargeReasonCodeAdapter.getReasonDescription("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertNotNull(AllowanceChargeReasonCodeAdapter.getReasonDescription("2"));
     }
 
     @Test
     @DisplayName("isQualityIssue should return true for quality issues")
     public void testIsQualityIssue() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertTrue(AllowanceChargeReasonCodeAdapter.isQualityIssue("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertTrue(AllowanceChargeReasonCodeAdapter.isQualityIssue("2"));
     }
 
     @Test
     @DisplayName("isDeliveryIssue should return false for non-delivery")
     public void testIsDeliveryIssue() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertFalse(AllowanceChargeReasonCodeAdapter.isDeliveryIssue("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertFalse(AllowanceChargeReasonCodeAdapter.isDeliveryIssue("2"));
     }
 
     @Test
     @DisplayName("isAdministrativeError should return false for non-admin")
     public void testIsAdministrativeError() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertFalse(AllowanceChargeReasonCodeAdapter.isAdministrativeError("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertFalse(AllowanceChargeReasonCodeAdapter.isAdministrativeError("2"));
     }
 
     @Test
     @DisplayName("isDiscountOrAllowance should return true for discount")
     public void testIsDiscountOrAllowance() {
-        when(repository.findByCode("41")).thenReturn(Optional.of(discount));
-        assertTrue(AllowanceChargeReasonCodeAdapter.isDiscountOrAllowance("41"));
+        when(repository.findByCode("19")).thenReturn(Optional.of(discount));
+        assertTrue(AllowanceChargeReasonCodeAdapter.isDiscountOrAllowance("19"));
     }
 
     @Test
     @DisplayName("isFinancialCharge should return false for non-financial")
     public void testIsFinancialCharge() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertFalse(AllowanceChargeReasonCodeAdapter.isFinancialCharge("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertFalse(AllowanceChargeReasonCodeAdapter.isFinancialCharge("2"));
     }
 
     @Test
     @DisplayName("isClaimOrDispute should return false for non-claim")
     public void testIsClaimOrDispute() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertFalse(AllowanceChargeReasonCodeAdapter.isClaimOrDispute("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertFalse(AllowanceChargeReasonCodeAdapter.isClaimOrDispute("2"));
     }
 
     @Test
     @DisplayName("isFreightOrLogistics should return false for non-freight")
     public void testIsFreightOrLogistics() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertFalse(AllowanceChargeReasonCodeAdapter.isFreightOrLogistics("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertFalse(AllowanceChargeReasonCodeAdapter.isFreightOrLogistics("2"));
     }
 
     @Test
     @DisplayName("isPaymentTerms should return false for non-payment")
     public void testIsPaymentTerms() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertFalse(AllowanceChargeReasonCodeAdapter.isPaymentTerms("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertFalse(AllowanceChargeReasonCodeAdapter.isPaymentTerms("2"));
     }
 
     @Test
     @DisplayName("isHRRelated should return false for non-HR")
     public void testIsHRRelated() {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
-        assertFalse(AllowanceChargeReasonCodeAdapter.isHRRelated("19"));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
+        assertFalse(AllowanceChargeReasonCodeAdapter.isHRRelated("2"));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class AllowanceChargeReasonCodeAdapterTest {
     @Test
     @DisplayName("Should round-trip through marshal and unmarshal")
     public void testRoundTrip() throws Exception {
-        when(repository.findByCode("19")).thenReturn(Optional.of(qualityIssue));
+        when(repository.findByCode("2")).thenReturn(Optional.of(qualityIssue));
 
         String marshaled = adapter.marshal(qualityIssue);
         AllowanceChargeReasonCode unmarshaled = adapter.unmarshal(marshaled);

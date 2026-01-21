@@ -26,7 +26,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("Entity constructor should wrap entity")
     void testEntityConstructor() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "Tax Invoice", "ใบกำกับภาษี");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         assertThat(type.getValue()).isEqualTo(entity);
@@ -54,7 +54,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("of(Entity) should create instance from entity")
     void testOfEntity() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80", "Debit Note", "ใบเพิ่มหนี้");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("383", "ใบเพิ่มหนี้", "Debit Note", "Debit Note document");
         ThaiDocumentNameCodeInvoiceType type = ThaiDocumentNameCodeInvoiceType.of(entity);
 
         assertThat(type.getValue()).isEqualTo(entity);
@@ -91,7 +91,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("getNameTh() should return Thai name when value exists")
     void testGetNameThWithValue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "Tax Invoice", "ใบกำกับภาษี");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         assertThat(type.getNameTh()).isEqualTo("ใบกำกับภาษี");
@@ -100,7 +100,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("getNameEn() should return English name when value exists")
     void testGetNameEnWithValue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "Tax Invoice", "ใบกำกับภาษี");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         assertThat(type.getNameEn()).isEqualTo("Tax Invoice");
@@ -185,7 +185,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("isStandardCode() should return true for standard code")
     void testIsStandardCodeTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "Tax Invoice", "ใบกำกับภาษี");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
         entity.setStandardCode(true);
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
@@ -195,7 +195,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("isThaiExtension() should return true for Thai extension")
     void testIsThaiExtensionTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T01", "Receipt", "ใบเสร็จรับเงิน");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T01", "ใบเสร็จรับเงิน", "Receipt", "Receipt document");
         entity.setThaiExtension(true);
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
@@ -205,7 +205,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("isDebitNote() should return true for code 80")
     void testIsDebitNoteTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80", "Debit Note", "ใบเพิ่มหนี้");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("383", "ใบเพิ่มหนี้", "Debit Note", "Debit Note document");
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         assertThat(type.isDebitNote()).isTrue();
@@ -214,7 +214,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("isCreditNote() should return true for code 81")
     void testIsCreditNoteTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("81", "Credit Note", "ใบลดหนี้");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("381", "ใบลดหนี้", "Credit Note", "Credit Note document");
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         assertThat(type.isCreditNote()).isTrue();
@@ -225,7 +225,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("getValue() should return the wrapped entity")
     void testGetValue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "Tax Invoice", "ใบกำกับภาษี");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         assertThat(type.getValue()).isEqualTo(entity);
@@ -235,12 +235,12 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @DisplayName("setValue() should update the wrapped entity")
     void testSetValue() {
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType();
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80", "Debit Note", "ใบเพิ่มหนี้");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("383", "ใบเพิ่มหนี้", "Debit Note", "Debit Note document");
 
         type.setValue(entity);
 
         assertThat(type.getValue()).isEqualTo(entity);
-        assertThat(type.getCode()).isEqualTo("80");
+        assertThat(type.getCode()).isEqualTo("383");
     }
 
     // Equals tests
@@ -248,7 +248,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("equals() should return true for same value")
     void testEqualsSameValue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "Tax Invoice", "ใบกำกับภาษี");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
         ThaiDocumentNameCodeInvoiceType type1 = new ThaiDocumentNameCodeInvoiceType(entity);
         ThaiDocumentNameCodeInvoiceType type2 = new ThaiDocumentNameCodeInvoiceType(entity);
 
@@ -293,7 +293,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("hashCode() should be consistent for equal objects")
     void testHashCodeConsistent() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "Tax Invoice", "ใบกำกับภาษี");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
         ThaiDocumentNameCodeInvoiceType type1 = new ThaiDocumentNameCodeInvoiceType(entity);
         ThaiDocumentNameCodeInvoiceType type2 = new ThaiDocumentNameCodeInvoiceType(entity);
 
@@ -313,7 +313,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("toString() should return formatted string when value exists")
     void testToStringWithValue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "Tax Invoice", "ใบกำกับภาษี");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         String str = type.toString();
