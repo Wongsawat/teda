@@ -79,7 +79,7 @@ class ISOCountryCodeRepositoryTest extends PostgresTestContainer {
         Optional<ISOCountryCode> result = repository.findByCode("TH");
         assertThat(result).isPresent();
         assertThat(result.get().getCode()).isEqualTo("TH");
-        assertThat(result.get().getName()).contains("Thailand");
+        assertThat(result.get().getName()).containsIgnoringCase("Thailand");
         assertThat(result.get().isThailand()).isTrue();
     }
 
@@ -270,6 +270,6 @@ class ISOCountryCodeRepositoryTest extends PostgresTestContainer {
     void findByNameContaining_shouldFindByName() {
         List<ISOCountryCode> result = repository.findByNameContaining("Thai");
         assertThat(result).isNotEmpty();
-        assertThat(result).anyMatch(c -> c.getName().contains("Thai"));
+        assertThat(result).anyMatch(c -> c.getName().toUpperCase().contains("THAI"));
     }
 }

@@ -260,6 +260,6 @@ INSERT INTO iso_country_code (code, name, description, is_etda_extension, is_act
 ('YT', 'MAYOTTE', NULL, false, true),
 ('ZA', 'SOUTH AFRICA', NULL, false, true),
 ('ZM', 'ZAMBIA', NULL, false, true),
-('ZW', 'ZIMBABWE', NULL, false, true);
+('ZW', 'ZIMBABWE', NULL, false, true);;
 
 -- End of insert statements
