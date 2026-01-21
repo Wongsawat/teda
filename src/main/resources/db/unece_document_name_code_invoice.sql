@@ -144,44 +144,44 @@ CREATE VIEW document_name_code_invoices AS
 SELECT code, name, description, requires_payment
 FROM document_name_code_invoice
 WHERE category = 'Invoice'
-ORDER BY code;
+ORDER BY code;;
 
 CREATE VIEW document_name_code_credit_notes AS
 SELECT code, name, description
 FROM document_name_code_invoice
 WHERE category = 'Credit Note' OR is_credit = true
-ORDER BY code;
+ORDER BY code;;
 
 CREATE VIEW document_name_code_debit_notes AS
 SELECT code, name, description
 FROM document_name_code_invoice
 WHERE category = 'Debit Note' OR is_debit = true
-ORDER BY code;
+ORDER BY code;;
 
 CREATE VIEW document_name_code_special AS
 SELECT code, name, description, requires_payment
 FROM document_name_code_invoice
 WHERE category = 'Special'
-ORDER BY code;
+ORDER BY code;;
 
 CREATE VIEW document_name_code_payment_required AS
 SELECT code, name, description, category
 FROM document_name_code_invoice
 WHERE requires_payment = true
-ORDER BY code;
+ORDER BY code;;
 
 CREATE VIEW document_name_code_no_payment AS
 SELECT code, name, description, category
 FROM document_name_code_invoice
 WHERE requires_payment = false
-ORDER BY code;
+ORDER BY code;;
 
 COMMENT ON VIEW document_name_code_invoices IS 'Standard invoices that claim payment (380, 82, 384, 385, 386, 389)';;
 COMMENT ON VIEW document_name_code_credit_notes IS 'Credit notes that reduce amounts owed (81, 83, 261, 262, 381, 396)';;
 COMMENT ON VIEW document_name_code_debit_notes IS 'Debit notes that increase amounts owed (80, 84, 383)';;
 COMMENT ON VIEW document_name_code_special IS 'Special document types (325=Proforma, 395=Consignment)';;
 COMMENT ON VIEW document_name_code_payment_required IS 'Documents that require payment';;
-COMMENT ON VIEW document_name_code_no_payment AS 'Documents that do not require payment (credit notes, proforma)';
+COMMENT ON VIEW document_name_code_no_payment IS 'Documents that do not require payment (credit notes, proforma)';;
 
 -- Create helper function to get document name
 CREATE OR REPLACE FUNCTION get_document_name_invoice(doc_code VARCHAR(10))
@@ -226,7 +226,7 @@ BEGIN
     FROM document_name_code_invoice
     WHERE code = doc_code;
 
-    RETURN COALESCE(is_credit_doc, false);;
+    RETURN COALESCE(is_credit_doc, false);
 END;
 $$ LANGUAGE plpgsql;;
 
@@ -242,7 +242,7 @@ BEGIN
     FROM document_name_code_invoice
     WHERE code = doc_code;
 
-    RETURN COALESCE(is_debit_doc, false);;
+    RETURN COALESCE(is_debit_doc, false);
 END;
 $$ LANGUAGE plpgsql;;
 
@@ -258,7 +258,7 @@ BEGIN
     FROM document_name_code_invoice
     WHERE code = doc_code;
 
-    RETURN COALESCE(requires_pay, true);;
+    RETURN COALESCE(requires_pay, true);
 END;
 $$ LANGUAGE plpgsql;;
 
@@ -297,7 +297,7 @@ ORDER BY
         WHEN 'Credit Note' THEN 2
         WHEN 'Debit Note' THEN 3
         WHEN 'Special' THEN 4
-    END;
+    END;;
 
 COMMENT ON VIEW document_name_code_invoice_summary IS 'Summary of document name codes grouped by category';;
 
@@ -313,6 +313,6 @@ ORDER BY
         WHEN '383' THEN 3
         WHEN '325' THEN 4
         WHEN '386' THEN 5
-    END;
+    END;;
 
 COMMENT ON VIEW document_name_code_invoice_common IS 'Most commonly used document codes (380=Commercial invoice, 381=Credit note, 383=Debit note, 325=Proforma, 386=Prepayment)';;

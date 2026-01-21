@@ -39,7 +39,7 @@ class UNECEDocumentNameCodeInvoiceRepositoryTest extends PostgresTestContainer {
     @BeforeAll
     static void setUpSchema(@Autowired DataSource dataSource) {
         if (!schemaInitialized) {
-            DatabaseInitializer.initializeSchema(dataSource, "document_name_code_invoice");
+            DatabaseInitializer.initializeSchema(dataSource, "unece_document_name_code_invoice");
             schemaInitialized = true;
         }
     }
