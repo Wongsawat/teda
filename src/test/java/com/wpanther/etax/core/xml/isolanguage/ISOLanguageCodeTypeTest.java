@@ -27,7 +27,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("Entity constructor should wrap entity")
     void testEntityConstructor() {
-        ISOLanguageCode entity = new ISOLanguageCode("th", "Thai");
+        ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
         ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
 
         assertThat(type.getValue()).isEqualTo(entity);
@@ -56,7 +56,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("of(Entity) should create instance from entity")
     void testOfEntity() {
-        ISOLanguageCode entity = new ISOLanguageCode("ja", "Japanese");
+        ISOLanguageCode entity = new ISOLanguageCode("JA", "Japanese");
         ISOLanguageCodeType type = ISOLanguageCodeType.of(entity);
 
         assertThat(type.getValue()).isEqualTo(entity);
@@ -157,7 +157,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("isThai() should return true for TH")
     void testIsThaiTrue() {
-        ISOLanguageCode entity = new ISOLanguageCode("th", "Thai");
+        ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
         ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
 
         assertThat(type.isThai()).isTrue();
@@ -166,7 +166,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("isEnglish() should return true for EN")
     void testIsEnglishTrue() {
-        ISOLanguageCode entity = new ISOLanguageCode("en", "English");
+        ISOLanguageCode entity = new ISOLanguageCode("EN", "English");
         ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
 
         assertThat(type.isEnglish()).isTrue();
@@ -175,7 +175,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("isActive() should return true when entity is active")
     void testIsActiveTrue() {
-        ISOLanguageCode entity = new ISOLanguageCode("th", "Thai");
+        ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
         entity.setActive(true);
         ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
 
@@ -185,7 +185,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("isActive() should return false when entity is inactive")
     void testIsActiveFalse() {
-        ISOLanguageCode entity = new ISOLanguageCode("th", "Thai");
+        ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
         entity.setActive(false);
         ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
 
@@ -197,7 +197,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("getValue() should return the wrapped entity")
     void testGetValue() {
-        ISOLanguageCode entity = new ISOLanguageCode("de", "German");
+        ISOLanguageCode entity = new ISOLanguageCode("DE", "German");
         ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
 
         assertThat(type.getValue()).isEqualTo(entity);
@@ -207,7 +207,7 @@ class ISOLanguageCodeTypeTest {
     @DisplayName("setValue() should update the wrapped entity")
     void testSetValue() {
         ISOLanguageCodeType type = new ISOLanguageCodeType();
-        ISOLanguageCode entity = new ISOLanguageCode("fr", "French");
+        ISOLanguageCode entity = new ISOLanguageCode("FR", "French");
 
         type.setValue(entity);
 
@@ -220,7 +220,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("equals() should return true for same value")
     void testEqualsSameValue() {
-        ISOLanguageCode entity = new ISOLanguageCode("th", "Thai");
+        ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
         ISOLanguageCodeType type1 = new ISOLanguageCodeType(entity);
         ISOLanguageCodeType type2 = new ISOLanguageCodeType(entity);
 
@@ -256,7 +256,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("hashCode() should be consistent for equal objects")
     void testHashCodeConsistent() {
-        ISOLanguageCode entity = new ISOLanguageCode("th", "Thai");
+        ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
         ISOLanguageCodeType type1 = new ISOLanguageCodeType(entity);
         ISOLanguageCodeType type2 = new ISOLanguageCodeType(entity);
 
@@ -277,7 +277,7 @@ class ISOLanguageCodeTypeTest {
     @Test
     @DisplayName("toString() should return entity toString when value is not null")
     void testToStringWithValue() {
-        ISOLanguageCode entity = new ISOLanguageCode("th", "Thai");
+        ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
         ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
 
         assertThat(type.toString()).isEqualTo(entity.toString());

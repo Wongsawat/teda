@@ -53,9 +53,10 @@ public class ISOLanguageCodeType {
     }
 
     public ISOLanguageCodeType(String code) {
-        this.value = ISOLanguageCodeAdapter.isValid(code)
-            ? new ISOLanguageCode(code, ISOLanguageCodeAdapter.getName(code))
-            : new ISOLanguageCode(code);
+        String normalizedCode = code != null ? code.trim().toUpperCase() : null;
+        this.value = ISOLanguageCodeAdapter.isValid(normalizedCode)
+            ? new ISOLanguageCode(normalizedCode, ISOLanguageCodeAdapter.getName(normalizedCode))
+            : new ISOLanguageCode(normalizedCode);
     }
 
     // Factory methods
@@ -83,45 +84,45 @@ public class ISOLanguageCodeType {
     /**
      * Create Thai language code
      *
-     * @return ISOLanguageCodeType for Thai ('th')
+     * @return ISOLanguageCodeType for Thai ('TH')
      */
     public static ISOLanguageCodeType thai() {
-        return of("th");
+        return of("TH");
     }
 
     /**
      * Create English language code
      *
-     * @return ISOLanguageCodeType for English ('en')
+     * @return ISOLanguageCodeType for English ('EN')
      */
     public static ISOLanguageCodeType english() {
-        return of("en");
+        return of("EN");
     }
 
     /**
      * Create Chinese language code
      *
-     * @return ISOLanguageCodeType for Chinese ('zh')
+     * @return ISOLanguageCodeType for Chinese ('ZH')
      */
     public static ISOLanguageCodeType chinese() {
-        return of("zh");
+        return of("ZH");
     }
 
     /**
      * Create Japanese language code
      *
-     * @return ISOLanguageCodeType for Japanese ('ja')
+     * @return ISOLanguageCodeType for Japanese ('JA')
      */
     public static ISOLanguageCodeType japanese() {
-        return of("ja");
+        return of("JA");
     }
 
     // Business logic methods delegating to entity
 
     /**
-     * Get language code (lowercase standard format)
+     * Get language code (preserves original case - use uppercase per ISO standard)
      *
-     * @return Language code string, or null if value is null
+     * @return Language code string (e.g., "TH", "EN", "ZH", "JA"), or null if value is null
      */
     public String getCode() {
         return value != null ? value.getCode() : null;

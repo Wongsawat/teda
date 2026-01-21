@@ -22,10 +22,10 @@ public class ISOLanguageCodeEntityTest {
     }
 
     @Test
-    @DisplayName("Code constructor should normalize to lowercase")
+    @DisplayName("Code constructor should preserve case")
     public void testCodeConstructor() {
         ISOLanguageCode entity = new ISOLanguageCode("TH");
-        assertEquals("th", entity.getCode());
+        assertEquals("TH", entity.getCode());
     }
 
     @Test
@@ -39,25 +39,25 @@ public class ISOLanguageCodeEntityTest {
     @DisplayName("Code constructor should trim whitespace")
     public void testCodeConstructorTrimsWhitespace() {
         ISOLanguageCode entity = new ISOLanguageCode("  EN  ");
-        assertEquals("en", entity.getCode());
+        assertEquals("EN", entity.getCode());
     }
 
     @Test
     @DisplayName("Code and name constructor should set both fields")
     public void testCodeNameConstructor() {
         ISOLanguageCode entity = new ISOLanguageCode("EN", "English");
-        assertEquals("en", entity.getCode());
+        assertEquals("EN", entity.getCode());
         assertEquals("English", entity.getName());
     }
 
     // Getter/Setter Tests
 
     @Test
-    @DisplayName("SetCode should normalize to lowercase")
+    @DisplayName("SetCode should preserve case")
     public void testSetCodeNormalizesToLowercase() {
         ISOLanguageCode entity = new ISOLanguageCode();
         entity.setCode("JA");
-        assertEquals("ja", entity.getCode());
+        assertEquals("JA", entity.getCode());
     }
 
     @Test

@@ -36,10 +36,10 @@ public class ISOLanguageCodeAdapterTest {
         new ISOLanguageCodeAdapter();
         adapter.setRepository(repository);
 
-        thai = new ISOLanguageCode("th", "Thai");
-        english = new ISOLanguageCode("en", "English");
-        chinese = new ISOLanguageCode("zh", "Chinese");
-        japanese = new ISOLanguageCode("ja", "Japanese");
+        thai = new ISOLanguageCode("TH", "Thai");
+        english = new ISOLanguageCode("EN", "English");
+        chinese = new ISOLanguageCode("ZH", "Chinese");
+        japanese = new ISOLanguageCode("JA", "Japanese");
     }
 
     // Marshal Tests
@@ -48,7 +48,7 @@ public class ISOLanguageCodeAdapterTest {
     @DisplayName("Should marshal entity to code string")
     public void testMarshal() throws Exception {
         String result = adapter.marshal(thai);
-        assertEquals("th", result);
+        assertEquals("TH", result);
     }
 
     @Test
@@ -90,14 +90,14 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("Should unmarshal valid code to entity")
     public void testUnmarshalValidCode() throws Exception {
-        when(repository.findByCode("th")).thenReturn(Optional.of(thai));
+        when(repository.findByCode("TH")).thenReturn(Optional.of(thai));
 
         ISOLanguageCode result = adapter.unmarshal("th");
 
         assertNotNull(result);
-        assertEquals("th", result.getCode());
+        assertEquals("TH", result.getCode());
         assertEquals("Thai", result.getName());
-        verify(repository).findByCode("th");
+        verify(repository).findByCode("TH");
     }
 
     @Test
@@ -108,30 +108,30 @@ public class ISOLanguageCodeAdapterTest {
         ISOLanguageCode result = adapter.unmarshal("TH");
 
         assertNotNull(result);
-        assertEquals("th", result.getCode());
+        assertEquals("TH", result.getCode());
         assertEquals("Thai", result.getName());
     }
 
     @Test
     @DisplayName("Should unmarshal code with whitespace")
     public void testUnmarshalWithWhitespace() throws Exception {
-        when(repository.findByCode("en")).thenReturn(Optional.of(english));
+        when(repository.findByCode("EN")).thenReturn(Optional.of(english));
 
         ISOLanguageCode result = adapter.unmarshal("  en  ");
 
         assertNotNull(result);
-        assertEquals("en", result.getCode());
+        assertEquals("EN", result.getCode());
     }
 
     @Test
     @DisplayName("Should create placeholder for invalid code")
     public void testUnmarshalInvalidCode() throws Exception {
-        when(repository.findByCode("xx")).thenReturn(Optional.empty());
+        when(repository.findByCode("XX")).thenReturn(Optional.empty());
 
         ISOLanguageCode result = adapter.unmarshal("xx");
 
         assertNotNull(result);
-        assertEquals("xx", result.getCode());
+        assertEquals("XX", result.getCode());
         assertFalse(result.isActive());
         assertTrue(result.getName().contains("Unknown"));
     }
@@ -169,7 +169,7 @@ public class ISOLanguageCodeAdapterTest {
         ISOLanguageCode result = nullRepoAdapter.unmarshal("xx");
 
         assertNotNull(result);
-        assertEquals("xx", result.getCode());
+        assertEquals("XX", result.getCode());
         assertFalse(result.isActive());
     }
 
@@ -178,7 +178,7 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("isValid should return true for valid code")
     public void testIsValidValidCode() {
-        when(repository.existsByCode("th")).thenReturn(true);
+        when(repository.existsByCode("TH")).thenReturn(true);
 
         boolean result = ISOLanguageCodeAdapter.isValid("th");
 
@@ -188,7 +188,7 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("isValid should return false for invalid code")
     public void testIsValidInvalidCode() {
-        when(repository.existsByCode("xx")).thenReturn(false);
+        when(repository.existsByCode("XX")).thenReturn(false);
 
         boolean result = ISOLanguageCodeAdapter.isValid("xx");
 
@@ -223,7 +223,7 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("getName should return name for valid code")
     public void testGetNameValidCode() {
-        when(repository.findByCode("th")).thenReturn(Optional.of(thai));
+        when(repository.findByCode("TH")).thenReturn(Optional.of(thai));
 
         String result = ISOLanguageCodeAdapter.getName("th");
 
@@ -233,7 +233,7 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("getName should return null for invalid code")
     public void testGetNameInvalidCode() {
-        when(repository.findByCode("xx")).thenReturn(Optional.empty());
+        when(repository.findByCode("XX")).thenReturn(Optional.empty());
 
         String result = ISOLanguageCodeAdapter.getName("xx");
 
@@ -258,14 +258,14 @@ public class ISOLanguageCodeAdapterTest {
     @DisplayName("normalize should return lowercase code")
     public void testNormalize() {
         String result = ISOLanguageCodeAdapter.normalize("TH");
-        assertEquals("th", result);
+        assertEquals("TH", result);
     }
 
     @Test
     @DisplayName("normalize should trim whitespace")
     public void testNormalizeTrim() {
         String result = ISOLanguageCodeAdapter.normalize("  th  ");
-        assertEquals("th", result);
+        assertEquals("TH", result);
     }
 
     @Test
@@ -409,8 +409,8 @@ public class ISOLanguageCodeAdapterTest {
         ISOLanguageCode thaiLang = new ISOLanguageCode("th", "Thai");
         ISOLanguageCode vietnamese = new ISOLanguageCode("vi", "Vietnamese");
 
-        when(repository.findByCode("th")).thenReturn(Optional.of(thaiLang));
-        when(repository.findByCode("vi")).thenReturn(Optional.of(vietnamese));
+        when(repository.findByCode("TH")).thenReturn(Optional.of(thaiLang));
+        when(repository.findByCode("VI")).thenReturn(Optional.of(vietnamese));
 
         assertTrue(ISOLanguageCodeAdapter.isASEANLanguage("th"));
         assertTrue(ISOLanguageCodeAdapter.isASEANLanguage("vi"));
@@ -419,9 +419,9 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("isASEANLanguage should return false for non-ASEAN language")
     public void testIsASEANLanguageNonASEAN() {
-        when(repository.findByCode("en")).thenReturn(Optional.of(english));
+        when(repository.findByCode("JA")).thenReturn(Optional.of(japanese));
 
-        boolean result = ISOLanguageCodeAdapter.isASEANLanguage("en");
+        boolean result = ISOLanguageCodeAdapter.isASEANLanguage("ja");
 
         assertFalse(result);
     }
@@ -447,9 +447,9 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("isMajorTradingLanguage should return true for major languages")
     public void testIsMajorTradingLanguageValid() {
-        when(repository.findByCode("en")).thenReturn(Optional.of(english));
-        when(repository.findByCode("zh")).thenReturn(Optional.of(chinese));
-        when(repository.findByCode("ja")).thenReturn(Optional.of(japanese));
+        when(repository.findByCode("EN")).thenReturn(Optional.of(english));
+        when(repository.findByCode("ZH")).thenReturn(Optional.of(chinese));
+        when(repository.findByCode("JA")).thenReturn(Optional.of(japanese));
 
         assertTrue(ISOLanguageCodeAdapter.isMajorTradingLanguage("en"));
         assertTrue(ISOLanguageCodeAdapter.isMajorTradingLanguage("zh"));
@@ -459,9 +459,11 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("isMajorTradingLanguage should return false for non-major language")
     public void testIsMajorTradingLanguageNonMajor() {
-        when(repository.findByCode("th")).thenReturn(Optional.of(thai));
+        // Italian is not a major trading language
+        ISOLanguageCode italian = new ISOLanguageCode("IT", "Italian");
+        when(repository.findByCode("IT")).thenReturn(Optional.of(italian));
 
-        boolean result = ISOLanguageCodeAdapter.isMajorTradingLanguage("th");
+        boolean result = ISOLanguageCodeAdapter.isMajorTradingLanguage("it");
 
         assertFalse(result);
     }
@@ -489,7 +491,7 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("Should round-trip through marshal and unmarshal")
     public void testRoundTrip() throws Exception {
-        when(repository.findByCode("th")).thenReturn(Optional.of(thai));
+        when(repository.findByCode("TH")).thenReturn(Optional.of(thai));
 
         String marshaled = adapter.marshal(thai);
         ISOLanguageCode unmarshaled = adapter.unmarshal(marshaled);
@@ -501,7 +503,7 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("Should round-trip with case changes")
     public void testRoundTripCaseChange() throws Exception {
-        when(repository.findByCode("th")).thenReturn(Optional.of(thai));
+        when(repository.findByCode("TH")).thenReturn(Optional.of(thai));
 
         String marshaled = adapter.marshal(thai);
         ISOLanguageCode unmarshaled = adapter.unmarshal(marshaled.toUpperCase());
@@ -514,28 +516,28 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("Placeholder should have correct code")
     public void testPlaceholderCode() throws Exception {
-        when(repository.findByCode("xx")).thenReturn(Optional.empty());
+        when(repository.findByCode("XX")).thenReturn(Optional.empty());
 
         ISOLanguageCode result = adapter.unmarshal("xx");
 
-        assertEquals("xx", result.getCode());
+        assertEquals("XX", result.getCode());
     }
 
     @Test
     @DisplayName("Placeholder should have generic name")
     public void testPlaceholderName() throws Exception {
-        when(repository.findByCode("xx")).thenReturn(Optional.empty());
+        when(repository.findByCode("XX")).thenReturn(Optional.empty());
 
         ISOLanguageCode result = adapter.unmarshal("xx");
 
         assertTrue(result.getName().contains("Unknown"));
-        assertTrue(result.getName().contains("xx"));
+        assertTrue(result.getName().contains("XX"));
     }
 
     @Test
     @DisplayName("Placeholder should have active false")
     public void testPlaceholderActive() throws Exception {
-        when(repository.findByCode("xx")).thenReturn(Optional.empty());
+        when(repository.findByCode("XX")).thenReturn(Optional.empty());
 
         ISOLanguageCode result = adapter.unmarshal("xx");
 
@@ -558,14 +560,14 @@ public class ISOLanguageCodeAdapterTest {
     @Test
     @DisplayName("Should handle multiple sequential calls")
     public void testMultipleSequentialCalls() throws Exception {
-        when(repository.findByCode("th")).thenReturn(Optional.of(thai));
-        when(repository.findByCode("en")).thenReturn(Optional.of(english));
+        when(repository.findByCode("TH")).thenReturn(Optional.of(thai));
+        when(repository.findByCode("EN")).thenReturn(Optional.of(english));
 
         ISOLanguageCode result1 = adapter.unmarshal("th");
         ISOLanguageCode result2 = adapter.unmarshal("en");
 
-        assertEquals("th", result1.getCode());
-        assertEquals("en", result2.getCode());
+        assertEquals("TH", result1.getCode());
+        assertEquals("EN", result2.getCode());
         verify(repository, times(2)).findByCode(anyString());
     }
 }
