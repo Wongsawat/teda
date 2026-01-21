@@ -35,9 +35,9 @@ public class FreightCostCodeAdapterTest {
         new FreightCostCodeAdapter();
         adapter.setRepository(repository);
 
-        basicFreight = new FreightCostCode("100000", "Basic Freight", "Freight");
-        freightSurcharge = new FreightCostCode("101000", "Fuel Surcharge", "Surcharge");
-        containerService = new FreightCostCode("200000", "Container Handling", "Container");
+        basicFreight = new FreightCostCode("101000", "BASIC FREIGHT", "Basic Freight");
+        freightSurcharge = new FreightCostCode("102000", "FREIGHT CHARGE ALLOWANCE", "Freight Surcharges");
+        containerService = new FreightCostCode("200000", "Container Handling", "Container Services");
     }
 
     // Marshal Tests
@@ -46,7 +46,7 @@ public class FreightCostCodeAdapterTest {
     @DisplayName("Should marshal entity to code string")
     public void testMarshal() throws Exception {
         String result = adapter.marshal(basicFreight);
-        assertEquals("100000", result);
+        assertEquals("101000", result);
     }
 
     @Test
@@ -79,25 +79,25 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("Should unmarshal valid code to entity")
     public void testUnmarshalValidCode() throws Exception {
-        when(repository.findByCode("100000")).thenReturn(Optional.of(basicFreight));
+        when(repository.findByCode("101000")).thenReturn(Optional.of(basicFreight));
 
-        FreightCostCode result = adapter.unmarshal("100000");
+        FreightCostCode result = adapter.unmarshal("101000");
 
         assertNotNull(result);
-        assertEquals("100000", result.getCode());
-        assertEquals("Basic Freight", result.getName());
-        verify(repository).findByCode("100000");
+        assertEquals("101000", result.getCode());
+        assertEquals("BASIC FREIGHT", result.getName());
+        verify(repository).findByCode("101000");
     }
 
     @Test
     @DisplayName("Should unmarshal code with whitespace")
     public void testUnmarshalWithWhitespace() throws Exception {
-        when(repository.findByCode("100000")).thenReturn(Optional.of(basicFreight));
+        when(repository.findByCode("101000")).thenReturn(Optional.of(basicFreight));
 
-        FreightCostCode result = adapter.unmarshal("  100000  ");
+        FreightCostCode result = adapter.unmarshal("  101000  ");
 
         assertNotNull(result);
-        assertEquals("100000", result.getCode());
+        assertEquals("101000", result.getCode());
     }
 
     @Test
@@ -145,9 +145,9 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isValid should return true for valid code")
     public void testIsValidValidCode() {
-        when(repository.existsByCode("100000")).thenReturn(true);
+        when(repository.existsByCode("101000")).thenReturn(true);
 
-        boolean result = FreightCostCodeAdapter.isValid("100000");
+        boolean result = FreightCostCodeAdapter.isValid("101000");
 
         assertTrue(result);
     }
@@ -172,11 +172,11 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("getFreightCostName should return name for valid code")
     public void testGetFreightCostNameValidCode() {
-        when(repository.findByCode("100000")).thenReturn(Optional.of(basicFreight));
+        when(repository.findByCode("101000")).thenReturn(Optional.of(basicFreight));
 
-        String result = FreightCostCodeAdapter.getFreightCostName("100000");
+        String result = FreightCostCodeAdapter.getFreightCostName("101000");
 
-        assertEquals("Basic Freight", result);
+        assertEquals("BASIC FREIGHT", result);
     }
 
     @Test
@@ -192,11 +192,11 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("getFreightCostCategory should return category for valid code")
     public void testGetFreightCostCategoryValidCode() {
-        when(repository.findByCode("100000")).thenReturn(Optional.of(basicFreight));
+        when(repository.findByCode("101000")).thenReturn(Optional.of(basicFreight));
 
-        String result = FreightCostCodeAdapter.getFreightCostCategory("100000");
+        String result = FreightCostCodeAdapter.getFreightCostCategory("101000");
 
-        assertEquals("Freight", result);
+        assertEquals("Basic Freight", result);
     }
 
     @Test
@@ -212,11 +212,11 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("getCodeGroup should return code group for valid code")
     public void testGetCodeGroupValidCode() {
-        when(repository.findByCode("100000")).thenReturn(Optional.of(basicFreight));
+        when(repository.findByCode("101000")).thenReturn(Optional.of(basicFreight));
 
-        String result = FreightCostCodeAdapter.getCodeGroup("100000");
+        String result = FreightCostCodeAdapter.getCodeGroup("101000");
 
-        assertEquals("100", result);
+        assertEquals("101", result);
     }
 
     @Test
@@ -234,9 +234,9 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isBasicFreight should return true for basic freight")
     public void testIsBasicFreightValid() {
-        when(repository.findByCode("100000")).thenReturn(Optional.of(basicFreight));
+        when(repository.findByCode("101000")).thenReturn(Optional.of(basicFreight));
 
-        boolean result = FreightCostCodeAdapter.isBasicFreight("100000");
+        boolean result = FreightCostCodeAdapter.isBasicFreight("101000");
 
         assertTrue(result);
     }
@@ -244,9 +244,9 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isBasicFreight should return false for non-basic freight")
     public void testIsBasicFreightNonBasic() {
-        when(repository.findByCode("101000")).thenReturn(Optional.of(freightSurcharge));
+        when(repository.findByCode("102000")).thenReturn(Optional.of(freightSurcharge));
 
-        boolean result = FreightCostCodeAdapter.isBasicFreight("101000");
+        boolean result = FreightCostCodeAdapter.isBasicFreight("102000");
 
         assertFalse(result);
     }
@@ -261,9 +261,9 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isFreightSurcharge should return true for surcharge")
     public void testIsFreightSurchargeValid() {
-        when(repository.findByCode("101000")).thenReturn(Optional.of(freightSurcharge));
+        when(repository.findByCode("102000")).thenReturn(Optional.of(freightSurcharge));
 
-        boolean result = FreightCostCodeAdapter.isFreightSurcharge("101000");
+        boolean result = FreightCostCodeAdapter.isFreightSurcharge("102000");
 
         assertTrue(result);
     }
@@ -271,9 +271,9 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isFreightSurcharge should return false for non-surcharge")
     public void testIsFreightSurchargeNonSurcharge() {
-        when(repository.findByCode("100000")).thenReturn(Optional.of(basicFreight));
+        when(repository.findByCode("101000")).thenReturn(Optional.of(basicFreight));
 
-        boolean result = FreightCostCodeAdapter.isFreightSurcharge("100000");
+        boolean result = FreightCostCodeAdapter.isFreightSurcharge("101000");
 
         assertFalse(result);
     }
@@ -291,9 +291,9 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isContainerService should return false for non-container")
     public void testIsContainerServiceNonContainer() {
-        when(repository.findByCode("100000")).thenReturn(Optional.of(basicFreight));
+        when(repository.findByCode("101000")).thenReturn(Optional.of(basicFreight));
 
-        boolean result = FreightCostCodeAdapter.isContainerService("100000");
+        boolean result = FreightCostCodeAdapter.isContainerService("101000");
 
         assertFalse(result);
     }
@@ -301,7 +301,7 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isTerminalCharge should return true for terminal charge")
     public void testIsTerminalChargeValid() {
-        FreightCostCode terminalCharge = new FreightCostCode("300000", "Terminal Charge", "Terminal");
+        FreightCostCode terminalCharge = new FreightCostCode("300000", "Terminal Charge", "Terminal Charges");
         when(repository.findByCode("300000")).thenReturn(Optional.of(terminalCharge));
 
         boolean result = FreightCostCodeAdapter.isTerminalCharge("300000");
@@ -312,7 +312,7 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isHandlingCharge should return true for handling charge")
     public void testIsHandlingChargeValid() {
-        FreightCostCode handlingCharge = new FreightCostCode("400000", "Handling Charge", "Handling");
+        FreightCostCode handlingCharge = new FreightCostCode("400000", "Handling Charge", "Handling Charges");
         when(repository.findByCode("400000")).thenReturn(Optional.of(handlingCharge));
 
         boolean result = FreightCostCodeAdapter.isHandlingCharge("400000");
@@ -323,7 +323,7 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isStorageOrDemurrage should return true for storage")
     public void testIsStorageOrDemurrageValid() {
-        FreightCostCode storage = new FreightCostCode("500000", "Storage Charge", "Storage");
+        FreightCostCode storage = new FreightCostCode("500000", "Storage Charge", "Storage & Demurrage");
         when(repository.findByCode("500000")).thenReturn(Optional.of(storage));
 
         boolean result = FreightCostCodeAdapter.isStorageOrDemurrage("500000");
@@ -334,7 +334,7 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isCustomsOrDocumentation should return true for customs")
     public void testIsCustomsOrDocumentationValid() {
-        FreightCostCode customs = new FreightCostCode("600000", "Customs Fee", "Customs");
+        FreightCostCode customs = new FreightCostCode("600000", "Customs Fee", "Customs & Documentation");
         when(repository.findByCode("600000")).thenReturn(Optional.of(customs));
 
         boolean result = FreightCostCodeAdapter.isCustomsOrDocumentation("600000");
@@ -345,7 +345,7 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isDangerousGoods should return true for dangerous goods")
     public void testIsDangerousGoodsValid() {
-        FreightCostCode dangerousGoods = new FreightCostCode("700000", "Dangerous Goods Fee", "Dangerous");
+        FreightCostCode dangerousGoods = new FreightCostCode("700000", "Dangerous Goods Fee", "Dangerous Goods");
         when(repository.findByCode("700000")).thenReturn(Optional.of(dangerousGoods));
 
         boolean result = FreightCostCodeAdapter.isDangerousGoods("700000");
@@ -356,7 +356,7 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("isSpecialFreight should return true for special freight")
     public void testIsSpecialFreightValid() {
-        FreightCostCode specialFreight = new FreightCostCode("800000", "Special Freight", "Special");
+        FreightCostCode specialFreight = new FreightCostCode("800000", "Special Freight", "Special Freight");
         when(repository.findByCode("800000")).thenReturn(Optional.of(specialFreight));
 
         boolean result = FreightCostCodeAdapter.isSpecialFreight("800000");
@@ -380,7 +380,7 @@ public class FreightCostCodeAdapterTest {
     @Test
     @DisplayName("Should round-trip through marshal and unmarshal")
     public void testRoundTrip() throws Exception {
-        when(repository.findByCode("100000")).thenReturn(Optional.of(basicFreight));
+        when(repository.findByCode("101000")).thenReturn(Optional.of(basicFreight));
 
         String marshaled = adapter.marshal(basicFreight);
         FreightCostCode unmarshaled = adapter.unmarshal(marshaled);

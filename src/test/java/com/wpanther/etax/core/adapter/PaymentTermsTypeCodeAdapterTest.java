@@ -35,32 +35,35 @@ public class PaymentTermsTypeCodeAdapterTest {
         new PaymentTermsTypeCodeAdapter();
         adapter.setRepository(repository);
 
-        immediate = new PaymentTermsTypeCode("1", "Immediate", "Immediate payment");
-        immediate.setCategory("Immediate");
+        immediate = new PaymentTermsTypeCode("10", "Instant", "Payment is due on receipt of invoice.");
+        immediate.setCategory("Immediate Payment");
+        immediate.setIsImmediate(true);
 
-        net30 = new PaymentTermsTypeCode("10", "Net 30 days", "Net 30 days payment");
-        net30.setCategory("Deferred");
+        net30 = new PaymentTermsTypeCode("4", "Deferred", "Payments are deferred beyond the normal due date.");
+        net30.setCategory("Deferred Payment");
+        net30.setIsDeferred(true);
 
-        net60 = new PaymentTermsTypeCode("22", "Net 60 days with discount", "Net 60 days with discount");
-        net60.setCategory("Deferred");
+        net60 = new PaymentTermsTypeCode("22", "Discount", "Payment terms on which discounts are applicable.");
+        net60.setCategory("Discount Terms");
+        net60.setHasDiscount(true);
     }
 
     @Test
     @DisplayName("Should marshal entity to code")
     public void testMarshal() throws Exception {
         String result = adapter.marshal(immediate);
-        assertEquals("1", result);
+        assertEquals("10", result);
     }
 
     @Test
     @DisplayName("Should unmarshal valid code")
     public void testUnmarshalValidCode() throws Exception {
-        when(repository.findByCode("1")).thenReturn(Optional.of(immediate));
+        when(repository.findByCode("10")).thenReturn(Optional.of(immediate));
 
-        PaymentTermsTypeCode result = adapter.unmarshal("1");
+        PaymentTermsTypeCode result = adapter.unmarshal("10");
 
         assertNotNull(result);
-        assertEquals("1", result.getCode());
+        assertEquals("10", result.getCode());
     }
 
     @Test
@@ -78,36 +81,36 @@ public class PaymentTermsTypeCodeAdapterTest {
     @Test
     @DisplayName("isValid should return true for valid code")
     public void testIsValidValidCode() {
-        when(repository.existsByCode("1")).thenReturn(true);
-        assertTrue(PaymentTermsTypeCodeAdapter.isValid("1"));
+        when(repository.existsByCode("10")).thenReturn(true);
+        assertTrue(PaymentTermsTypeCodeAdapter.isValid("10"));
     }
 
     @Test
     @DisplayName("getPaymentTermsName should return name")
     public void testGetPaymentTermsName() {
-        when(repository.findByCode("1")).thenReturn(Optional.of(immediate));
-        assertEquals("Immediate", PaymentTermsTypeCodeAdapter.getPaymentTermsName("1"));
+        when(repository.findByCode("10")).thenReturn(Optional.of(immediate));
+        assertEquals("Instant", PaymentTermsTypeCodeAdapter.getPaymentTermsName("10"));
     }
 
     @Test
     @DisplayName("getPaymentTermsCategory should return category")
     public void testGetPaymentTermsCategory() {
-        when(repository.findByCode("1")).thenReturn(Optional.of(immediate));
-        assertEquals("Immediate", PaymentTermsTypeCodeAdapter.getPaymentTermsCategory("1"));
+        when(repository.findByCode("10")).thenReturn(Optional.of(immediate));
+        assertEquals("Immediate Payment", PaymentTermsTypeCodeAdapter.getPaymentTermsCategory("10"));
     }
 
     @Test
     @DisplayName("isImmediatePayment should return true for immediate")
     public void testIsImmediatePayment() {
-        when(repository.findByCode("1")).thenReturn(Optional.of(immediate));
-        assertTrue(PaymentTermsTypeCodeAdapter.isImmediatePayment("1"));
+        when(repository.findByCode("10")).thenReturn(Optional.of(immediate));
+        assertTrue(PaymentTermsTypeCodeAdapter.isImmediatePayment("10"));
     }
 
     @Test
     @DisplayName("isDeferredPayment should return true for deferred")
     public void testIsDeferredPayment() {
-        when(repository.findByCode("10")).thenReturn(Optional.of(net30));
-        assertTrue(PaymentTermsTypeCodeAdapter.isDeferredPayment("10"));
+        when(repository.findByCode("4")).thenReturn(Optional.of(net30));
+        assertTrue(PaymentTermsTypeCodeAdapter.isDeferredPayment("4"));
     }
 
     @Test
@@ -126,7 +129,7 @@ public class PaymentTermsTypeCodeAdapterTest {
     @Test
     @DisplayName("Should round-trip through marshal and unmarshal")
     public void testRoundTrip() throws Exception {
-        when(repository.findByCode("1")).thenReturn(Optional.of(immediate));
+        when(repository.findByCode("10")).thenReturn(Optional.of(immediate));
 
         String marshaled = adapter.marshal(immediate);
         PaymentTermsTypeCode unmarshaled = adapter.unmarshal(marshaled);
