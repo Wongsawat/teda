@@ -150,7 +150,7 @@ DECLARE
 BEGIN
     SELECT name INTO terms_name
     FROM payment_terms_type_code
-    WHERE code = UPPER(terms_code);;
+    WHERE code = UPPER(terms_code);
 
     RETURN terms_name;
 END;
@@ -183,9 +183,9 @@ DECLARE
 BEGIN
     SELECT is_immediate INTO immediate_flag
     FROM payment_terms_type_code
-    WHERE code = UPPER(terms_code);;
+    WHERE code = UPPER(terms_code);
 
-    RETURN COALESCE(immediate_flag, false);;
+    RETURN COALESCE(immediate_flag, false);
 END;
 $$ LANGUAGE plpgsql;;
 
@@ -199,9 +199,9 @@ DECLARE
 BEGIN
     SELECT is_deferred INTO deferred_flag
     FROM payment_terms_type_code
-    WHERE code = UPPER(terms_code);;
+    WHERE code = UPPER(terms_code);
 
-    RETURN COALESCE(deferred_flag, false);;
+    RETURN COALESCE(deferred_flag, false);
 END;
 $$ LANGUAGE plpgsql;;
 
@@ -215,9 +215,9 @@ DECLARE
 BEGIN
     SELECT has_discount INTO discount_flag
     FROM payment_terms_type_code
-    WHERE code = UPPER(terms_code);;
+    WHERE code = UPPER(terms_code);
 
-    RETURN COALESCE(discount_flag, false);;
+    RETURN COALESCE(discount_flag, false);
 END;
 $$ LANGUAGE plpgsql;;
 
@@ -231,7 +231,7 @@ DECLARE
 BEGIN
     SELECT category INTO terms_category
     FROM payment_terms_type_code
-    WHERE code = UPPER(terms_code);;
+    WHERE code = UPPER(terms_code);
 
     RETURN terms_category;
 END;

@@ -92,6 +92,6 @@ public interface PaymentTermsTypeCodeRepository extends JpaRepository<PaymentTer
     /**
      * Find installment payment terms
      */
-    @Query("SELECT p FROM PaymentTermsTypeCode p WHERE UPPER(p.description) LIKE '%INSTALLMENT%' OR UPPER(p.name) LIKE '%INSTALLMENT%' ORDER BY p.code")
+    @Query("SELECT p FROM PaymentTermsTypeCode p WHERE UPPER(p.description) LIKE '%INSTAL%' OR UPPER(p.name) LIKE '%INSTAL%' ORDER BY p.code")
     List<PaymentTermsTypeCode> findInstallmentPaymentTerms();
 }

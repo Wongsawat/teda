@@ -81,6 +81,6 @@ INSERT INTO payment_terms_type_code (code, name, description, category, is_immed
 ('76', 'Fixed fee', 'The payment term requires a fixed fee payment.', 'Fixed Payment', false, false, false),
 ('77', 'Promissory note', 'The payment term requires the use of a promissory note as a means of payment.', 'Trade Instruments', false, false, false),
 ('78', 'Factoring', 'Payment term requires payment being made by the factoring company according to the agreement between buyer, bank and factoring company.', 'Factoring', false, false, false),
-('ZZZ', 'Mutually defined', 'A code assigned within a code list to be used on an interim basis and as defined among trading partners until a precise code can be assigned to the code list.', 'Immediate Payment', false, false, false);
+('ZZZ', 'Mutually defined', 'A code assigned within a code list to be used on an interim basis and as defined among trading partners until a precise code can be assigned to the code list.', 'Immediate Payment', false, false, false);;
 
 -- End of insert statements

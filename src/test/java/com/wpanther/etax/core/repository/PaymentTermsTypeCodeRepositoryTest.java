@@ -40,6 +40,7 @@ class PaymentTermsTypeCodeRepositoryTest extends PostgresTestContainer {
     static void setUpSchema(@Autowired DataSource dataSource) {
         if (!schemaInitialized) {
             DatabaseInitializer.initializeSchema(dataSource, "payment_terms_type_code");
+            DatabaseInitializer.loadTestData(dataSource, "payment_terms_type_code");
             schemaInitialized = true;
         }
     }
@@ -83,8 +84,8 @@ class PaymentTermsTypeCodeRepositoryTest extends PostgresTestContainer {
     @Test
     @DisplayName("findByCode: should be case insensitive")
     void findByCode_shouldBeCaseInsensitive() {
-        Optional<PaymentTermsTypeCode> upper = repository.findByCode("AA");
-        Optional<PaymentTermsTypeCode> lower = repository.findByCode("aa");
+        Optional<PaymentTermsTypeCode> upper = repository.findByCode("ZZZ");
+        Optional<PaymentTermsTypeCode> lower = repository.findByCode("zzz");
 
         assertThat(upper).isPresent();
         assertThat(lower).isPresent();
@@ -155,9 +156,9 @@ class PaymentTermsTypeCodeRepositoryTest extends PostgresTestContainer {
     @Test
     @DisplayName("findByCategory: should find by category")
     void findByCategory_shouldFindByCategory() {
-        List<PaymentTermsTypeCode> result = repository.findByCategory("Basic");
+        List<PaymentTermsTypeCode> result = repository.findByCategory("Standard Terms");
         assertThat(result).isNotEmpty();
-        assertThat(result).allMatch(c -> "Basic".equals(c.getCategory()));
+        assertThat(result).allMatch(c -> "Standard Terms".equals(c.getCategory()));
     }
 
     @Test
@@ -192,8 +193,8 @@ class PaymentTermsTypeCodeRepositoryTest extends PostgresTestContainer {
     void findInstallmentPaymentTerms_shouldFindInstallment() {
         List<PaymentTermsTypeCode> result = repository.findInstallmentPaymentTerms();
         assertThat(result).isNotEmpty();
-        assertThat(result).anyMatch(c -> c.getDescription().toUpperCase().contains("INSTALLMENT") ||
-                                           c.getName().toUpperCase().contains("INSTALLMENT"));
+        assertThat(result).anyMatch(c -> c.getDescription().toUpperCase().contains("INSTAL") ||
+                                           c.getName().toUpperCase().contains("INSTAL"));
     }
 
     // === Search Tests ===
