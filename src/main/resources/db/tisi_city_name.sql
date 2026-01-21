@@ -2,6 +2,10 @@
 -- Based on ETDA e-Tax Invoice schema v2.1
 -- Schema: TISICityName_1p0.xsd
 
+-- Drop existing objects for clean recreation
+DROP FUNCTION IF EXISTS update_tisi_city_name_timestamp() CASCADE;;
+DROP TABLE IF EXISTS tisi_city_name CASCADE;;
+
 CREATE TABLE tisi_city_name (
     code VARCHAR(4) PRIMARY KEY,
     name_th VARCHAR(255) NOT NULL,

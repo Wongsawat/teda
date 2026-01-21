@@ -17,6 +17,8 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +44,13 @@ class UNECEReferenceTypeCodeRepositoryTest extends PostgresTestContainer {
             DatabaseInitializer.initializeSchema(dataSource, "unece_reference_type_code");
             DatabaseInitializer.loadTestData(dataSource, "unece_reference_type_code");
             schemaInitialized = true;
+        }
+    }
+
+    @AfterAll
+    static void closeDataSource(@Autowired DataSource dataSource) {
+        if (dataSource instanceof HikariDataSource) {
+            ((HikariDataSource) dataSource).close();
         }
     }
 

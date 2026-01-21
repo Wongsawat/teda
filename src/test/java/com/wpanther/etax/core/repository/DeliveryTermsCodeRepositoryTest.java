@@ -17,6 +17,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,13 @@ class DeliveryTermsCodeRepositoryTest extends PostgresTestContainer {
         if (!schemaInitialized) {
             DatabaseInitializer.initializeSchema(dataSource, "delivery_terms_code");
             schemaInitialized = true;
+        }
+    }
+
+    @AfterAll
+    static void closeDataSource(@Autowired DataSource dataSource) {
+        if (dataSource instanceof HikariDataSource) {
+            ((HikariDataSource) dataSource).close();
         }
     }
 

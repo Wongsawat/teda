@@ -19,6 +19,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +53,13 @@ class TISISubdistrictRepositoryTest extends PostgresTestContainer {
             DatabaseInitializer.initializeSchema(dataSource, "tisi_city_name");
             DatabaseInitializer.initializeSchema(dataSource, "tisi_subdistrict");
             schemaInitialized = true;
+        }
+    }
+
+    @AfterAll
+    static void closeDataSource(@Autowired DataSource dataSource) {
+        if (dataSource instanceof HikariDataSource) {
+            ((HikariDataSource) dataSource).close();
         }
     }
 

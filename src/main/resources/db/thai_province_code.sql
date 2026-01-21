@@ -3,6 +3,13 @@
 -- Schema: ThaiISOCountrySubdivisionCode_1p0.xsd
 -- Standard: Thai ISO 3166-2 Province Codes
 
+-- Drop existing objects for clean recreation
+DROP VIEW IF EXISTS thai_province_by_region CASCADE;;
+DROP FUNCTION IF EXISTS get_province_name(VARCHAR) CASCADE;;
+DROP FUNCTION IF EXISTS is_valid_province_code(VARCHAR) CASCADE;;
+DROP FUNCTION IF EXISTS update_thai_province_code_timestamp() CASCADE;;
+DROP TABLE IF EXISTS thai_province_code CASCADE;;
+
 CREATE TABLE thai_province_code (
     code VARCHAR(10) PRIMARY KEY,
     name_th VARCHAR(200) NOT NULL,
