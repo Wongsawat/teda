@@ -176,7 +176,7 @@ DECLARE
 BEGIN
     SELECT name INTO terms_name
     FROM delivery_terms_code
-    WHERE code = UPPER(terms_code);;
+    WHERE code = UPPER(terms_code);
 
     RETURN terms_name;
 END;
@@ -209,7 +209,7 @@ DECLARE
 BEGIN
     SELECT incoterm_group INTO terms_group
     FROM delivery_terms_code
-    WHERE code = UPPER(terms_code);;
+    WHERE code = UPPER(terms_code);
 
     RETURN terms_group;
 END;
@@ -225,7 +225,7 @@ DECLARE
 BEGIN
     SELECT seller_obligation INTO obligation_level
     FROM delivery_terms_code
-    WHERE code = UPPER(terms_code);;
+    WHERE code = UPPER(terms_code);
 
     RETURN obligation_level;
 END;
