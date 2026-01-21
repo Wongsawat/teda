@@ -174,6 +174,6 @@ INSERT INTO iso_currency_code (code, name, description, numeric_code, minor_unit
 ('YER', 'Yemeni Rial', NULL, '886', 2, true),
 ('ZAR', 'Rand', NULL, '710', 2, true),
 ('ZMW', 'Zambian Kwacha', NULL, '967', 2, true),
-('ZWL', 'Zimbabwe Dollar', '(effective 1 February 2009)', '932', 2, true);
+('ZWL', 'Zimbabwe Dollar', '(effective 1 February 2009)', '932', 2, true);;
 
 -- End of insert statements

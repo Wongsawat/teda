@@ -171,13 +171,13 @@ public class ISOCurrencyCodeEntityTest {
     // Business Logic Tests
 
     @Test
-    @DisplayName("isThaiBasht should return true for THB")
+    @DisplayName("isThaiBaht should return true for THB")
     public void testIsThaiBasht() {
         ISOCurrencyCode thb = new ISOCurrencyCode("THB");
-        assertTrue(thb.isThaiBasht());
+        assertTrue(thb.isThaiBaht());
 
         ISOCurrencyCode usd = new ISOCurrencyCode("USD");
-        assertFalse(usd.isThaiBasht());
+        assertFalse(usd.isThaiBaht());
     }
 
     @Test

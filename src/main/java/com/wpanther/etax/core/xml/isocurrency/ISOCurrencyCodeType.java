@@ -96,8 +96,8 @@ public class ISOCurrencyCodeType {
     /**
      * Check if this is Thai Baht (THB)
      */
-    public boolean isThaiBasht() {
-        return value != null && value.isThaiBasht();
+    public boolean isThaiBaht() {
+        return value != null && value.isThaiBaht();
     }
 
     /**

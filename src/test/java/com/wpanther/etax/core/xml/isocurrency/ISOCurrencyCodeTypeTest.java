@@ -109,11 +109,11 @@ class ISOCurrencyCodeTypeTest {
     // Business logic method tests with null value
 
     @Test
-    @DisplayName("isThaiBasht() should return false when value is null")
-    void testIsThaiBashtWithNullValue() {
+    @DisplayName("isThaiBaht() should return false when value is null")
+    void testIsThaiBahtWithNullValue() {
         ISOCurrencyCodeType type = new ISOCurrencyCodeType();
 
-        assertThat(type.isThaiBasht()).isFalse();
+        assertThat(type.isThaiBaht()).isFalse();
     }
 
     @Test

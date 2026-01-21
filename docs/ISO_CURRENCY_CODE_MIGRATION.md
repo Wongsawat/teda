@@ -36,7 +36,7 @@ JPA entity representing ISO 4217 currency codes with:
 - Fields: `name`, `description`, `numericCode`, `minorUnits`, `isActive`, timestamps
 - Code normalization (trim and uppercase)
 - 9 business logic methods:
-  - `isThaiBasht()` - Check if THB
+  - `isThaiBaht()` - Check if THB
   - `isUSDollar()` - Check if USD
   - `isEuro()` - Check if EUR
   - `isMajorCurrency()` - Check if major reserve currency
@@ -71,7 +71,7 @@ Spring Data JPA repository with **29 query methods**:
 - `findByNameContaining(name)` - Search by name
 
 **Specific Currency Queries** (16 methods):
-- `findThaiBasht()` - THB
+- `findThaiBaht()` - THB
 - `findUSDollar()` - USD
 - `findEuro()` - EUR
 - `findJapaneseYen()` - JPY
@@ -100,7 +100,7 @@ JAXB adapter converting between JAXB enum values and database entities:
   - `getName(code)`
   - `getNumericCode(code)`
   - `getMinorUnits(code)`
-  - `isThaiBasht(code)`
+  - `isThaiBaht(code)`
   - `isUSDollar(code)`
   - `isMajorCurrency(code)`
   - `isASEANCurrency(code)`
@@ -157,7 +157,7 @@ JAXB namespace configuration:
 ┌─────────────────────────────────────────────────────────────────┐
 │         ISOCurrencyCodeRepository (Spring Data JPA)              │
 │  • findByCode("THB") → Optional<ISOCurrencyCode>                │
-│  • findThaiBasht() → Optional<ISOCurrencyCode>                  │
+│  • findThaiBaht() → Optional<ISOCurrencyCode>                  │
 │  • findMajorCurrencies() → List<ISOCurrencyCode>                │
 └────────────────────────┬────────────────────────────────────────┘
                          │
@@ -291,7 +291,7 @@ System.out.println(entity.getMinorUnits());   // 2
 System.out.println(entity.getDecimalPlaces()); // 2
 
 // Business logic
-if (currencyType.isThaiBasht()) {
+if (currencyType.isThaiBaht()) {
     System.out.println("This is Thai Baht");
 }
 
@@ -307,7 +307,7 @@ System.out.println(formatted);  // "1,234.56 THB"
 ISOCurrencyCodeType currencyType = ISOCurrencyCodeType.of("THB");
 
 // Create from entity
-ISOCurrencyCode entity = repository.findThaiBasht().orElseThrow();
+ISOCurrencyCode entity = repository.findThaiBaht().orElseThrow();
 ISOCurrencyCodeType currencyType = ISOCurrencyCodeType.of(entity);
 
 // JAXB marshalling produces:
@@ -346,7 +346,7 @@ private ISOCurrencyCodeRepository repository;
 Optional<ISOCurrencyCode> thb = repository.findByCode("THB");
 
 // Find specific currencies
-Optional<ISOCurrencyCode> baht = repository.findThaiBasht();
+Optional<ISOCurrencyCode> baht = repository.findThaiBaht();
 Optional<ISOCurrencyCode> dollar = repository.findUSDollar();
 Optional<ISOCurrencyCode> yen = repository.findJapaneseYen();
 
@@ -375,7 +375,7 @@ List<ISOCurrencyCode> dollars = repository.findByNameContaining("Dollar");
 ### 5. Amount Formatting
 
 ```java
-ISOCurrencyCode thb = repository.findThaiBasht().orElseThrow();
+ISOCurrencyCode thb = repository.findThaiBaht().orElseThrow();
 ISOCurrencyCode jpy = repository.findJapaneseYen().orElseThrow();
 ISOCurrencyCode bhd = repository.findByCode("BHD").orElseThrow();
 
@@ -443,7 +443,7 @@ public class ISOCurrencyCodeType {
     public Integer getMinorUnits() { return value.getMinorUnits(); }
     public int getDecimalPlaces() { return value.getDecimalPlaces(); }
 
-    public boolean isThaiBasht() { return value.isThaiBasht(); }
+    public boolean isThaiBaht() { return value.isThaiBaht(); }
     public boolean isMajorCurrency() { return value.isMajorCurrency(); }
     public String formatAmount(double amount) { return value.formatAmount(amount); }
     // ... 8 more methods
@@ -455,7 +455,7 @@ String code = type.getCode();              // "THB"
 String name = type.getName();              // "Baht"
 String numeric = type.getNumericCode();    // "764"
 Integer decimals = type.getMinorUnits();   // 2
-boolean isThai = type.isThaiBasht();       // true
+boolean isThai = type.isThaiBaht();       // true
 String formatted = type.formatAmount(1234.56); // "1,234.56 THB"
 
 // Full metadata, validation, and formatting available!
@@ -507,7 +507,7 @@ totals.setTaxExclusiveAmount(new AmountType(10000.00, currency));
 totals.setTaxInclusiveAmount(new AmountType(10700.00, currency));
 
 // Verify currency
-if (currency.isThaiBasht()) {
+if (currency.isThaiBaht()) {
     System.out.println("Invoice in Thai Baht");
     System.out.println("Decimals: " + currency.getDecimalPlaces());  // 2
 }

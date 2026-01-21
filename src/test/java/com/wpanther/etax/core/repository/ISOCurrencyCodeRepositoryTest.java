@@ -148,9 +148,9 @@ class ISOCurrencyCodeRepositoryTest extends PostgresTestContainer {
     }
 
     @Test
-    @DisplayName("findThaiBasht: should find Thai Baht")
-    void findThaiBasht_shouldFindThaiBaht() {
-        Optional<ISOCurrencyCode> result = repository.findThaiBasht();
+    @DisplayName("findThaiBaht: should find Thai Baht")
+    void findThaiBaht_shouldFindThaiBaht() {
+        Optional<ISOCurrencyCode> result = repository.findThaiBaht();
         assertThat(result).isPresent();
         assertThat(result.get().getCode()).isEqualTo("THB");
         assertThat(result.get().getMinorUnits()).isEqualTo(2);

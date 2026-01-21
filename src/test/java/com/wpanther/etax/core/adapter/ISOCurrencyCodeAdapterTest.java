@@ -385,30 +385,30 @@ public class ISOCurrencyCodeAdapterTest {
     // Business Logic Tests
 
     @Test
-    @DisplayName("isThaiBasht should return true for THB")
+    @DisplayName("isThaiBaht should return true for THB")
     public void testIsThaiBashtValidCode() {
-        boolean result = ISOCurrencyCodeAdapter.isThaiBasht("THB");
+        boolean result = ISOCurrencyCodeAdapter.isThaiBaht("THB");
         assertTrue(result);
     }
 
     @Test
-    @DisplayName("isThaiBasht should return true for lowercase")
+    @DisplayName("isThaiBaht should return true for lowercase")
     public void testIsThaiBashtLowerCase() {
-        boolean result = ISOCurrencyCodeAdapter.isThaiBasht("thb");
+        boolean result = ISOCurrencyCodeAdapter.isThaiBaht("thb");
         assertTrue(result);
     }
 
     @Test
-    @DisplayName("isThaiBasht should return false for non-THB")
+    @DisplayName("isThaiBaht should return false for non-THB")
     public void testIsThaiBashtNonTHB() {
-        boolean result = ISOCurrencyCodeAdapter.isThaiBasht("USD");
+        boolean result = ISOCurrencyCodeAdapter.isThaiBaht("USD");
         assertFalse(result);
     }
 
     @Test
-    @DisplayName("isThaiBasht should return false for null")
+    @DisplayName("isThaiBaht should return false for null")
     public void testIsThaiBashtNull() {
-        boolean result = ISOCurrencyCodeAdapter.isThaiBasht(null);
+        boolean result = ISOCurrencyCodeAdapter.isThaiBaht(null);
         assertFalse(result);
     }
 

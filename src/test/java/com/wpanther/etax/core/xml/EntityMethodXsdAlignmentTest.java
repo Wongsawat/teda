@@ -77,10 +77,10 @@ class EntityMethodXsdAlignmentTest {
     @DisplayName("Thai Baht should use correct XSD code 'THB'")
     void testThaiBahtCode() {
         ISOCurrencyCode thaiBaht = new ISOCurrencyCode("THB", "Thai Baht", "764", 2);
-        assertTrue(thaiBaht.isThaiBasht(), "THB code should be recognized as Thai Baht");
+        assertTrue(thaiBaht.isThaiBaht(), "THB code should be recognized as Thai Baht");
 
         ISOCurrencyCode notThaiBaht = new ISOCurrencyCode("USD", "US Dollar", "840", 2);
-        assertFalse(notThaiBaht.isThaiBasht(), "USD code should not be recognized as Thai Baht");
+        assertFalse(notThaiBaht.isThaiBaht(), "USD code should not be recognized as Thai Baht");
     }
 
     @Test

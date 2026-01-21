@@ -198,7 +198,7 @@ public class ISOCurrencyCodeAdapter extends XmlAdapter<String, ISOCurrencyCode> 
      * @param code The currency code
      * @return true if THB
      */
-    public static boolean isThaiBasht(String code) {
+    public static boolean isThaiBaht(String code) {
         return "THB".equalsIgnoreCase(code != null ? code.trim() : null);
     }
 

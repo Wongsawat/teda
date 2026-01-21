@@ -166,7 +166,7 @@ BEGIN
         RETURN amount::TEXT || ' ' || currency_code;
     END IF;
 
-    formatted_amount := TO_CHAR(amount, 'FM999,999,999,990.' || REPEAT('0', minor_units));;
+    formatted_amount := TO_CHAR(amount, 'FM999,999,999,990.' || REPEAT('0', minor_units));
 
     RETURN formatted_amount || ' ' || currency_code || ' (' || currency_name || ')';
 END;
