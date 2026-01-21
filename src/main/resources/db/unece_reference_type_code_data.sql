@@ -805,6 +805,6 @@ INSERT INTO unece_reference_type_code (code, name, description, is_etda_extensio
 ('T04', 'ใบส่งของ/ใบกำกับภาษี', 'ใบส่งของ/ใบกำกับภาษี (Delivery order/ Tax Invoice)', true, true),
 ('T05', 'ใบกำกับภาษีอย่างย่อ', 'ใบกำกับภาษีอย่างย่อ (Abbreviated Tax Invoice )', true, true),
 ('T06', 'ใบเสร็จรับเงิน/ใบกำกับภาษีอย่างย่อ', 'ใบเสร็จรับเงิน/ใบกำกับภาษีอย่างย่อ (Receipt/Abbreviated Tax Invoice)', true, true),
-('T07', 'ใบแจ้งยกเลิก', 'ใบแจ้งยกเลิก (Cancellation note)', true, true);
+('T07', 'ใบแจ้งยกเลิก', 'ใบแจ้งยกเลิก (Cancellation note)', true, true);;
 
 -- Total inserted: 798 records
