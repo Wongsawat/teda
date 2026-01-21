@@ -79,4 +79,5 @@ INSERT INTO thai_province_code (code, name_th, name_en, region) VALUES
 ('93', 'พัทลุง', 'Phatthalung', 'South'),
 ('94', 'ปัตตานี', 'Pattani', 'South'),
 ('95', 'ยะลา', 'Yala', 'South'),
-('96', 'นราธิวาส', 'Narathiwat', 'South');;
+('96', 'นราธิวาส', 'Narathiwat', 'South'),
+('97', 'อื่นๆ', 'Other', NULL);;

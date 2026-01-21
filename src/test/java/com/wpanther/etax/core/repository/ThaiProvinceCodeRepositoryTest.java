@@ -68,9 +68,9 @@ class ThaiProvinceCodeRepositoryTest extends PostgresTestContainer {
     // === Query Method Tests ===
 
     @Test
-    @DisplayName("findAll: should return 77 provinces")
+    @DisplayName("findAll: should return 78 codes (77 provinces + 1 placeholder)")
     void findAll_shouldReturn77Provinces() {
-        assertThat(repository.findAll()).hasSize(77);
+        assertThat(repository.findAll()).hasSize(78);
     }
 
     @Test
@@ -113,9 +113,9 @@ class ThaiProvinceCodeRepositoryTest extends PostgresTestContainer {
     }
 
     @Test
-    @DisplayName("count: should return 77")
+    @DisplayName("count: should return 78 (77 provinces + 1 placeholder)")
     void count_shouldReturn77() {
-        assertThat(repository.count()).isEqualTo(77);
+        assertThat(repository.count()).isEqualTo(78);
     }
 
     @Test
@@ -127,10 +127,10 @@ class ThaiProvinceCodeRepositoryTest extends PostgresTestContainer {
     // === Active Provinces Tests ===
 
     @Test
-    @DisplayName("findByActiveTrue: should return all active provinces")
+    @DisplayName("findByActiveTrue: should return all active codes (77 provinces + 1 placeholder)")
     void findByActiveTrue_shouldReturnActiveProvinces() {
         List<ThaiProvinceCode> result = repository.findByActiveTrue();
-        assertThat(result).hasSize(77);
+        assertThat(result).hasSize(78);
         assertThat(result).allMatch(ThaiProvinceCode::isActive);
     }
 
