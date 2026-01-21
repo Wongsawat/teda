@@ -104,7 +104,7 @@ class DutyTaxFeeTypeCodeRepositoryTest extends PostgresTestContainer {
     void existsByCode_shouldReturnTrueForValidCodes() {
         assertThat(repository.existsByCode("VAT")).isTrue();
         assertThat(repository.existsByCode("GST")).isTrue();
-        assertThat(repository.existsByCode("EXE")).isTrue();
+        assertThat(repository.existsByCode("FRE")).isTrue();
     }
 
     @Test
@@ -154,15 +154,6 @@ class DutyTaxFeeTypeCodeRepositoryTest extends PostgresTestContainer {
         assertThat(result).allMatch(DutyTaxFeeTypeCode::isExempt);
     }
 
-    @Test
-    @DisplayName("findExemptCode: should find EXE code")
-    void findExemptCode_shouldFindEXE() {
-        Optional<DutyTaxFeeTypeCode> result = repository.findExemptCode();
-        assertThat(result).isPresent();
-        assertThat(result.get().getCode()).isEqualTo("EXE");
-        assertThat(result.get().isExempt()).isTrue();
-    }
-
     // === Summary Tests ===
 
     @Test
@@ -200,15 +191,7 @@ class DutyTaxFeeTypeCodeRepositoryTest extends PostgresTestContainer {
         assertThat(result).isNotEmpty();
         assertThat(result).anyMatch(c -> "VAT".equals(c.getCode()));
         assertThat(result).anyMatch(c -> "GST".equals(c.getCode()));
-        assertThat(result).anyMatch(c -> "EXE".equals(c.getCode()));
-    }
-
-    @Test
-    @DisplayName("findTaxCode: should find TAX code")
-    void findTaxCode_shouldFindTAX() {
-        Optional<DutyTaxFeeTypeCode> result = repository.findTaxCode();
-        assertThat(result).isPresent();
-        assertThat(result.get().getCode()).isEqualTo("TAX");
+        assertThat(result).anyMatch(c -> "FRE".equals(c.getCode()));
     }
 
     @Test
@@ -233,14 +216,6 @@ class DutyTaxFeeTypeCodeRepositoryTest extends PostgresTestContainer {
         Optional<DutyTaxFeeTypeCode> result = repository.findTotalCode();
         assertThat(result).isPresent();
         assertThat(result.get().getCode()).isEqualTo("TOT");
-    }
-
-    @Test
-    @DisplayName("findMutuallyDefinedCode: should find ZZZ code")
-    void findMutuallyDefinedCode_shouldFindZZZ() {
-        Optional<DutyTaxFeeTypeCode> result = repository.findMutuallyDefinedCode();
-        assertThat(result).isPresent();
-        assertThat(result.get().getCode()).isEqualTo("ZZZ");
     }
 
     // === Category Tests ===

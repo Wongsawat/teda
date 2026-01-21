@@ -1,6 +1,6 @@
 -- Duty/Tax/Fee Type Code Data Insert Statements
 -- Generated from UNECE_DutyTaxFeeTypeCode_D14A.xsd
--- Total records: 53
+-- Total records: 53 (UN/CEFACT D14A)
 
 INSERT INTO duty_tax_fee_type_code (code, name, description, category, is_vat, is_exempt, is_summary) VALUES
 ('AAA', 'Petroleum tax', 'A tax levied on the volume of petroleum being transacted.', 'Commodity Tax', false, false, false),
@@ -55,9 +55,6 @@ INSERT INTO duty_tax_fee_type_code (code, name, description, category, is_vat, i
 ('TOX', 'Turnover tax', 'Tax levied on the total sales/turnover of a corporation.', 'Turnover Tax', false, false, false),
 ('TTA', 'Tonnage taxes', 'Tax levied based on the vessel''s net tonnage.', 'Tonnage Tax', false, false, false),
 ('VAD', 'Valuation deposit', 'Duty paid and held on deposit, by Customs, during an investigation period prior to a formal decision on valuation of the goods being made.', 'Deposit', false, false, false),
-('EXE', 'Exempt from tax', 'Goods or services exempt from tax.', 'Tax Exempt', false, true, false),
-('TAX', 'Tax', 'General tax code.', 'Other Tax', false, false, false),
-('ZZZ', 'Mutually defined', 'A code assigned within a code list to be used on an interim basis and as defined among trading partners until a precise code can be assigned to the code list.', 'Custom/Other', false, false, false),
 ('VAT', 'Value added tax', 'A tax on domestic or imported goods applied to the value added at each stage in the production/distribution cycle.', 'VAT', true, false, false);;
 
 -- End of insert statements

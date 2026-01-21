@@ -110,16 +110,13 @@ public interface DutyTaxFeeTypeCodeRepository extends JpaRepository<DutyTaxFeeTy
     /**
      * Find most commonly used codes for e-Tax Invoice
      */
-    @Query("SELECT d FROM DutyTaxFeeTypeCode d WHERE d.code IN ('VAT', 'GST', 'EXE', 'TAX', 'FRE', 'OTH', 'TOT', 'ZZZ') AND d.active = true ORDER BY " +
+    @Query("SELECT d FROM DutyTaxFeeTypeCode d WHERE d.code IN ('VAT', 'GST', 'FRE', 'OTH', 'TOT') AND d.active = true ORDER BY " +
            "CASE d.code " +
            "WHEN 'VAT' THEN 1 " +
            "WHEN 'GST' THEN 2 " +
-           "WHEN 'EXE' THEN 3 " +
-           "WHEN 'TAX' THEN 4 " +
-           "WHEN 'FRE' THEN 5 " +
-           "WHEN 'OTH' THEN 6 " +
-           "WHEN 'TOT' THEN 7 " +
-           "WHEN 'ZZZ' THEN 8 " +
+           "WHEN 'FRE' THEN 3 " +
+           "WHEN 'OTH' THEN 4 " +
+           "WHEN 'TOT' THEN 5 " +
            "END")
     List<DutyTaxFeeTypeCode> findCommonCodes();
 
@@ -134,18 +131,6 @@ public interface DutyTaxFeeTypeCodeRepository extends JpaRepository<DutyTaxFeeTy
      */
     @Query("SELECT d FROM DutyTaxFeeTypeCode d WHERE d.code = 'GST'")
     Optional<DutyTaxFeeTypeCode> findGSTCode();
-
-    /**
-     * Find exempt code (EXE)
-     */
-    @Query("SELECT d FROM DutyTaxFeeTypeCode d WHERE d.code = 'EXE'")
-    Optional<DutyTaxFeeTypeCode> findExemptCode();
-
-    /**
-     * Find tax code (TAX)
-     */
-    @Query("SELECT d FROM DutyTaxFeeTypeCode d WHERE d.code = 'TAX'")
-    Optional<DutyTaxFeeTypeCode> findTaxCode();
 
     /**
      * Find free code (FRE)
@@ -164,10 +149,4 @@ public interface DutyTaxFeeTypeCodeRepository extends JpaRepository<DutyTaxFeeTy
      */
     @Query("SELECT d FROM DutyTaxFeeTypeCode d WHERE d.code = 'TOT'")
     Optional<DutyTaxFeeTypeCode> findTotalCode();
-
-    /**
-     * Find mutually defined code (ZZZ)
-     */
-    @Query("SELECT d FROM DutyTaxFeeTypeCode d WHERE d.code = 'ZZZ'")
-    Optional<DutyTaxFeeTypeCode> findMutuallyDefinedCode();
 }

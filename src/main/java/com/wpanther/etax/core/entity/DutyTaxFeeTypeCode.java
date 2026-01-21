@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * - GST: Goods and Services Tax
  * - Customs: Import/export duties (AAA, AAB, AAC, etc.)
  * - Excise: Petroleum, alcohol, tobacco taxes
- * - Exempt: Tax exemptions (EXE, TAX, FRE)
+ * - Exempt: Tax exemptions (FRE)
  * - Other: Special taxes, fees, surcharges
  */
 @Entity
@@ -115,7 +115,7 @@ public class DutyTaxFeeTypeCode {
 
     /**
      * Check if this is an exemption code
-     * Codes: EXE, TAX, FRE, TT, ZZZ
+     * Codes: FRE
      */
     public boolean isExempt() {
         return Boolean.TRUE.equals(isExempt);
@@ -123,7 +123,7 @@ public class DutyTaxFeeTypeCode {
 
     /**
      * Check if this is a summary tax code
-     * Codes: OTH, TOT
+     * Codes: TOT
      */
     public boolean isSummary() {
         return Boolean.TRUE.equals(isSummary);
