@@ -217,6 +217,6 @@ class ISOLanguageCodeRepositoryTest extends PostgresTestContainer {
     void findAllActive_shouldReturnActiveLanguages() {
         List<ISOLanguageCode> result = repository.findAllActive();
         assertThat(result).isNotEmpty();
-        assertThat(result).allMatch(l -> l.isActive());
+        assertThat(result).allMatch(l -> l.getIsActive());
     }
 }

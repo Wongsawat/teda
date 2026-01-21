@@ -199,7 +199,7 @@ public class ISOLanguageCodeType {
      * @return true if active
      */
     public boolean isActive() {
-        return value != null && Boolean.TRUE.equals(value.isActive());
+        return value != null && Boolean.TRUE.equals(value.getIsActive());
     }
 
     // Getters and Setters

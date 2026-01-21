@@ -176,7 +176,7 @@ class ISOLanguageCodeTypeTest {
     @DisplayName("isActive() should return true when entity is active")
     void testIsActiveTrue() {
         ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
-        entity.setActive(true);
+        entity.setIsActive(true);
         ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
 
         assertThat(type.isActive()).isTrue();
@@ -186,7 +186,7 @@ class ISOLanguageCodeTypeTest {
     @DisplayName("isActive() should return false when entity is inactive")
     void testIsActiveFalse() {
         ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
-        entity.setActive(false);
+        entity.setIsActive(false);
         ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
 
         assertThat(type.isActive()).isFalse();

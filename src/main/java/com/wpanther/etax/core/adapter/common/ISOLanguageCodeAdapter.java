@@ -90,7 +90,7 @@ public class ISOLanguageCodeAdapter extends XmlAdapter<String, ISOLanguageCode> 
     private ISOLanguageCode createPlaceholder(String code) {
         ISOLanguageCode placeholder = new ISOLanguageCode(code);
         placeholder.setName("Unknown Language: " + code);
-        placeholder.setActive(false);
+        placeholder.setIsActive(false);
         return placeholder;
     }
 

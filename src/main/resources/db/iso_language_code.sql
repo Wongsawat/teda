@@ -124,7 +124,7 @@ COMMENT ON FUNCTION is_valid_language_code(VARCHAR) IS 'Validate if language cod
 CREATE OR REPLACE FUNCTION normalize_language_code(lang_code VARCHAR(2))
 RETURNS VARCHAR(2) AS $$
 BEGIN
-    RETURN LOWER(lang_code);;
+    RETURN LOWER(lang_code);
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
 

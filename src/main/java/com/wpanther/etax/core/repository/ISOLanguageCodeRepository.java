@@ -24,8 +24,9 @@ public interface ISOLanguageCodeRepository extends JpaRepository<ISOLanguageCode
 
     /**
      * Find language by code (case-insensitive)
+     * Always returns the lowercase version (canonical form)
      */
-    @Query("SELECT l FROM ISOLanguageCode l WHERE LOWER(l.code) = LOWER(:code) AND l.isActive = true")
+    @Query("SELECT l FROM ISOLanguageCode l WHERE l.code = LOWER(:code) AND l.isActive = true")
     Optional<ISOLanguageCode> findByCode(@Param("code") String code);
 
     /**
@@ -62,7 +63,7 @@ public interface ISOLanguageCodeRepository extends JpaRepository<ISOLanguageCode
     /**
      * Check if language code exists (case-insensitive)
      */
-    @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM ISOLanguageCode l WHERE LOWER(l.code) = LOWER(:code) AND l.isActive = true")
+    @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM ISOLanguageCode l WHERE l.code = LOWER(:code) AND l.isActive = true")
     boolean existsByCode(@Param("code") String code);
 
     /**

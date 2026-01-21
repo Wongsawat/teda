@@ -132,7 +132,7 @@ public class ISOLanguageCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XX", result.getCode());
-        assertFalse(result.isActive());
+        assertFalse(result.getIsActive());
         assertTrue(result.getName().contains("Unknown"));
     }
 
@@ -170,7 +170,7 @@ public class ISOLanguageCodeAdapterTest {
 
         assertNotNull(result);
         assertEquals("XX", result.getCode());
-        assertFalse(result.isActive());
+        assertFalse(result.getIsActive());
     }
 
     // Static Helper Method Tests
@@ -541,7 +541,7 @@ public class ISOLanguageCodeAdapterTest {
 
         ISOLanguageCode result = adapter.unmarshal("xx");
 
-        assertFalse(result.isActive());
+        assertFalse(result.getIsActive());
     }
 
     // Integration Tests
@@ -554,7 +554,7 @@ public class ISOLanguageCodeAdapterTest {
         ISOLanguageCode result = adapter.unmarshal("xx");
 
         assertNotNull(result);
-        assertFalse(result.isActive());
+        assertFalse(result.getIsActive());
     }
 
     @Test
