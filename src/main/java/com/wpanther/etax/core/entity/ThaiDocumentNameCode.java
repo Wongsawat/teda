@@ -136,17 +136,17 @@ public class ThaiDocumentNameCode {
 
     // Helper methods
     /**
-     * Check if this is a debit note document type (code 383)
+     * Check if this is a debit note document type (code 80)
      */
     public boolean isDebitNote() {
-        return "383".equals(code);
+        return "80".equals(code);
     }
 
     /**
-     * Check if this is a credit note document type (code 381)
+     * Check if this is a credit note document type (code 81)
      */
     public boolean isCreditNote() {
-        return "381".equals(code);
+        return "81".equals(code);
     }
 
     /**
@@ -164,17 +164,17 @@ public class ThaiDocumentNameCode {
     }
 
     /**
-     * Check if this is a receipt type (code 80)
+     * Check if this is a receipt type (code T01)
      */
     public boolean isReceipt() {
-        return "80".equals(code);
+        return "T01".equals(code);
     }
 
     /**
-     * Check if this is an abbreviated tax invoice (code 81)
+     * Check if this is an abbreviated tax invoice (code T05)
      */
     public boolean isAbbreviatedTaxInvoice() {
-        return "81".equals(code);
+        return "T05".equals(code);
     }
 
     /**

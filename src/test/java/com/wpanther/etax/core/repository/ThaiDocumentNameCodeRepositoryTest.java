@@ -92,7 +92,7 @@ class ThaiDocumentNameCodeRepositoryTest extends PostgresTestContainer {
     @DisplayName("existsByCode: should return true for valid codes")
     void existsByCode_shouldReturnTrueForValidCodes() {
         assertThat(repository.existsByCode("380")).isTrue();
-        assertThat(repository.existsByCode("381")).isTrue();
+        assertThat(repository.existsByCode("81")).isTrue();
     }
 
     @Test
@@ -157,7 +157,7 @@ class ThaiDocumentNameCodeRepositoryTest extends PostgresTestContainer {
     void findDebitNoteCodes_shouldFindDebitNotes() {
         List<ThaiDocumentNameCode> result = repository.findDebitNoteCodes();
         assertThat(result).isNotEmpty();
-        assertThat(result).anyMatch(c -> "383".equals(c.getCode()) || c.getNameEn().toLowerCase().contains("debit"));
+        assertThat(result).anyMatch(c -> "80".equals(c.getCode()) || c.getNameEn().toLowerCase().contains("debit"));
     }
 
     @Test
@@ -165,7 +165,7 @@ class ThaiDocumentNameCodeRepositoryTest extends PostgresTestContainer {
     void findCreditNoteCodes_shouldFindCreditNotes() {
         List<ThaiDocumentNameCode> result = repository.findCreditNoteCodes();
         assertThat(result).isNotEmpty();
-        assertThat(result).anyMatch(c -> "381".equals(c.getCode()) || c.getNameEn().toLowerCase().contains("credit"));
+        assertThat(result).anyMatch(c -> "81".equals(c.getCode()) || c.getNameEn().toLowerCase().contains("credit"));
     }
 
     // === Abbreviated and Cancellation Tests ===
