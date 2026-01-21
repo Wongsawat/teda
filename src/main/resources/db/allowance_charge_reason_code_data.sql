@@ -107,6 +107,6 @@ INSERT INTO allowance_charge_reason_code (code, name, description, category) VAL
 ('102', 'Employee retirement', 'The reason for the adjustment is the retirement of an employee.', 'HR Related'),
 ('103', 'Salary change', 'The reason for the adjustment is a salary change.', 'HR Related'),
 ('104', 'Parental leave', 'The reason for the adjustment is a parental leave.', 'HR Related'),
-('ZZZ', 'Mutually defined', 'A code assigned within a code list to be used on an interim basis and as defined among trading partners until a precise code can be assigned to the code list.', 'Custom/Other');
+('ZZZ', 'Mutually defined', 'A code assigned within a code list to be used on an interim basis and as defined among trading partners until a precise code can be assigned to the code list.', 'Custom/Other');;
 
 -- End of insert statements

@@ -40,6 +40,7 @@ class AllowanceChargeReasonCodeRepositoryTest extends PostgresTestContainer {
     static void setUpSchema(@Autowired DataSource dataSource) {
         if (!schemaInitialized) {
             DatabaseInitializer.initializeSchema(dataSource, "allowance_charge_reason_code");
+            DatabaseInitializer.loadTestData(dataSource, "allowance_charge_reason_code");
             schemaInitialized = true;
         }
     }
@@ -83,8 +84,8 @@ class AllowanceChargeReasonCodeRepositoryTest extends PostgresTestContainer {
     @Test
     @DisplayName("findByCode: should be case insensitive")
     void findByCode_shouldBeCaseInsensitive() {
-        Optional<AllowanceChargeReasonCode> upper = repository.findByCode("AA");
-        Optional<AllowanceChargeReasonCode> lower = repository.findByCode("aa");
+        Optional<AllowanceChargeReasonCode> upper = repository.findByCode("ZZZ");
+        Optional<AllowanceChargeReasonCode> lower = repository.findByCode("zzz");
         assertThat(upper).isPresent();
         assertThat(lower).isPresent();
         assertThat(upper.get().getCode()).isEqualTo(lower.get().getCode());
