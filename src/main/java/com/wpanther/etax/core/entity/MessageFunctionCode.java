@@ -60,12 +60,16 @@ public class MessageFunctionCode {
 
     public MessageFunctionCode(String code) {
         this.code = code != null ? code.trim() : null;
+        this.isOriginal = "9".equals(this.code);
+        this.isModification = isModificationCode(this.code);
     }
 
     public MessageFunctionCode(String code, String name, String description) {
         this.code = code != null ? code.trim() : null;
         this.name = name;
         this.description = description;
+        this.isOriginal = "9".equals(this.code);
+        this.isModification = isModificationCode(this.code);
     }
 
     // JPA Lifecycle Callbacks
@@ -154,6 +158,16 @@ public class MessageFunctionCode {
     }
 
     // Business logic methods
+    /**
+     * Check if code is a modification code
+     */
+    private boolean isModificationCode(String code) {
+        if (code == null) return false;
+        return "4".equals(code) || "19".equals(code) || "28".equals(code) ||
+               "30".equals(code) || "33".equals(code) || "34".equals(code) ||
+               "36".equals(code) || "52".equals(code);
+    }
+
     public boolean isModification() {
         return Boolean.TRUE.equals(this.isModification);
     }

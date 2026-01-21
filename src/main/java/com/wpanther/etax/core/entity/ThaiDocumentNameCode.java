@@ -136,49 +136,49 @@ public class ThaiDocumentNameCode {
 
     // Helper methods
     /**
-     * Check if this is a debit note document type
+     * Check if this is a debit note document type (code 383)
      */
     public boolean isDebitNote() {
-        return "80".equals(code);
+        return "383".equals(code);
     }
 
     /**
-     * Check if this is a credit note document type
+     * Check if this is a credit note document type (code 381)
      */
     public boolean isCreditNote() {
-        return "81".equals(code);
+        return "381".equals(code);
     }
 
     /**
-     * Check if this is a commercial invoice
+     * Check if this is a commercial invoice (code 380)
      */
     public boolean isCommercialInvoice() {
         return "380".equals(code);
     }
 
     /**
-     * Check if this is a tax invoice type
+     * Check if this is a tax invoice type (code 388)
      */
     public boolean isTaxInvoice() {
-        return nameEn != null && (nameEn.contains("Tax Invoice") || nameEn.contains("tax invoice"));
+        return "388".equals(code);
     }
 
     /**
-     * Check if this is a receipt type
+     * Check if this is a receipt type (code 80)
      */
     public boolean isReceipt() {
-        return nameEn != null && (nameEn.contains("Receipt") || nameEn.contains("receipt"));
+        return "80".equals(code);
     }
 
     /**
-     * Check if this is an abbreviated tax invoice
+     * Check if this is an abbreviated tax invoice (code 81)
      */
     public boolean isAbbreviatedTaxInvoice() {
-        return "T05".equals(code) || "T06".equals(code);
+        return "81".equals(code);
     }
 
     /**
-     * Check if this is a cancellation note
+     * Check if this is a cancellation note (code T07)
      */
     public boolean isCancellationNote() {
         return "T07".equals(code);

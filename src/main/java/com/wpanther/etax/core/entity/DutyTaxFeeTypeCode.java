@@ -74,12 +74,14 @@ public class DutyTaxFeeTypeCode {
 
     public DutyTaxFeeTypeCode(String code) {
         this.code = normalizeCode(code);
+        this.isVat = isVatCode(this.code);
     }
 
     public DutyTaxFeeTypeCode(String code, String name, String description) {
         this.code = normalizeCode(code);
         this.name = name;
         this.description = description;
+        this.isVat = isVatCode(this.code);
     }
 
     // Code Normalization
@@ -89,6 +91,16 @@ public class DutyTaxFeeTypeCode {
         }
         // UN/CEFACT codes are uppercase
         return code.trim().toUpperCase();
+    }
+
+    /**
+     * Check if a code is a VAT-related code
+     */
+    private boolean isVatCode(String code) {
+        if (code == null) {
+            return false;
+        }
+        return "VAT".equals(code) || "ENV".equals(code) || "EXP".equals(code);
     }
 
     // Business Logic Methods
