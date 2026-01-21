@@ -8967,6 +8967,6 @@ INSERT INTO tisi_subdistrict (code, name_th) VALUES
 ('961301', 'จวบ'),
 ('961302', 'บูกิต'),
 ('961303', 'มะรือโบออก'),
-('970596', 'โคกสอาด*');
+('970596', 'โคกสอาด*');;
 
 -- End of insert statements

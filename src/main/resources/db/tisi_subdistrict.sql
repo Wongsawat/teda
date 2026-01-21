@@ -9,15 +9,7 @@ CREATE TABLE tisi_subdistrict (
     city_code VARCHAR(4) GENERATED ALWAYS AS (SUBSTRING(code, 1, 4)) STORED,
     subdistrict_code VARCHAR(2) GENERATED ALWAYS AS (SUBSTRING(code, 5, 2)) STORED,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_tisi_subdistrict_province
-        FOREIGN KEY (province_code)
-        REFERENCES thai_province(code)
-        ON DELETE RESTRICT,
-    CONSTRAINT fk_tisi_subdistrict_city
-        FOREIGN KEY (city_code)
-        REFERENCES tisi_city_name(code)
-        ON DELETE RESTRICT
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );;
 
 -- Add comment to table
@@ -63,7 +55,7 @@ SELECT
     p.region
 FROM tisi_subdistrict s
 JOIN tisi_city_name c ON s.city_code = c.code
-JOIN thai_province p ON s.province_code = p.code;
+JOIN thai_province_code p ON s.province_code = p.code;
 
 COMMENT ON VIEW v_thai_address_hierarchy IS 'Complete Thai address hierarchy: subdistrict > city/district > province';;
 

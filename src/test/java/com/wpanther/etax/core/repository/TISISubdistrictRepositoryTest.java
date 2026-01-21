@@ -3,6 +3,8 @@ package com.wpanther.etax.core.repository;
 import com.wpanther.etax.core.config.DatabaseInitializer;
 import com.wpanther.etax.core.config.PostgresTestContainer;
 import com.wpanther.etax.core.entity.TISISubdistrict;
+import com.wpanther.etax.core.entity.ThaiProvinceCode;
+import com.wpanther.etax.core.entity.TISICityName;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,12 @@ class TISISubdistrictRepositoryTest extends PostgresTestContainer {
     private TISISubdistrictRepository repository;
 
     @Autowired
+    private ThaiProvinceCodeRepository provinceRepository;
+
+    @Autowired
+    private TISICityNameRepository cityRepository;
+
+    @Autowired
     private DataSource dataSource;
 
     private static boolean schemaInitialized = false;
@@ -39,6 +47,9 @@ class TISISubdistrictRepositoryTest extends PostgresTestContainer {
     @BeforeAll
     static void setUpSchema(@Autowired DataSource dataSource) {
         if (!schemaInitialized) {
+            // Initialize dependent tables first
+            DatabaseInitializer.initializeSchema(dataSource, "thai_province_code");
+            DatabaseInitializer.initializeSchema(dataSource, "tisi_city_name");
             DatabaseInitializer.initializeSchema(dataSource, "tisi_subdistrict");
             schemaInitialized = true;
         }
@@ -56,11 +67,19 @@ class TISISubdistrictRepositoryTest extends PostgresTestContainer {
     @EnableJpaRepositories(
             includeFilters = @ComponentScan.Filter(
                     type = FilterType.ASSIGNABLE_TYPE,
-                    classes = TISISubdistrictRepository.class
+                    classes = {
+                        TISISubdistrictRepository.class,
+                        ThaiProvinceCodeRepository.class,
+                        TISICityNameRepository.class
+                    }
             ),
             basePackages = "com.wpanther.etax.core.repository"
     )
-    @EntityScan(basePackageClasses = TISISubdistrict.class)
+    @EntityScan(basePackageClasses = {
+        TISISubdistrict.class,
+        ThaiProvinceCode.class,
+        TISICityName.class
+    })
     static class TestConfig {
     }
 
