@@ -205,7 +205,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("isDebitNote() should return true for code 80")
     void testIsDebitNoteTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("383", "ใบเพิ่มหนี้", "Debit Note", "Debit Note document");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80", "ใบเพิ่มหนี้", "Debit Note", "Debit Note document");
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         assertThat(type.isDebitNote()).isTrue();
@@ -214,7 +214,7 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
     @Test
     @DisplayName("isCreditNote() should return true for code 81")
     void testIsCreditNoteTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("381", "ใบลดหนี้", "Credit Note", "Credit Note document");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("81", "ใบลดหนี้", "Credit Note", "Credit Note document");
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         assertThat(type.isCreditNote()).isTrue();

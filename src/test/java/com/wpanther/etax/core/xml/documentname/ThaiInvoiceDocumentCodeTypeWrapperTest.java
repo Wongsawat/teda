@@ -180,9 +180,9 @@ class ThaiInvoiceDocumentCodeTypeWrapperTest {
     }
 
     @Test
-    @DisplayName("isReceipt() should return true for code 80")
+    @DisplayName("isReceipt() should return true for code T01")
     void testIsReceiptTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T01");
         entity.setNameEn("Receipt");
         ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
 
@@ -190,9 +190,9 @@ class ThaiInvoiceDocumentCodeTypeWrapperTest {
     }
 
     @Test
-    @DisplayName("isAbbreviatedTaxInvoice() should return true for code 81")
+    @DisplayName("isAbbreviatedTaxInvoice() should return true for code T05")
     void testIsAbbreviatedTaxInvoiceTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("81");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T05");
         entity.setNameEn("AbbreviatedTaxInvoice");
         ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
 
@@ -200,9 +200,9 @@ class ThaiInvoiceDocumentCodeTypeWrapperTest {
     }
 
     @Test
-    @DisplayName("isDebitNote() should return true for code 383")
+    @DisplayName("isDebitNote() should return true for code 80")
     void testIsDebitNoteTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("383");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80");
         entity.setNameEn("DebitNote");
         ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
 
@@ -210,9 +210,9 @@ class ThaiInvoiceDocumentCodeTypeWrapperTest {
     }
 
     @Test
-    @DisplayName("isCreditNote() should return true for code 381")
+    @DisplayName("isCreditNote() should return true for code 81")
     void testIsCreditNoteTrue() {
-        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("381");
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("81");
         entity.setNameEn("CreditNote");
         ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
 
