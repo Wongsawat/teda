@@ -78,27 +78,27 @@ public interface MessageFunctionCodeRepository extends JpaRepository<MessageFunc
     boolean existsByCode(@Param("code") String code);
 
     /**
-     * Find transaction control functions
+     * Find cancellation functions
      */
-    @Query("SELECT m FROM MessageFunctionCode m WHERE m.category = 'Transaction Control' ORDER BY m.code")
+    @Query("SELECT m FROM MessageFunctionCode m WHERE m.category = 'Cancellation' ORDER BY m.code")
     List<MessageFunctionCode> findTransactionControl();
 
     /**
-     * Find message status functions
+     * Find status functions
      */
-    @Query("SELECT m FROM MessageFunctionCode m WHERE m.category = 'Message Status' ORDER BY m.code")
+    @Query("SELECT m FROM MessageFunctionCode m WHERE m.category IN ('Status', 'Processing Status') ORDER BY m.code")
     List<MessageFunctionCode> findMessageStatus();
 
     /**
-     * Find financial functions
+     * Find financial functions (reversal of debit/credit)
      */
-    @Query("SELECT m FROM MessageFunctionCode m WHERE m.category = 'Financial' ORDER BY m.code")
+    @Query("SELECT m FROM MessageFunctionCode m WHERE m.code IN ('37', '38') ORDER BY m.code")
     List<MessageFunctionCode> findFinancial();
 
     /**
      * Find schedule-related functions
      */
-    @Query("SELECT m FROM MessageFunctionCode m WHERE m.category = 'Schedule' ORDER BY m.code")
+    @Query("SELECT m FROM MessageFunctionCode m WHERE m.category = 'Scheduling' ORDER BY m.code")
     List<MessageFunctionCode> findSchedule();
 
     /**

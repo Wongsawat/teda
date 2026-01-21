@@ -40,6 +40,7 @@ class MessageFunctionCodeRepositoryTest extends PostgresTestContainer {
     static void setUpSchema(@Autowired DataSource dataSource) {
         if (!schemaInitialized) {
             DatabaseInitializer.initializeSchema(dataSource, "message_function_code");
+            DatabaseInitializer.loadTestData(dataSource, "message_function_code");
             schemaInitialized = true;
         }
     }
@@ -145,9 +146,9 @@ class MessageFunctionCodeRepositoryTest extends PostgresTestContainer {
     @Test
     @DisplayName("findByCategory: should find by category")
     void findByCategory_shouldFindByCategory() {
-        List<MessageFunctionCode> result = repository.findByCategory("Transaction Control");
+        List<MessageFunctionCode> result = repository.findByCategory("Cancellation");
         assertThat(result).isNotEmpty();
-        assertThat(result).allMatch(c -> "Transaction Control".equals(c.getCategory()));
+        assertThat(result).allMatch(c -> "Cancellation".equals(c.getCategory()));
     }
 
     @Test
@@ -158,19 +159,19 @@ class MessageFunctionCodeRepositoryTest extends PostgresTestContainer {
     }
 
     @Test
-    @DisplayName("findTransactionControl: should find transaction control functions")
+    @DisplayName("findTransactionControl: should find cancellation functions")
     void findTransactionControl_shouldFindTransactionControl() {
         List<MessageFunctionCode> result = repository.findTransactionControl();
         assertThat(result).isNotEmpty();
-        assertThat(result).allMatch(c -> "Transaction Control".equals(c.getCategory()));
+        assertThat(result).allMatch(c -> "Cancellation".equals(c.getCategory()));
     }
 
     @Test
-    @DisplayName("findMessageStatus: should find message status functions")
+    @DisplayName("findMessageStatus: should find status functions")
     void findMessageStatus_shouldFindMessageStatus() {
         List<MessageFunctionCode> result = repository.findMessageStatus();
         assertThat(result).isNotEmpty();
-        assertThat(result).allMatch(c -> "Message Status".equals(c.getCategory()));
+        assertThat(result).allMatch(c -> "Status".equals(c.getCategory()) || "Processing Status".equals(c.getCategory()));
     }
 
     // === Function Type Tests ===

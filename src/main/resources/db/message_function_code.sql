@@ -185,7 +185,7 @@ BEGIN
     FROM message_function_code
     WHERE code = function_code;
 
-    RETURN COALESCE(is_mod, false);;
+    RETURN COALESCE(is_mod, false);
 END;
 $$ LANGUAGE plpgsql;;
 
@@ -201,7 +201,7 @@ BEGIN
     FROM message_function_code
     WHERE code = function_code;
 
-    RETURN COALESCE(is_orig, false);;
+    RETURN COALESCE(is_orig, false);
 END;
 $$ LANGUAGE plpgsql;;
 
