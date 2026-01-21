@@ -40,6 +40,7 @@ class FreightCostCodeRepositoryTest extends PostgresTestContainer {
     static void setUpSchema(@Autowired DataSource dataSource) {
         if (!schemaInitialized) {
             DatabaseInitializer.initializeSchema(dataSource, "freight_cost_code");
+            DatabaseInitializer.loadTestData(dataSource, "freight_cost_code");
             schemaInitialized = true;
         }
     }
