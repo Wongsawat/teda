@@ -127,7 +127,7 @@ BEGIN
     FROM payment_terms_description_identifier
     WHERE code = terms_code;
 
-    RETURN COALESCE(draft_required, false);;
+    RETURN COALESCE(draft_required, false);
 END;
 $$ LANGUAGE plpgsql;;
 
