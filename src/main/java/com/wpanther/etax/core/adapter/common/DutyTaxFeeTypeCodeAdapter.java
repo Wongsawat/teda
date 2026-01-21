@@ -47,6 +47,9 @@ public class DutyTaxFeeTypeCodeAdapter extends XmlAdapter<String, DutyTaxFeeType
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling DutyTaxFeeTypeCode: {} ({}) -> {}",
                   entity.getName(), entity.getCategory(), code);
         return code;

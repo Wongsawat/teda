@@ -44,6 +44,9 @@ public class ThaiCategoryCodeAdapter extends XmlAdapter<String, ThaiCategoryCode
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling ThaiCategoryCode: {} -> {}", entity.getNameEn(), code);
         return code;
     }

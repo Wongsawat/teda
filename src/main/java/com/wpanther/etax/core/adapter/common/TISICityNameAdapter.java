@@ -43,6 +43,9 @@ public class TISICityNameAdapter extends XmlAdapter<String, TISICityName> {
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling TISICityName: {} -> {}", entity.getNameTh(), code);
         return code;
     }

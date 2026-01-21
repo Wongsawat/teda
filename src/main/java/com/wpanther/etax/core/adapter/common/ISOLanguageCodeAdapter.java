@@ -48,6 +48,9 @@ public class ISOLanguageCodeAdapter extends XmlAdapter<String, ISOLanguageCode> 
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling ISOLanguageCode: {} -> {}", entity.getName(), code);
         return code;
     }
@@ -65,17 +68,18 @@ public class ISOLanguageCodeAdapter extends XmlAdapter<String, ISOLanguageCode> 
         }
 
         String trimmedCode = code.trim();
+        String normalizedCode = trimmedCode.toUpperCase();
 
         if (repository == null) {
-            log.warn("Repository not initialized, creating placeholder for code: {}", trimmedCode);
-            return createPlaceholder(trimmedCode);
+            log.warn("Repository not initialized, creating placeholder for code: {}", normalizedCode);
+            return createPlaceholder(normalizedCode);
         }
 
-        // Case-insensitive lookup (handles both 'th' and 'TH')
-        return repository.findByCode(trimmedCode)
+        // Normalize to uppercase for lookup (supports both 'th' and 'TH')
+        return repository.findByCode(normalizedCode)
                 .orElseGet(() -> {
                     log.warn("Language code '{}' not found in database, creating placeholder", trimmedCode);
-                    return createPlaceholder(trimmedCode);
+                    return createPlaceholder(normalizedCode);
                 });
     }
 
@@ -100,7 +104,7 @@ public class ISOLanguageCodeAdapter extends XmlAdapter<String, ISOLanguageCode> 
         if (repository == null || code == null || code.trim().isEmpty()) {
             return false;
         }
-        return repository.existsByCode(code.trim());
+        return repository.existsByCode(code.trim().toUpperCase());
     }
 
     /**
@@ -113,22 +117,22 @@ public class ISOLanguageCodeAdapter extends XmlAdapter<String, ISOLanguageCode> 
         if (repository == null || code == null || code.trim().isEmpty()) {
             return null;
         }
-        return repository.findByCode(code.trim())
+        return repository.findByCode(code.trim().toUpperCase())
                 .map(ISOLanguageCode::getName)
                 .orElse(null);
     }
 
     /**
-     * Normalize language code to lowercase standard format
+     * Normalize language code to uppercase standard format (ISO 639-1)
      *
      * @param code The language code (any case)
-     * @return Lowercase code, or null if input is null
+     * @return Uppercase code, or null if input is null
      */
     public static String normalize(String code) {
         if (code == null || code.trim().isEmpty()) {
             return null;
         }
-        return code.trim().toLowerCase();
+        return code.trim().toUpperCase();
     }
 
     /**
@@ -181,7 +185,7 @@ public class ISOLanguageCodeAdapter extends XmlAdapter<String, ISOLanguageCode> 
         if (repository == null || code == null || code.trim().isEmpty()) {
             return false;
         }
-        return repository.findByCode(code.trim())
+        return repository.findByCode(code.trim().toUpperCase())
                 .map(ISOLanguageCode::isASEANLanguage)
                 .orElse(false);
     }
@@ -196,7 +200,7 @@ public class ISOLanguageCodeAdapter extends XmlAdapter<String, ISOLanguageCode> 
         if (repository == null || code == null || code.trim().isEmpty()) {
             return false;
         }
-        return repository.findByCode(code.trim())
+        return repository.findByCode(code.trim().toUpperCase())
                 .map(ISOLanguageCode::isMajorTradingLanguage)
                 .orElse(false);
     }

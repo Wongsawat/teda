@@ -47,6 +47,9 @@ public class FreightCostCodeAdapter extends XmlAdapter<String, FreightCostCode> 
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling FreightCostCode: {} ({}) -> {}",
                   entity.getName(), entity.getCategory(), code);
         return code;

@@ -43,6 +43,9 @@ public class ThaiProvinceCodeAdapter extends XmlAdapter<String, ThaiProvinceCode
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling ThaiProvinceCode: {} ({}) -> {}", entity.getNameTh(), entity.getNameEn(), code);
         return code;
     }

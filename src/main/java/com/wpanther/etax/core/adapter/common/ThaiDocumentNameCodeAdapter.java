@@ -43,6 +43,9 @@ public class ThaiDocumentNameCodeAdapter extends XmlAdapter<String, ThaiDocument
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling ThaiDocumentNameCode: {} ({}) -> {}",
                 entity.getNameEn(), entity.getNameTh(), code);
         return code;

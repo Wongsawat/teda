@@ -44,6 +44,9 @@ public class TISISubdistrictAdapter extends XmlAdapter<String, TISISubdistrict> 
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling TISISubdistrict: {} -> {}", entity.getNameTh(), code);
         return code;
     }

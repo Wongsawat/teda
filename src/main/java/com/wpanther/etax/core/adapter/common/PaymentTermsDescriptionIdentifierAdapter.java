@@ -47,6 +47,9 @@ public class PaymentTermsDescriptionIdentifierAdapter extends XmlAdapter<String,
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling PaymentTermsDescriptionIdentifier: {} -> {}", entity.getName(), code);
         return code;
     }

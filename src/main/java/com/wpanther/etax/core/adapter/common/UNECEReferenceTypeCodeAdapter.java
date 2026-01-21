@@ -44,6 +44,9 @@ public class UNECEReferenceTypeCodeAdapter extends XmlAdapter<String, UNECERefer
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling UNECEReferenceTypeCode: {} -> {}", entity.getName(), code);
         return code;
     }

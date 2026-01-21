@@ -47,6 +47,9 @@ public class MessageFunctionCodeAdapter extends XmlAdapter<String, MessageFuncti
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling MessageFunctionCode: {} ({}) -> {}",
                   entity.getName(), entity.getCategory(), code);
         return code;

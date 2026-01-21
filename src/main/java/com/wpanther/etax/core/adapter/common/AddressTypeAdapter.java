@@ -47,6 +47,9 @@ public class AddressTypeAdapter extends XmlAdapter<String, AddressType> {
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling AddressType: {} -> {}", entity.getName(), code);
         return code;
     }

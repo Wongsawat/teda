@@ -47,6 +47,9 @@ public class PaymentTermsTypeCodeAdapter extends XmlAdapter<String, PaymentTerms
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling PaymentTermsTypeCode: {} ({}) -> {}",
                   entity.getName(), entity.getCategory(), code);
         return code;

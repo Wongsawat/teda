@@ -42,6 +42,9 @@ public class ThaiMessageFunctionCodeAdapter extends XmlAdapter<String, ThaiMessa
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling ThaiMessageFunctionCode: {} ({}) -> {}",
                 entity.getDescriptionEn(), entity.getDescriptionTh(), code);
         return code;

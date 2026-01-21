@@ -47,6 +47,9 @@ public class AllowanceChargeReasonCodeAdapter extends XmlAdapter<String, Allowan
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling AllowanceChargeReasonCode: {} ({}) -> {}",
                   entity.getName(), entity.getCategory(), code);
         return code;

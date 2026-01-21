@@ -47,6 +47,9 @@ public class DeliveryTermsCodeAdapter extends XmlAdapter<String, DeliveryTermsCo
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling DeliveryTermsCode: {} (Group: {}, Obligation: {}) -> {}",
                   entity.getName(), entity.getIncotermGroup(), entity.getSellerObligation(), code);
         return code;

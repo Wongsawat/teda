@@ -47,6 +47,9 @@ public class AllowanceChargeIdentificationCodeAdapter extends XmlAdapter<String,
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling AllowanceChargeIdentificationCode: {} ({}) -> {}",
                   entity.getName(), entity.getCategory(), code);
         return code;

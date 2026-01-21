@@ -40,6 +40,9 @@ public class UNECEDocumentNameCodeInvoiceAdapter extends XmlAdapter<String, UNEC
             return null;
         }
         String code = entity.getCode();
+        if (code == null || code.trim().isEmpty()) {
+            return null;
+        }
         log.debug("Marshalling DocumentNameCodeInvoice: {} -> {}", entity.getName(), code);
         return code;
     }
