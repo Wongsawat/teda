@@ -65,51 +65,42 @@ public class ISOLanguageCode {
     }
 
     public ISOLanguageCode(String code) {
-        this.code = normalizeCode(code);
+        this.code = code != null ? code.trim() : null;
     }
 
     public ISOLanguageCode(String code, String name) {
-        this.code = normalizeCode(code);
+        this.code = code != null ? code.trim() : null;
         this.name = name;
     }
 
-    // Code Normalization (lowercase is standard)
-    private String normalizeCode(String code) {
-        if (code == null) {
-            return null;
-        }
-        // Language codes are stored in lowercase
-        return code.trim().toLowerCase();
-    }
-
-    // Business Logic Methods
+    // Business Logic Methods (case-insensitive)
 
     /**
-     * Check if this is Thai language (th)
+     * Check if this is Thai language (th/TH)
      */
     public boolean isThai() {
-        return "th".equals(code);
+        return "th".equalsIgnoreCase(code);
     }
 
     /**
-     * Check if this is English language (en)
+     * Check if this is English language (en/EN)
      */
     public boolean isEnglish() {
-        return "en".equals(code);
+        return "en".equalsIgnoreCase(code);
     }
 
     /**
-     * Check if this is Chinese language (zh)
+     * Check if this is Chinese language (zh/ZH)
      */
     public boolean isChinese() {
-        return "zh".equals(code);
+        return "zh".equalsIgnoreCase(code);
     }
 
     /**
-     * Check if this is Japanese language (ja)
+     * Check if this is Japanese language (ja/JA)
      */
     public boolean isJapanese() {
-        return "ja".equals(code);
+        return "ja".equalsIgnoreCase(code);
     }
 
     /**
@@ -117,9 +108,10 @@ public class ISOLanguageCode {
      * (th, en, ms, id, vi, my, km, lo, tl)
      */
     public boolean isASEANLanguage() {
-        return "th".equals(code) || "en".equals(code) || "ms".equals(code) ||
-               "id".equals(code) || "vi".equals(code) || "my".equals(code) ||
-               "km".equals(code) || "lo".equals(code) || "tl".equals(code);
+        String lowerCode = code != null ? code.toLowerCase() : null;
+        return "th".equals(lowerCode) || "en".equals(lowerCode) || "ms".equals(lowerCode) ||
+               "id".equals(lowerCode) || "vi".equals(lowerCode) || "my".equals(lowerCode) ||
+               "km".equals(lowerCode) || "lo".equals(lowerCode) || "tl".equals(lowerCode);
     }
 
     /**
@@ -127,10 +119,11 @@ public class ISOLanguageCode {
      * (en, th, zh, ja, ko, de, fr, es, ar, ru)
      */
     public boolean isMajorTradingLanguage() {
-        return "en".equals(code) || "th".equals(code) || "zh".equals(code) ||
-               "ja".equals(code) || "ko".equals(code) || "de".equals(code) ||
-               "fr".equals(code) || "es".equals(code) || "ar".equals(code) ||
-               "ru".equals(code);
+        String lowerCode = code != null ? code.toLowerCase() : null;
+        return "en".equals(lowerCode) || "th".equals(lowerCode) || "zh".equals(lowerCode) ||
+               "ja".equals(lowerCode) || "ko".equals(lowerCode) || "de".equals(lowerCode) ||
+               "fr".equals(lowerCode) || "es".equals(lowerCode) || "ar".equals(lowerCode) ||
+               "ru".equals(lowerCode);
     }
 
     // Getters and Setters
@@ -139,7 +132,7 @@ public class ISOLanguageCode {
     }
 
     public void setCode(String code) {
-        this.code = normalizeCode(code);
+        this.code = code != null ? code.trim() : null;
     }
 
     public String getName() {
