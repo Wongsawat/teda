@@ -125,6 +125,62 @@ class MessageFunctionCodeTypeTest {
         assertThat(type.isReplacement()).isFalse();
     }
 
+    @Test
+    @DisplayName("getCategory() should return null when value is null")
+    void testGetCategoryWithNullValue() {
+        MessageFunctionCodeType type = new MessageFunctionCodeType();
+
+        assertThat(type.getCategory()).isNull();
+    }
+
+    @Test
+    @DisplayName("isAcceptance() should return false when value is null")
+    void testIsAcceptanceWithNullValue() {
+        MessageFunctionCodeType type = new MessageFunctionCodeType();
+
+        assertThat(type.isAcceptance()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCancellation() should return false when value is null")
+    void testIsCancellationWithNullValue() {
+        MessageFunctionCodeType type = new MessageFunctionCodeType();
+
+        assertThat(type.isCancellation()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isChange() should return false when value is null")
+    void testIsChangeWithNullValue() {
+        MessageFunctionCodeType type = new MessageFunctionCodeType();
+
+        assertThat(type.isChange()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isConfirmation() should return false when value is null")
+    void testIsConfirmationWithNullValue() {
+        MessageFunctionCodeType type = new MessageFunctionCodeType();
+
+        assertThat(type.isConfirmation()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isFinancialReversal() should return false when value is null")
+    void testIsFinancialReversalWithNullValue() {
+        MessageFunctionCodeType type = new MessageFunctionCodeType();
+
+        assertThat(type.isFinancialReversal()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isSchedule() should return false when value is null")
+    void testIsScheduleWithNullValue() {
+        MessageFunctionCodeType type = new MessageFunctionCodeType();
+
+        assertThat(type.isSchedule()).isFalse();
+    }
+
     // Business logic method tests with valid entity
 
     @Test
@@ -156,6 +212,76 @@ class MessageFunctionCodeTypeTest {
         MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
 
         assertThat(type.isReplacement()).isTrue();
+    }
+
+    @Test
+    @DisplayName("getCategory() should return category when value exists")
+    void testGetCategoryWithValue() {
+        MessageFunctionCode entity = new MessageFunctionCode("9");
+        entity.setCategory("Transaction Control");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.getCategory()).isEqualTo("Transaction Control");
+    }
+
+    @Test
+    @DisplayName("isAcceptance() should return true when isAcceptance is true")
+    void testIsAcceptanceTrue() {
+        MessageFunctionCode entity = new MessageFunctionCode("31");
+        entity.setIsAcceptance(true);
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isAcceptance()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCancellation() should return true for code 1")
+    void testIsCancellationTrue() {
+        MessageFunctionCode entity = new MessageFunctionCode("1");
+        entity.setName("Cancellation");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isCancellation()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isChange() should return true for code 4")
+    void testIsChangeTrue() {
+        MessageFunctionCode entity = new MessageFunctionCode("4");
+        entity.setName("Change");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isChange()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isConfirmation() should return true for code 6")
+    void testIsConfirmationTrue() {
+        MessageFunctionCode entity = new MessageFunctionCode("6");
+        entity.setName("Confirmation");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isConfirmation()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isFinancialReversal() should return true for code 37")
+    void testIsFinancialReversalTrue() {
+        MessageFunctionCode entity = new MessageFunctionCode("37");
+        entity.setName("Credit reversal");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isFinancialReversal()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isSchedule() should return true for code 24")
+    void testIsScheduleTrue() {
+        MessageFunctionCode entity = new MessageFunctionCode("24");
+        entity.setName("Schedule");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isSchedule()).isTrue();
     }
 
     // Getter/Setter tests

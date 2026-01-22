@@ -317,4 +317,258 @@ class AllowanceChargeReasonCodeTypeTest {
 
         assertThat(str).contains("Discount");
     }
+
+    // Business logic method tests - true paths
+
+    @Test
+    @DisplayName("isQualityIssue() should return true for Quality Issue category")
+    void testIsQualityIssueTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("41");
+        entity.setName("Goods damaged");
+        entity.setCategory("Quality Issue");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isQualityIssue()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isDeliveryIssue() should return true for Delivery Issue category")
+    void testIsDeliveryIssueTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("65");
+        entity.setName("Short delivery");
+        entity.setCategory("Delivery Issue");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isDeliveryIssue()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isAdministrativeError() should return true for Administrative Error category")
+    void testIsAdministrativeErrorTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("70");
+        entity.setName("Invoice error");
+        entity.setCategory("Administrative Error");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isAdministrativeError()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isDiscountOrAllowance() should return true for Discount/Allowance category")
+    void testIsDiscountOrAllowanceTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setName("Bonus for works ahead of schedule");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isDiscountOrAllowance()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isFinancialCharge() should return true for Financial Charges category")
+    void testIsFinancialChargeTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("28");
+        entity.setName("Bank charges");
+        entity.setCategory("Financial Charges");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isFinancialCharge()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isClaimOrDispute() should return true for Claims/Disputes category")
+    void testIsClaimOrDisputeTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("53");
+        entity.setName("Counter claim");
+        entity.setCategory("Claims/Disputes");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isClaimOrDispute()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isFreightOrLogistics() should return true for Freight/Logistics category")
+    void testIsFreightOrLogisticsTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("19");
+        entity.setName("Container charges");
+        entity.setCategory("Freight/Logistics");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isFreightOrLogistics()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isPaymentTerms() should return true for Payment Terms category")
+    void testIsPaymentTermsTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("61");
+        entity.setName("Agreed settlement");
+        entity.setCategory("Payment Terms");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isPaymentTerms()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isHRRelated() should return true for HR Related category")
+    void testIsHRRelatedTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("95");
+        entity.setName("Employee changes");
+        entity.setCategory("HR Related");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isHRRelated()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isMutuallyDefined() should return true for code ZZZ")
+    void testIsMutuallyDefinedTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("ZZZ");
+        entity.setName("Mutually defined");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isMutuallyDefined()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCustomOrOther() should return true for Custom/Other category")
+    void testIsCustomOrOtherTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("98");
+        entity.setName("Other reasons");
+        entity.setCategory("Custom/Other");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isCustomOrOther()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCustomOrOther() should return true for Other category")
+    void testIsOtherTrue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("99");
+        entity.setName("Miscellaneous");
+        entity.setCategory("Other");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isCustomOrOther()).isTrue();
+    }
+
+    // Business logic method tests - false paths
+
+    @Test
+    @DisplayName("isQualityIssue() should return false for different category")
+    void testIsQualityIssueFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isQualityIssue()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isDeliveryIssue() should return false for different category")
+    void testIsDeliveryIssueFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isDeliveryIssue()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isAdministrativeError() should return false for different category")
+    void testIsAdministrativeErrorFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isAdministrativeError()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isDiscountOrAllowance() should return false for different category")
+    void testIsDiscountOrAllowanceFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("41");
+        entity.setCategory("Quality Issue");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isDiscountOrAllowance()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isFinancialCharge() should return false for different category")
+    void testIsFinancialChargeFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isFinancialCharge()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isClaimOrDispute() should return false for different category")
+    void testIsClaimOrDisputeFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isClaimOrDispute()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isFreightOrLogistics() should return false for different category")
+    void testIsFreightOrLogisticsFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isFreightOrLogistics()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isPaymentTerms() should return false for different category")
+    void testIsPaymentTermsFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isPaymentTerms()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isHRRelated() should return false for different category")
+    void testIsHRRelatedFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isHRRelated()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isMutuallyDefined() should return false for non-ZZZ code")
+    void testIsMutuallyDefinedFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isMutuallyDefined()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCustomOrOther() should return false for different category")
+    void testIsCustomOrOtherFalse() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setCategory("Discount/Allowance");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.isCustomOrOther()).isFalse();
+    }
+
+    @Test
+    @DisplayName("getDescription() should return description when value exists")
+    void testGetDescriptionWithValue() {
+        AllowanceChargeReasonCode entity = new AllowanceChargeReasonCode("1");
+        entity.setDescription("Bonus for early completion");
+        AllowanceChargeReasonCodeType type = new AllowanceChargeReasonCodeType(entity);
+
+        assertThat(type.getDescription()).isEqualTo("Bonus for early completion");
+    }
 }

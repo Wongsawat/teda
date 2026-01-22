@@ -321,4 +321,99 @@ class ISOCurrencyCodeTypeTest {
 
         assertThat(str).contains("0 decimals");
     }
+
+    // Business logic method tests - true paths
+
+    @Test
+    @DisplayName("isThaiBaht() should return true for THB")
+    void testIsThaiBahtTrue() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("THB", "Baht");
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.isThaiBaht()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isUSDollar() should return true for USD")
+    void testIsUSDollarTrue() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("USD", "US Dollar");
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.isUSDollar()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isEuro() should return true for EUR")
+    void testIsEuroTrue() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("EUR", "Euro");
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.isEuro()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isMajorCurrency() should return true for major currency")
+    void testIsMajorCurrencyTrue() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("USD", "US Dollar");
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.isMajorCurrency()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isMajorCurrency() should return false for non-major currency")
+    void testIsMajorCurrencyFalse() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("XXX", "No Currency");
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.isMajorCurrency()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isASEANCurrency() should return true for THB")
+    void testIsASEANCurrencyTrue() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("THB", "Baht");
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.isASEANCurrency()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isASEANCurrency() should return false for non-ASEAN currency")
+    void testIsASEANCurrencyFalse() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("USD", "US Dollar");
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.isASEANCurrency()).isFalse();
+    }
+
+    @Test
+    @DisplayName("hasNoDecimalPlaces() should return true for JPY")
+    void testHasNoDecimalPlacesTrue() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("JPY", "Yen");
+        entity.setMinorUnits(0);
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.hasNoDecimalPlaces()).isTrue();
+    }
+
+    @Test
+    @DisplayName("hasThreeDecimalPlaces() should return true for BHD")
+    void testHasThreeDecimalPlacesTrue() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("BHD", "Bahraini Dinar");
+        entity.setMinorUnits(3);
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.hasThreeDecimalPlaces()).isTrue();
+    }
+
+    @Test
+    @DisplayName("getNumericCode() should return numeric code when present")
+    void testGetNumericCodeWithValue() {
+        ISOCurrencyCode entity = new ISOCurrencyCode("THB", "Baht");
+        entity.setNumericCode("764");
+        ISOCurrencyCodeType type = new ISOCurrencyCodeType(entity);
+
+        assertThat(type.getNumericCode()).isEqualTo("764");
+    }
 }

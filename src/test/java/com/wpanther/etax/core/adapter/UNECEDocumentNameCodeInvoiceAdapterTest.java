@@ -107,4 +107,136 @@ public class UNECEDocumentNameCodeInvoiceAdapterTest {
         assertTrue(UNECEDocumentNameCodeInvoiceAdapter.isCreditNote("381"));
         assertFalse(UNECEDocumentNameCodeInvoiceAdapter.isDebitNote("381"));
     }
+
+    // Unmarshal null/empty tests
+
+    @Test
+    public void testUnmarshalNull() throws Exception {
+        UNECEDocumentNameCodeInvoice result = adapter.unmarshal(null);
+        assertNull(result);
+    }
+
+    @Test
+    public void testUnmarshalEmpty() throws Exception {
+        UNECEDocumentNameCodeInvoice result = adapter.unmarshal("");
+        assertNull(result);
+    }
+
+    @Test
+    public void testUnmarshalWhitespace() throws Exception {
+        UNECEDocumentNameCodeInvoice result = adapter.unmarshal("   ");
+        assertNull(result);
+    }
+
+    // Marshal with empty/null code
+
+    @Test
+    public void testMarshalEmptyCode() throws Exception {
+        UNECEDocumentNameCodeInvoice entity = new UNECEDocumentNameCodeInvoice("");
+        String result = adapter.marshal(entity);
+        assertNull(result);
+    }
+
+    @Test
+    public void testMarshalNullCode() throws Exception {
+        UNECEDocumentNameCodeInvoice entity = new UNECEDocumentNameCodeInvoice();
+        String result = adapter.marshal(entity);
+        assertNull(result);
+    }
+
+    // getDocumentDescription tests
+
+    @Test
+    public void testGetDocumentDescription() {
+        commercialInvoice.setDescription("A document claiming payment");
+        when(repository.findByCode("380")).thenReturn(Optional.of(commercialInvoice));
+
+        String description = UNECEDocumentNameCodeInvoiceAdapter.getDocumentDescription("380");
+        assertEquals("A document claiming payment", description);
+    }
+
+    @Test
+    public void testGetDocumentDescriptionWithNullCode() {
+        String description = UNECEDocumentNameCodeInvoiceAdapter.getDocumentDescription(null);
+        assertNull(description);
+    }
+
+    @Test
+    public void testGetDocumentDescriptionNotFound() {
+        when(repository.findByCode("999")).thenReturn(Optional.empty());
+        String description = UNECEDocumentNameCodeInvoiceAdapter.getDocumentDescription("999");
+        assertNull(description);
+    }
+
+    // isDebitNote tests
+
+    @Test
+    public void testIsDebitNoteTrue() {
+        UNECEDocumentNameCodeInvoice debitNote = new UNECEDocumentNameCodeInvoice("383");
+        debitNote.setName("Debit note");
+        debitNote.setIsDebit(true);
+        when(repository.findByCode("383")).thenReturn(Optional.of(debitNote));
+
+        assertTrue(UNECEDocumentNameCodeInvoiceAdapter.isDebitNote("383"));
+    }
+
+    @Test
+    public void testIsDebitNoteFalse() {
+        when(repository.findByCode("380")).thenReturn(Optional.of(commercialInvoice));
+        assertFalse(UNECEDocumentNameCodeInvoiceAdapter.isDebitNote("380"));
+    }
+
+    @Test
+    public void testIsDebitNoteWithNullCode() {
+        assertFalse(UNECEDocumentNameCodeInvoiceAdapter.isDebitNote(null));
+    }
+
+    // requiresPayment tests
+
+    @Test
+    public void testRequiresPaymentTrue() {
+        when(repository.findByCode("380")).thenReturn(Optional.of(commercialInvoice));
+        assertTrue(UNECEDocumentNameCodeInvoiceAdapter.requiresPayment("380"));
+    }
+
+    @Test
+    public void testRequiresPaymentFalse() {
+        UNECEDocumentNameCodeInvoice creditNote = new UNECEDocumentNameCodeInvoice("381");
+        creditNote.setRequiresPayment(false);
+        when(repository.findByCode("381")).thenReturn(Optional.of(creditNote));
+
+        assertFalse(UNECEDocumentNameCodeInvoiceAdapter.requiresPayment("381"));
+    }
+
+    @Test
+    public void testRequiresPaymentWithNullCode() {
+        assertTrue(UNECEDocumentNameCodeInvoiceAdapter.requiresPayment(null));
+    }
+
+    // getDocumentName with null code
+
+    @Test
+    public void testGetDocumentNameWithNullCode() {
+        String name = UNECEDocumentNameCodeInvoiceAdapter.getDocumentName(null);
+        assertNull(name);
+    }
+
+    @Test
+    public void testGetDocumentNameNotFound() {
+        when(repository.findByCode("999")).thenReturn(Optional.empty());
+        String name = UNECEDocumentNameCodeInvoiceAdapter.getDocumentName("999");
+        assertNull(name);
+    }
+
+    // isValid with null code
+
+    @Test
+    public void testIsValidWithNullCode() {
+        assertFalse(UNECEDocumentNameCodeInvoiceAdapter.isValid(null));
+    }
+
+    @Test
+    public void testIsValidWithEmptyCode() {
+        assertFalse(UNECEDocumentNameCodeInvoiceAdapter.isValid(""));
+    }
 }

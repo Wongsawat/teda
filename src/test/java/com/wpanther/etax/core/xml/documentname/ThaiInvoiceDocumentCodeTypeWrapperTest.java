@@ -365,4 +365,140 @@ class ThaiInvoiceDocumentCodeTypeWrapperTest {
 
         assertThat(type.toString()).isEqualTo("null");
     }
+
+    // Additional business logic method tests
+
+    @Test
+    @DisplayName("isStandardCode() should return true when standardCode is true")
+    void testIsStandardCodeTrue() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80");
+        entity.setNameEn("Debit Note");
+        entity.setStandardCode(true);
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
+
+        assertThat(type.isStandardCode()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isStandardCode() should return false when standardCode is false")
+    void testIsStandardCodeFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T01");
+        entity.setNameEn("Receipt");
+        entity.setStandardCode(false);
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
+
+        assertThat(type.isStandardCode()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isThaiExtension() should return true when thaiExtension is true")
+    void testIsThaiExtensionTrue() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T01");
+        entity.setNameEn("Receipt");
+        entity.setThaiExtension(true);
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
+
+        assertThat(type.isThaiExtension()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isThaiExtension() should return false when thaiExtension is false")
+    void testIsThaiExtensionFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80");
+        entity.setNameEn("Debit Note");
+        entity.setThaiExtension(false);
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
+
+        assertThat(type.isThaiExtension()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCommercialInvoice() should return true for code 380")
+    void testIsCommercialInvoiceTrue() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("380");
+        entity.setNameEn("Commercial Invoice");
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
+
+        assertThat(type.isCommercialInvoice()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCommercialInvoice() should return false for other code")
+    void testIsCommercialInvoiceFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388");
+        entity.setNameEn("Tax Invoice");
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper(entity);
+
+        assertThat(type.isCommercialInvoice()).isFalse();
+    }
+
+    // Attribute getter/setter tests
+
+    @Test
+    @DisplayName("getListID() should return null when not set")
+    void testGetListIDNotSet() {
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper();
+
+        assertThat(type.getListID()).isNull();
+    }
+
+    @Test
+    @DisplayName("setListID() should set the list ID")
+    void testSetListID() {
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper();
+        type.setListID(" ThaiDocumentNameCode_Invoice");
+
+        assertThat(type.getListID()).isEqualTo(" ThaiDocumentNameCode_Invoice");
+    }
+
+    @Test
+    @DisplayName("getListAgencyID() should return null when not set")
+    void testGetListAgencyIDNotSet() {
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper();
+
+        assertThat(type.getListAgencyID()).isNull();
+    }
+
+    @Test
+    @DisplayName("setListAgencyID() should set the list agency ID")
+    void testSetListAgencyID() {
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper();
+        type.setListAgencyID("ETDA");
+
+        assertThat(type.getListAgencyID()).isEqualTo("ETDA");
+    }
+
+    @Test
+    @DisplayName("getListVersionID() should return null when not set")
+    void testGetListVersionIDNotSet() {
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper();
+
+        assertThat(type.getListVersionID()).isNull();
+    }
+
+    @Test
+    @DisplayName("setListVersionID() should set the list version ID")
+    void testSetListVersionID() {
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper();
+        type.setListVersionID("1.0");
+
+        assertThat(type.getListVersionID()).isEqualTo("1.0");
+    }
+
+    @Test
+    @DisplayName("getListURI() should return null when not set")
+    void testGetListURINotSet() {
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper();
+
+        assertThat(type.getListURI()).isNull();
+    }
+
+    @Test
+    @DisplayName("setListURI() should set the list URI")
+    void testSetListURI() {
+        ThaiInvoiceDocumentCodeTypeWrapper type = new ThaiInvoiceDocumentCodeTypeWrapper();
+        type.setListURI("urn:etda:uncefact:codelist:standard:ThaiDocumentNameCode_Invoice:1");
+
+        assertThat(type.getListURI()).isEqualTo("urn:etda:uncefact:codelist:standard:ThaiDocumentNameCode_Invoice:1");
+    }
 }

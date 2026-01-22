@@ -290,4 +290,194 @@ class DeliveryTermsCodeTypeTest {
 
         assertThat(type.toString()).isEqualTo("null");
     }
+
+    // Business logic method tests - true paths
+
+    @Test
+    @DisplayName("isIncoterm() should return true when isIncoterm is true")
+    void testIsIncotermTrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("EXW");
+        entity.setIncoterm(true);
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.isIncoterm()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isGroupE() should return true for Group E")
+    void testIsGroupETrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("EXW");
+        entity.setIncotermGroup("E");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.isGroupE()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isGroupF() should return true for Group F")
+    void testIsGroupFTrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("FOB");
+        entity.setIncotermGroup("F");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.isGroupF()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isGroupC() should return true for Group C")
+    void testIsGroupCTrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("CIF");
+        entity.setIncotermGroup("C");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.isGroupC()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isGroupD() should return true for Group D")
+    void testIsGroupDTrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("DDP");
+        entity.setIncotermGroup("D");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.isGroupD()).isTrue();
+    }
+
+    @Test
+    @DisplayName("hasMinimumSellerObligation() should return true for Minimum")
+    void testHasMinimumSellerObligationTrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("EXW");
+        entity.setSellerObligation("Minimum");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.hasMinimumSellerObligation()).isTrue();
+    }
+
+    @Test
+    @DisplayName("hasLowSellerObligation() should return true for Low")
+    void testHasLowSellerObligationTrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("FOB");
+        entity.setSellerObligation("Low");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.hasLowSellerObligation()).isTrue();
+    }
+
+    @Test
+    @DisplayName("hasMediumSellerObligation() should return true for Medium")
+    void testHasMediumSellerObligationTrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("CIF");
+        entity.setSellerObligation("Medium");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.hasMediumSellerObligation()).isTrue();
+    }
+
+    @Test
+    @DisplayName("hasHighSellerObligation() should return true for High")
+    void testHasHighSellerObligationTrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("DAP");
+        entity.setSellerObligation("High");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.hasHighSellerObligation()).isTrue();
+    }
+
+    @Test
+    @DisplayName("hasMaximumSellerObligation() should return true for Maximum")
+    void testHasMaximumSellerObligationTrue() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("DDP");
+        entity.setSellerObligation("Maximum");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.hasMaximumSellerObligation()).isTrue();
+    }
+
+    @Test
+    @DisplayName("includesInsurance() should return true for CIF")
+    void testIncludesInsuranceCIF() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("CIF");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.includesInsurance()).isTrue();
+    }
+
+    @Test
+    @DisplayName("includesInsurance() should return true for CIP")
+    void testIncludesInsuranceCIP() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("CIP");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.includesInsurance()).isTrue();
+    }
+
+    @Test
+    @DisplayName("includesFreight() should return true for CIF")
+    void testIncludesFreightCIF() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("CIF");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.includesFreight()).isTrue();
+    }
+
+    @Test
+    @DisplayName("includesFreight() should return true for CFR")
+    void testIncludesFreightCFR() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("CFR");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.includesFreight()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isSeaTransportOnly() should return true for FOB")
+    void testIsSeaTransportOnlyFOB() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("FOB");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.isSeaTransportOnly()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isSeaTransportOnly() should return true for CIF")
+    void testIsSeaTransportOnlyCIF() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("CIF");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.isSeaTransportOnly()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isAnyTransportMode() should return true for EXW")
+    void testIsAnyTransportModeEXW() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("EXW");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.isAnyTransportMode()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isAnyTransportMode() should return true for DDP")
+    void testIsAnyTransportModeDDP() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("DDP");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        assertThat(type.isAnyTransportMode()).isTrue();
+    }
+
+    // toString with incoterm group
+
+    @Test
+    @DisplayName("toString() should include group when present")
+    void testToStringWithGroup() {
+        DeliveryTermsCode entity = new DeliveryTermsCode("EXW", "Ex Works");
+        entity.setIncotermGroup("E");
+        DeliveryTermsCodeType type = new DeliveryTermsCodeType(entity);
+
+        String str = type.toString();
+
+        assertThat(str).contains("EXW");
+        assertThat(str).contains("Ex Works");
+        assertThat(str).contains("[Group E]");
+    }
 }

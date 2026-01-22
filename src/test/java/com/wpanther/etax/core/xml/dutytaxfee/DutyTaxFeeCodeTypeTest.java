@@ -148,6 +148,72 @@ class DutyTaxFeeCodeTypeTest {
         assertThat(type.isVat()).isTrue();
     }
 
+    @Test
+    @DisplayName("isExempt() should return true when isExempt is true")
+    void testIsExemptTrue() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("FRE");
+        entity.setName("Exempt");
+        entity.setExempt(true);
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isExempt()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isSummary() should return true when isSummary is true")
+    void testIsSummaryTrue() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("TOT");
+        entity.setName("Summary");
+        entity.setSummary(true);
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isSummary()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCustomsDuty() should return true for Customs category")
+    void testIsCustomsDutyTrue() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("AAA");
+        entity.setName("Customs duty");
+        entity.setCategory("Customs");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isCustomsDuty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isExciseTax() should return true for Excise category")
+    void testIsExciseTaxTrue() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("EXC");
+        entity.setName("Excise tax");
+        entity.setCategory("Excise");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isExciseTax()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isGST() should return true for GST category")
+    void testIsGSTTrue() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("GST");
+        entity.setName("Goods and Services Tax");
+        entity.setCategory("GST");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isGST()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isSpecialTax() should return true for Special Tax category")
+    void testIsSpecialTaxTrue() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("STX");
+        entity.setName("Special tax");
+        entity.setCategory("Special Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isSpecialTax()).isTrue();
+    }
+
     // Getter/Setter tests
 
     @Test

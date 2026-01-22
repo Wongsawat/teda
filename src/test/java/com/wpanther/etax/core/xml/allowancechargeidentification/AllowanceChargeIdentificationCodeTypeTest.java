@@ -314,4 +314,209 @@ class AllowanceChargeIdentificationCodeTypeTest {
 
         assertThat(type.toString()).isEqualTo("null");
     }
+
+    // Business logic method tests - true paths
+
+    @Test
+    @DisplayName("isDocumentaryCreditCommission() should return true for Documentary Credit Commission")
+    void testIsDocumentaryCreditCommissionTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("10");
+        entity.setCategory("Documentary Credit Commission");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isDocumentaryCreditCommission()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCollectionCommission() should return true for Collection Commission")
+    void testIsCollectionCommissionTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("20");
+        entity.setCategory("Collection Commission");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isCollectionCommission()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isProcessingFee() should return true for Processing Fee")
+    void testIsProcessingFeeTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("30");
+        entity.setCategory("Processing Fee");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isProcessingFee()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isDiscount() should return true for Discount")
+    void testIsDiscountTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("41");
+        entity.setCategory("Discount");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isDiscount()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isRebate() should return true for Rebate")
+    void testIsRebateTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("42");
+        entity.setCategory("Rebate");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isRebate()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isPenalty() should return true for Penalty")
+    void testIsPenaltyTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("57");
+        entity.setCategory("Penalty");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isPenalty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isBonus() should return true for Bonus")
+    void testIsBonusTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("59");
+        entity.setCategory("Bonus");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isBonus()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isFreightCharges() should return true for Freight Charges")
+    void testIsFreightChargesTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("70");
+        entity.setCategory("Freight Charges");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isFreightCharges()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isPackingCharges() should return true for Packing Charges")
+    void testIsPackingChargesTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("71");
+        entity.setCategory("Packing Charges");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isPackingCharges()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isLoadingCharges() should return true for Loading/Unloading Charges")
+    void testIsLoadingChargesTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("72");
+        entity.setCategory("Loading/Unloading Charges");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isLoadingCharges()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isHandlingCharges() should return true for Handling Charges")
+    void testIsHandlingChargesTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("73");
+        entity.setCategory("Handling Charges");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isHandlingCharges()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isTestingCharges() should return true for Testing/Inspection Charges")
+    void testIsTestingChargesTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("74");
+        entity.setCategory("Testing/Inspection Charges");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isTestingCharges()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isStandardCode() should return true when isStandardCode is true")
+    void testIsStandardCodeTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("1");
+        entity.setIsStandardCode(true);
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isStandardCode()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isThaiExtension() should return true when isThaiExtension is true")
+    void testIsThaiExtensionTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("PP001");
+        entity.setIsThaiExtension(true);
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isThaiExtension()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCommission() should return true for Commission category")
+    void testIsCommissionTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("1");
+        entity.setCategory("Documentary Credit Commission");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isCommission()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCharge() should return true for Charge category")
+    void testIsChargeTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("73");
+        entity.setCategory("Handling Charges");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isCharge()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isAllowance() should return true for Discount category")
+    void testIsAllowanceTrue() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("41");
+        entity.setCategory("Discount");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        assertThat(type.isAllowance()).isTrue();
+    }
+
+    // toString with Thai Extension
+
+    @Test
+    @DisplayName("toString() should include Thai Extension marker")
+    void testToStringWithThaiExtension() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("PP001");
+        entity.setName("Thai specific code");
+        entity.setIsThaiExtension(true);
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        String str = type.toString();
+
+        assertThat(str).contains("PP001");
+        assertThat(str).contains("Thai Extension");
+    }
+
+    // toString with category
+
+    @Test
+    @DisplayName("toString() should include category when present")
+    void testToStringWithCategory() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode("73");
+        entity.setName("Handling charges");
+        entity.setCategory("Handling Charges");
+        AllowanceChargeIdentificationCodeType type = new AllowanceChargeIdentificationCodeType(entity);
+
+        String str = type.toString();
+
+        assertThat(str).contains("73");
+        assertThat(str).contains("Handling charges");
+        assertThat(str).contains("[Handling Charges]");
+    }
 }

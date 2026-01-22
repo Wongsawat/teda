@@ -106,6 +106,15 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
         assertThat(type.getNameEn()).isEqualTo("Tax Invoice");
     }
 
+    @Test
+    @DisplayName("getDescription() should return description when value exists")
+    void testGetDescriptionWithValue() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.getDescription()).isEqualTo("Tax Invoice document");
+    }
+
     // Business logic method tests with null value
 
     @Test
@@ -218,6 +227,136 @@ class ThaiDocumentNameCodeInvoiceTypeTest {
         ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
 
         assertThat(type.isCreditNote()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCommercialInvoice() should return true for code 380")
+    void testIsCommercialInvoiceTrue() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("380", "ใบแจ้งการขายสินค้า", "Commercial Invoice", "Commercial Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isCommercialInvoice()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isTaxInvoice() should return true for code 388")
+    void testIsTaxInvoiceTrue() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isTaxInvoice()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isReceipt() should return true for T01")
+    void testIsReceiptTrue() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T01", "ใบเสร็จรับเงิน", "Receipt", "Receipt document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isReceipt()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isAbbreviatedTaxInvoice() should return true for T05")
+    void testIsAbbreviatedTaxInvoiceTrue() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T05", "ใบกำกับภาษีอย่างย่อ", "Abbreviated Tax Invoice", "Abbreviated Tax Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isAbbreviatedTaxInvoice()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isCancellationNote() should return true for T07")
+    void testIsCancellationNoteTrue() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T07", "ใบแจ้งยกเลิก", "Cancellation Note", "Cancellation Note document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isCancellationNote()).isTrue();
+    }
+
+    // False path tests for business logic methods
+
+    @Test
+    @DisplayName("isStandardCode() should return false when standardCode is false")
+    void testIsStandardCodeFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("T01", "ใบเสร็จรับเงิน", "Receipt", "Receipt document");
+        entity.setStandardCode(false);
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isStandardCode()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isThaiExtension() should return false when thaiExtension is false")
+    void testIsThaiExtensionFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80", "ใบเพิ่มหนี้", "Debit Note", "Debit Note document");
+        entity.setThaiExtension(false);
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isThaiExtension()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isDebitNote() should return false for non-80 code")
+    void testIsDebitNoteFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isDebitNote()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCreditNote() should return false for non-81 code")
+    void testIsCreditNoteFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isCreditNote()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCommercialInvoice() should return false for non-380 code")
+    void testIsCommercialInvoiceFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isCommercialInvoice()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isTaxInvoice() should return false for non-388 code")
+    void testIsTaxInvoiceFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("80", "ใบเพิ่มหนี้", "Debit Note", "Debit Note document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isTaxInvoice()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isReceipt() should return false for non-T01 code")
+    void testIsReceiptFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isReceipt()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isAbbreviatedTaxInvoice() should return false for non-T05/T06 code")
+    void testIsAbbreviatedTaxInvoiceFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isAbbreviatedTaxInvoice()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCancellationNote() should return false for non-T07 code")
+    void testIsCancellationNoteFalse() {
+        ThaiDocumentNameCode entity = new ThaiDocumentNameCode("388", "ใบกำกับภาษี", "Tax Invoice", "Tax Invoice document");
+        ThaiDocumentNameCodeInvoiceType type = new ThaiDocumentNameCodeInvoiceType(entity);
+
+        assertThat(type.isCancellationNote()).isFalse();
     }
 
     // Getter/Setter tests

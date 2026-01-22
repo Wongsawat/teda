@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -143,6 +144,88 @@ class SchematronValidatorTest {
         assertThatThrownBy(() -> validator.validate(malformedXml, DocumentSchematron.TAX_INVOICE))
             .isInstanceOf(SchematronValidationException.class)
             .hasMessageContaining("parse");
+    }
+
+    @Test
+    @DisplayName("Whitespace-only XML content should throw exception")
+    void testWhitespaceOnlyXmlContent() {
+        assertThatThrownBy(() -> validator.validate("   \n\t  ", DocumentSchematron.TAX_INVOICE))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("null or empty");
+    }
+
+    @Test
+    @DisplayName("validate(InputStream) should work with valid XML stream")
+    void testValidateWithInputStream() throws IOException {
+        String taxInvoiceExample = "e-tax-invoice-receipt-v2.1/ETDA/ExampleFile/Example_TaxInvoice_2p1_v1.xml";
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(taxInvoiceExample)) {
+            SchematronValidationResult result = validator.validate(is, DocumentSchematron.TAX_INVOICE);
+            assertThat(result.isValid()).isTrue();
+        }
+    }
+
+    @Test
+    @DisplayName("validate(InputStream) should throw on malformed XML")
+    void testValidateInputStreamWithMalformedXml() {
+        String malformedXml = "<?xml version=\"1.0\"?><broken><unclosed>";
+        InputStream is = new ByteArrayInputStream(malformedXml.getBytes(StandardCharsets.UTF_8));
+
+        assertThatThrownBy(() -> validator.validate(is, DocumentSchematron.TAX_INVOICE))
+            .isInstanceOf(SchematronValidationException.class);
+    }
+
+    @ParameterizedTest
+    @EnumSource(DocumentSchematron.class)
+    @DisplayName("isSchematronValid should return true for all document types")
+    void testIsSchematronValidAllTypes(DocumentSchematron docType) {
+        boolean isValid = validator.isSchematronValid(docType);
+        assertThat(isValid)
+            .as("Schematron for " + docType + " should be valid")
+            .isTrue();
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = DocumentSchematron.class, names = {"CANCELLATION_NOTE", "ABBREVIATED_TAX_INVOICE"})
+    @DisplayName("Empty schematrons should validate successfully")
+    void testEmptySchematronTypes(DocumentSchematron docType) throws IOException {
+        String exampleFile = getExampleFilePath(docType);
+        String xmlContent = readResourceAsString(exampleFile);
+
+        SchematronValidationResult result = validator.validate(xmlContent, docType);
+
+        // Empty schematrons have no rules, so validation always passes
+        assertThat(result.isValid()).isTrue();
+        assertThat(result.getErrors()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("validate(InputStream) for Receipt should work")
+    void testValidateReceiptWithInputStream() throws IOException {
+        String receiptExample = "e-tax-invoice-receipt-v2.1/ETDA/ExampleFile/Example_Receipt_2p1_v1.xml";
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(receiptExample)) {
+            SchematronValidationResult result = validator.validate(is, DocumentSchematron.RECEIPT);
+            assertThat(result.isValid()).isTrue();
+        }
+    }
+
+    @Test
+    @DisplayName("validate(InputStream) for Invoice should work")
+    void testValidateInvoiceWithInputStream() throws IOException {
+        String invoiceExample = "e-tax-invoice-receipt-v2.1/ETDA/ExampleFile/Example_Invoice_2p1_v1.xml";
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(invoiceExample)) {
+            SchematronValidationResult result = validator.validate(is, DocumentSchematron.INVOICE);
+            assertThat(result.isValid()).isTrue();
+        }
+    }
+
+    @Test
+    @DisplayName("validate(InputStream) for DebitCreditNote should work")
+    void testValidateDebitCreditNoteWithInputStream() throws IOException {
+        String debitNoteExample = "e-tax-invoice-receipt-v2.1/ETDA/ExampleFile/Example_DebitNote_2p1_v1.xml";
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(debitNoteExample)) {
+            SchematronValidationResult result = validator.validate(is, DocumentSchematron.DEBIT_CREDIT_NOTE);
+            assertThat(result.isValid()).isTrue();
+        }
     }
 
     // Helper methods

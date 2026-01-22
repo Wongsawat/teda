@@ -173,6 +173,96 @@ class ISOLanguageCodeTypeTest {
     }
 
     @Test
+    @DisplayName("isChinese() should return true for ZH")
+    void testIsChineseTrue() {
+        ISOLanguageCode entity = new ISOLanguageCode("ZH", "Chinese");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isChinese()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isJapanese() should return true for JA")
+    void testIsJapaneseTrue() {
+        ISOLanguageCode entity = new ISOLanguageCode("JA", "Japanese");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isJapanese()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isASEANLanguage() should return true for Thai")
+    void testIsASEANLanguageTrue() {
+        ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isASEANLanguage()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isMajorTradingLanguage() should return true for Chinese")
+    void testIsMajorTradingLanguageTrue() {
+        ISOLanguageCode entity = new ISOLanguageCode("ZH", "Chinese");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isMajorTradingLanguage()).isTrue();
+    }
+
+    @Test
+    @DisplayName("isThai() should return false for non-TH code")
+    void testIsThaiFalse() {
+        ISOLanguageCode entity = new ISOLanguageCode("EN", "English");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isThai()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isEnglish() should return false for non-EN code")
+    void testIsEnglishFalse() {
+        ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isEnglish()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isChinese() should return false for non-ZH code")
+    void testIsChineseFalse() {
+        ISOLanguageCode entity = new ISOLanguageCode("EN", "English");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isChinese()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isJapanese() should return false for non-JA code")
+    void testIsJapaneseFalse() {
+        ISOLanguageCode entity = new ISOLanguageCode("EN", "English");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isJapanese()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isASEANLanguage() should return false for non-ASEAN language")
+    void testIsASEANLanguageFalse() {
+        ISOLanguageCode entity = new ISOLanguageCode("DE", "German");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isASEANLanguage()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isMajorTradingLanguage() should return false for non-major trading language")
+    void testIsMajorTradingLanguageFalse() {
+        ISOLanguageCode entity = new ISOLanguageCode("HI", "Hindi");
+        ISOLanguageCodeType type = new ISOLanguageCodeType(entity);
+
+        assertThat(type.isMajorTradingLanguage()).isFalse();
+    }
+
+    @Test
     @DisplayName("isActive() should return true when entity is active")
     void testIsActiveTrue() {
         ISOLanguageCode entity = new ISOLanguageCode("TH", "Thai");

@@ -285,4 +285,84 @@ class ThaiCategoryCodeTypeWrapperTest {
 
         assertThat(type.isOriginalDocumentReference()).isFalse();
     }
+
+    @Test
+    @DisplayName("isAdvancePaymentReference() should return false for code 01")
+    void testIsAdvancePaymentReferenceFalse() {
+        ThaiCategoryCode entity = new ThaiCategoryCode("01");
+        entity.setNameEn("Original Document Reference");
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper(entity);
+
+        assertThat(type.isAdvancePaymentReference()).isFalse();
+    }
+
+    // Attribute getter/setter tests
+
+    @Test
+    @DisplayName("getListID() should return null when not set")
+    void testGetListIDNotSet() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper();
+
+        assertThat(type.getListID()).isNull();
+    }
+
+    @Test
+    @DisplayName("setListID() should set the list ID")
+    void testSetListID() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper();
+        type.setListID("ThaiCategoryCode");
+
+        assertThat(type.getListID()).isEqualTo("ThaiCategoryCode");
+    }
+
+    @Test
+    @DisplayName("getListAgencyID() should return null when not set")
+    void testGetListAgencyIDNotSet() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper();
+
+        assertThat(type.getListAgencyID()).isNull();
+    }
+
+    @Test
+    @DisplayName("setListAgencyID() should set the list agency ID")
+    void testSetListAgencyID() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper();
+        type.setListAgencyID("ETDA");
+
+        assertThat(type.getListAgencyID()).isEqualTo("ETDA");
+    }
+
+    @Test
+    @DisplayName("getListVersionID() should return null when not set")
+    void testGetListVersionIDNotSet() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper();
+
+        assertThat(type.getListVersionID()).isNull();
+    }
+
+    @Test
+    @DisplayName("setListVersionID() should set the list version ID")
+    void testSetListVersionID() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper();
+        type.setListVersionID("1.0");
+
+        assertThat(type.getListVersionID()).isEqualTo("1.0");
+    }
+
+    @Test
+    @DisplayName("getListURI() should return null when not set")
+    void testGetListURINotSet() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper();
+
+        assertThat(type.getListURI()).isNull();
+    }
+
+    @Test
+    @DisplayName("setListURI() should set the list URI")
+    void testSetListURI() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper();
+        type.setListURI("urn:etda:uncefact:codelist:standard:ThaiCategoryCode:1");
+
+        assertThat(type.getListURI()).isEqualTo("urn:etda:uncefact:codelist:standard:ThaiCategoryCode:1");
+    }
 }
