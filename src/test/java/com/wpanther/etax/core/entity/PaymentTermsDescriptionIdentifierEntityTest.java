@@ -56,6 +56,19 @@ public class PaymentTermsDescriptionIdentifierEntityTest {
         assertEquals("A draft drawn on the issuing bank", entity.getDescription());
     }
 
+    @Test
+    @DisplayName("Three-argument constructor should handle null code")
+    public void testThreeArgumentConstructorWithNullCode() {
+        PaymentTermsDescriptionIdentifier entity = new PaymentTermsDescriptionIdentifier(
+            null,
+            "Draft on issuing bank",
+            "A draft drawn on the issuing bank"
+        );
+        assertNull(entity.getCode());
+        assertEquals("Draft on issuing bank", entity.getName());
+        assertEquals("A draft drawn on the issuing bank", entity.getDescription());
+    }
+
     // Getter/Setter Tests
 
     @Test

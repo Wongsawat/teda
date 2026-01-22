@@ -49,6 +49,15 @@ public class AllowanceChargeIdentificationCodeEntityTest {
         assertEquals("Description", entity.getDescription());
     }
 
+    @Test
+    @DisplayName("Full constructor should handle null code")
+    public void testFullConstructorWithNullCode() {
+        AllowanceChargeIdentificationCode entity = new AllowanceChargeIdentificationCode(null, "Name", "Description");
+        assertNull(entity.getCode());
+        assertEquals("Name", entity.getName());
+        assertEquals("Description", entity.getDescription());
+    }
+
     // Getter/Setter Tests
 
     @Test

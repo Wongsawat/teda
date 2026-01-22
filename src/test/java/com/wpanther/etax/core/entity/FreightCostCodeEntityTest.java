@@ -51,6 +51,15 @@ public class FreightCostCodeEntityTest {
         assertEquals("Basic Freight", entity.getCategory());
     }
 
+    @Test
+    @DisplayName("Three-argument constructor should handle null code")
+    public void testThreeArgumentConstructorWithNullCode() {
+        FreightCostCode entity = new FreightCostCode(null, "Basic Freight Charge", "Basic Freight");
+        assertNull(entity.getCode());
+        assertEquals("Basic Freight Charge", entity.getName());
+        assertEquals("Basic Freight", entity.getCategory());
+    }
+
     // Getter/Setter Tests
 
     @Test

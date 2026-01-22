@@ -59,6 +59,19 @@ public class MessageFunctionCodeEntityTest {
         assertEquals("Indicates the original transmission of a message", entity.getDescription());
     }
 
+    @Test
+    @DisplayName("Three-argument constructor should handle null code")
+    public void testThreeArgumentConstructorWithNullCode() {
+        MessageFunctionCode entity = new MessageFunctionCode(
+            null,
+            "Original",
+            "Indicates the original transmission of a message"
+        );
+        assertNull(entity.getCode());
+        assertEquals("Original", entity.getName());
+        assertEquals("Indicates the original transmission of a message", entity.getDescription());
+    }
+
     // Getter/Setter Tests
 
     @Test

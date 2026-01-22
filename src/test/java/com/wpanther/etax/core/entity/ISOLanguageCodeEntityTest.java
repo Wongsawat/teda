@@ -50,6 +50,14 @@ public class ISOLanguageCodeEntityTest {
         assertEquals("English", entity.getName());
     }
 
+    @Test
+    @DisplayName("Code and name constructor should handle null code")
+    public void testCodeNameConstructorWithNullCode() {
+        ISOLanguageCode entity = new ISOLanguageCode(null, "English");
+        assertNull(entity.getCode());
+        assertEquals("English", entity.getName());
+    }
+
     // Getter/Setter Tests
 
     @Test

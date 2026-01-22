@@ -236,12 +236,28 @@ public class ThaiMessageFunctionCodeEntityTest {
     }
 
     @Test
+    @DisplayName("isOriginal should return false when code is null")
+    public void testIsOriginalWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isOriginal());
+    }
+
+    @Test
     @DisplayName("isReplacement should return true for codes ending with 02")
     public void testIsReplacement() {
         assertTrue(new ThaiMessageFunctionCode("DBNG02").isReplacement());
         assertTrue(new ThaiMessageFunctionCode("CDNS02").isReplacement());
         assertFalse(new ThaiMessageFunctionCode("DBNG01").isReplacement());
         assertFalse(new ThaiMessageFunctionCode("CDNG03").isReplacement());
+    }
+
+    @Test
+    @DisplayName("isReplacement should return false when code is null")
+    public void testIsReplacementWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isReplacement());
     }
 
     @Test
@@ -254,12 +270,28 @@ public class ThaiMessageFunctionCodeEntityTest {
     }
 
     @Test
+    @DisplayName("isCancellation should return false when code is null")
+    public void testIsCancellationWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isCancellation());
+    }
+
+    @Test
     @DisplayName("isCopy should return true for codes ending with 04")
     public void testIsCopy() {
         assertTrue(new ThaiMessageFunctionCode("DBNG04").isCopy());
         assertTrue(new ThaiMessageFunctionCode("CDNS04").isCopy());
         assertFalse(new ThaiMessageFunctionCode("DBNG01").isCopy());
         assertFalse(new ThaiMessageFunctionCode("CDNG03").isCopy());
+    }
+
+    @Test
+    @DisplayName("isCopy should return false when code is null")
+    public void testIsCopyWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isCopy());
     }
 
     @Test
@@ -272,12 +304,28 @@ public class ThaiMessageFunctionCodeEntityTest {
     }
 
     @Test
+    @DisplayName("isAddition should return false when code is null")
+    public void testIsAdditionWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isAddition());
+    }
+
+    @Test
     @DisplayName("isOther should return true for codes ending with 99")
     public void testIsOther() {
         assertTrue(new ThaiMessageFunctionCode("DBNG99").isOther());
         assertTrue(new ThaiMessageFunctionCode("CDNS99").isOther());
         assertFalse(new ThaiMessageFunctionCode("DBNG01").isOther());
         assertFalse(new ThaiMessageFunctionCode("CDNG03").isOther());
+    }
+
+    @Test
+    @DisplayName("isOther should return false when code is null")
+    public void testIsOtherWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isOther());
     }
 
     @Test
@@ -310,12 +358,28 @@ public class ThaiMessageFunctionCodeEntityTest {
     }
 
     @Test
+    @DisplayName("isDebitNoteGoods should return false when code is null")
+    public void testIsDebitNoteGoodsWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isDebitNoteGoods());
+    }
+
+    @Test
     @DisplayName("isDebitNoteServices should return true for DBNS prefix")
     public void testIsDebitNoteServices() {
         assertTrue(new ThaiMessageFunctionCode("DBNS01").isDebitNoteServices());
         assertTrue(new ThaiMessageFunctionCode("DBNS99").isDebitNoteServices());
         assertFalse(new ThaiMessageFunctionCode("DBNG01").isDebitNoteServices());
         assertFalse(new ThaiMessageFunctionCode("CDNS01").isDebitNoteServices());
+    }
+
+    @Test
+    @DisplayName("isDebitNoteServices should return false when code is null")
+    public void testIsDebitNoteServicesWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isDebitNoteServices());
     }
 
     @Test
@@ -328,12 +392,28 @@ public class ThaiMessageFunctionCodeEntityTest {
     }
 
     @Test
+    @DisplayName("isCreditNoteGoods should return false when code is null")
+    public void testIsCreditNoteGoodsWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isCreditNoteGoods());
+    }
+
+    @Test
     @DisplayName("isCreditNoteServices should return true for CDNS prefix")
     public void testIsCreditNoteServices() {
         assertTrue(new ThaiMessageFunctionCode("CDNS01").isCreditNoteServices());
         assertTrue(new ThaiMessageFunctionCode("CDNS99").isCreditNoteServices());
         assertFalse(new ThaiMessageFunctionCode("CDNG01").isCreditNoteServices());
         assertFalse(new ThaiMessageFunctionCode("DBNS01").isCreditNoteServices());
+    }
+
+    @Test
+    @DisplayName("isCreditNoteServices should return false when code is null")
+    public void testIsCreditNoteServicesWithNullCode() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode();
+        entity.setCode(null);
+        assertFalse(entity.isCreditNoteServices());
     }
 
     // Equals/HashCode Tests

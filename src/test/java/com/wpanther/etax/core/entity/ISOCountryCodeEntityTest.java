@@ -48,10 +48,27 @@ public class ISOCountryCodeEntityTest {
     }
 
     @Test
+    @DisplayName("Code and name constructor should handle null code")
+    public void testCodeNameConstructorWithNullCode() {
+        ISOCountryCode entity = new ISOCountryCode(null, "Thailand");
+        assertNull(entity.getCode());
+        assertEquals("Thailand", entity.getName());
+    }
+
+    @Test
     @DisplayName("Full constructor should normalize code to uppercase")
     public void testFullConstructor() {
         ISOCountryCode entity = new ISOCountryCode("th", "Thailand", "Kingdom of Thailand");
         assertEquals("TH", entity.getCode());
+        assertEquals("Thailand", entity.getName());
+        assertEquals("Kingdom of Thailand", entity.getDescription());
+    }
+
+    @Test
+    @DisplayName("Full constructor should handle null code")
+    public void testFullConstructorWithNullCode() {
+        ISOCountryCode entity = new ISOCountryCode(null, "Thailand", "Kingdom of Thailand");
+        assertNull(entity.getCode());
         assertEquals("Thailand", entity.getName());
         assertEquals("Kingdom of Thailand", entity.getDescription());
     }

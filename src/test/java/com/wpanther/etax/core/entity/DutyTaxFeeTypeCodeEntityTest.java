@@ -60,6 +60,19 @@ public class DutyTaxFeeTypeCodeEntityTest {
         assertEquals("Standard VAT", entity.getDescription());
     }
 
+    @Test
+    @DisplayName("Three-argument constructor should handle null code")
+    public void testThreeArgumentConstructorWithNullCode() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode(
+            null,
+            "Value Added Tax",
+            "Standard VAT"
+        );
+        assertNull(entity.getCode());
+        assertEquals("Value Added Tax", entity.getName());
+        assertEquals("Standard VAT", entity.getDescription());
+    }
+
     // Getter/Setter Tests
 
     @Test

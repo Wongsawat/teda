@@ -59,6 +59,19 @@ public class PaymentTermsTypeCodeEntityTest {
         assertEquals("Basic payment terms description", entity.getDescription());
     }
 
+    @Test
+    @DisplayName("Three-argument constructor should handle null code")
+    public void testThreeArgumentConstructorWithNullCode() {
+        PaymentTermsTypeCode entity = new PaymentTermsTypeCode(
+            null,
+            "Payment terms",
+            "Basic payment terms description"
+        );
+        assertNull(entity.getCode());
+        assertEquals("Payment terms", entity.getName());
+        assertEquals("Basic payment terms description", entity.getDescription());
+    }
+
     // Getter/Setter Tests
 
     @Test
