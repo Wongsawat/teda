@@ -557,4 +557,217 @@ class ThaiMessageFunctionCodeTypeTest {
 
         assertThat(type.isCreditNoteServices()).isTrue();
     }
+
+    // Additional tests for improved coverage
+
+    @Test
+    @DisplayName("getDescriptionEn() should return English description when value exists")
+    void testGetDescriptionEnWithValue() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        entity.setDescriptionEn("Tax Invoice - Original");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.getDescriptionEn()).isEqualTo("Tax Invoice - Original");
+    }
+
+    @Test
+    @DisplayName("getDescriptionTh() should return Thai description when value exists")
+    void testGetDescriptionThWithValue() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        entity.setDescriptionTh("ใบกำกับภาษี - ต้นฉบับ");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.getDescriptionTh()).isEqualTo("ใบกำกับภาษี - ต้นฉบับ");
+    }
+
+    @Test
+    @DisplayName("getDocumentType() should return document type when value exists")
+    void testGetDocumentTypeWithValue() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        entity.setDocumentType("TaxInvoice");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.getDocumentType()).isEqualTo("TaxInvoice");
+    }
+
+    @Test
+    @DisplayName("getCategory() should return category when value exists")
+    void testGetCategoryWithValue() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("DBNG01");
+        entity.setCategory("Goods");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.getCategory()).isEqualTo("Goods");
+    }
+
+    @Test
+    @DisplayName("equals() should return false when other value is null")
+    void testEqualsWithOtherNullValue() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        ThaiMessageFunctionCodeType type1 = new ThaiMessageFunctionCodeType(entity);
+        ThaiMessageFunctionCodeType type2 = new ThaiMessageFunctionCodeType();
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("equals() should return false when codes differ")
+    void testEqualsWithDifferentCodes() {
+        ThaiMessageFunctionCode entity1 = new ThaiMessageFunctionCode("TIVC01");
+        ThaiMessageFunctionCode entity2 = new ThaiMessageFunctionCode("RCTC01");
+        ThaiMessageFunctionCodeType type1 = new ThaiMessageFunctionCodeType(entity1);
+        ThaiMessageFunctionCodeType type2 = new ThaiMessageFunctionCodeType(entity2);
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("isDebitNote() should return false for non-DebitNote")
+    void testIsDebitNoteFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        entity.setDocumentType("TaxInvoice");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isDebitNote()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCreditNote() should return false for non-CreditNote")
+    void testIsCreditNoteFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        entity.setDocumentType("TaxInvoice");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isCreditNote()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isTaxInvoice() should return false for non-TaxInvoice")
+    void testIsTaxInvoiceFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("RCTC01");
+        entity.setDocumentType("Receipt");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isTaxInvoice()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isReceipt() should return false for non-Receipt")
+    void testIsReceiptFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        entity.setDocumentType("TaxInvoice");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isReceipt()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isGoods() should return false for non-Goods category")
+    void testIsGoodsFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("DBNS01");
+        entity.setCategory("Service");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isGoods()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isService() should return false for non-Service category")
+    void testIsServiceFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("DBNG01");
+        entity.setCategory("Goods");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isService()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isOriginal() should return false for non-01 code")
+    void testIsOriginalFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC02");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isOriginal()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isReplacement() should return false for non-02 code")
+    void testIsReplacementFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isReplacement()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCancellation() should return false for non-03 code")
+    void testIsCancellationFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isCancellation()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCopy() should return false for non-04 code")
+    void testIsCopyFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isCopy()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isAddition() should return false for non-05 code")
+    void testIsAdditionFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isAddition()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isOther() should return false for non-99 code")
+    void testIsOtherFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("TIVC01");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isOther()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isDebitNoteGoods() should return false for non-DBNG code")
+    void testIsDebitNoteGoodsFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("DBNS01");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isDebitNoteGoods()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isDebitNoteServices() should return false for non-DBNS code")
+    void testIsDebitNoteServicesFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("DBNG01");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isDebitNoteServices()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCreditNoteGoods() should return false for non-CDNG code")
+    void testIsCreditNoteGoodsFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("CDNS01");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isCreditNoteGoods()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCreditNoteServices() should return false for non-CDNS code")
+    void testIsCreditNoteServicesFalse() {
+        ThaiMessageFunctionCode entity = new ThaiMessageFunctionCode("CDNG01");
+        ThaiMessageFunctionCodeType type = new ThaiMessageFunctionCodeType(entity);
+
+        assertThat(type.isCreditNoteServices()).isFalse();
+    }
 }

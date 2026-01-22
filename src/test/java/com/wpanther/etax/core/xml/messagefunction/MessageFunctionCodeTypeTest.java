@@ -402,4 +402,116 @@ class MessageFunctionCodeTypeTest {
 
         assertThat(type.toString()).isEqualTo("null");
     }
+
+    // Additional tests for improved coverage - false path tests
+
+    @Test
+    @DisplayName("isOriginal() should return false for non-9 code")
+    void testIsOriginalFalse() {
+        MessageFunctionCode entity = new MessageFunctionCode("4");
+        entity.setName("Change");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isOriginal()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isModification() should return false when isModification is false")
+    void testIsModificationFalse() {
+        MessageFunctionCode entity = new MessageFunctionCode("9");
+        entity.setIsModification(false);
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isModification()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isReplacement() should return false for non-5 code")
+    void testIsReplacementFalse() {
+        MessageFunctionCode entity = new MessageFunctionCode("9");
+        entity.setName("Original");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isReplacement()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isAcceptance() should return false when isAcceptance is false")
+    void testIsAcceptanceFalse() {
+        MessageFunctionCode entity = new MessageFunctionCode("9");
+        entity.setIsAcceptance(false);
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isAcceptance()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCancellation() should return false for non-1 code")
+    void testIsCancellationFalse() {
+        MessageFunctionCode entity = new MessageFunctionCode("9");
+        entity.setName("Original");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isCancellation()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isChange() should return false for non-4 code")
+    void testIsChangeFalse() {
+        MessageFunctionCode entity = new MessageFunctionCode("9");
+        entity.setName("Original");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isChange()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isConfirmation() should return false for non-6 code")
+    void testIsConfirmationFalse() {
+        MessageFunctionCode entity = new MessageFunctionCode("9");
+        entity.setName("Original");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isConfirmation()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isFinancialReversal() should return false for non-37 code")
+    void testIsFinancialReversalFalse() {
+        MessageFunctionCode entity = new MessageFunctionCode("9");
+        entity.setName("Original");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isFinancialReversal()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isSchedule() should return false for non-24 code")
+    void testIsScheduleFalse() {
+        MessageFunctionCode entity = new MessageFunctionCode("9");
+        entity.setName("Original");
+        MessageFunctionCodeType type = new MessageFunctionCodeType(entity);
+
+        assertThat(type.isSchedule()).isFalse();
+    }
+
+    @Test
+    @DisplayName("equals() should return false when this value is null")
+    void testEqualsWithNullThisValue() {
+        MessageFunctionCodeType type1 = new MessageFunctionCodeType();
+        MessageFunctionCode entity2 = new MessageFunctionCode("9");
+        MessageFunctionCodeType type2 = new MessageFunctionCodeType(entity2);
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("equals() should return false when other value is null")
+    void testEqualsWithNullOtherValue() {
+        MessageFunctionCode entity1 = new MessageFunctionCode("9");
+        MessageFunctionCodeType type1 = new MessageFunctionCodeType(entity1);
+        MessageFunctionCodeType type2 = new MessageFunctionCodeType();
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
 }

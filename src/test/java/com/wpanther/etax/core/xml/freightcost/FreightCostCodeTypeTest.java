@@ -430,4 +430,137 @@ class FreightCostCodeTypeTest {
 
         assertThat(type.isInsurance()).isTrue();
     }
+
+    // Additional tests for improved coverage
+
+    @Test
+    @DisplayName("equals() should return false when this value is null")
+    void testEqualsWithNullThisValue() {
+        FreightCostCodeType type1 = new FreightCostCodeType();
+        FreightCostCode entity2 = new FreightCostCode("FC");
+        FreightCostCodeType type2 = new FreightCostCodeType(entity2);
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("equals() should return false when other value is null")
+    void testEqualsWithNullOtherValue() {
+        FreightCostCode entity1 = new FreightCostCode("FC");
+        FreightCostCodeType type1 = new FreightCostCodeType(entity1);
+        FreightCostCodeType type2 = new FreightCostCodeType();
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("equals() should return false when codes differ")
+    void testEqualsWithDifferentCodes() {
+        FreightCostCode entity1 = new FreightCostCode("FC");
+        FreightCostCode entity2 = new FreightCostCode("FP");
+        FreightCostCodeType type1 = new FreightCostCodeType(entity1);
+        FreightCostCodeType type2 = new FreightCostCodeType(entity2);
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("isBasicFreight() should return false for other categories")
+    void testIsBasicFreightFalse() {
+        FreightCostCode entity = new FreightCostCode("210000");
+        entity.setCategory("Freight Surcharges");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isBasicFreight()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isFreightSurcharge() should return false for other categories")
+    void testIsFreightSurchargeFalse() {
+        FreightCostCode entity = new FreightCostCode("100000");
+        entity.setCategory("Basic Freight");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isFreightSurcharge()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isContainerService() should return false for other categories")
+    void testIsContainerServiceFalse() {
+        FreightCostCode entity = new FreightCostCode("100000");
+        entity.setCategory("Basic Freight");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isContainerService()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isTerminalCharge() should return false for other categories")
+    void testIsTerminalChargeFalse() {
+        FreightCostCode entity = new FreightCostCode("100000");
+        entity.setCategory("Basic Freight");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isTerminalCharge()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isHandlingCharge() should return false for other categories")
+    void testIsHandlingChargeFalse() {
+        FreightCostCode entity = new FreightCostCode("100000");
+        entity.setCategory("Basic Freight");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isHandlingCharge()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isStorageOrDemurrage() should return false for other categories")
+    void testIsStorageOrDemurrageFalse() {
+        FreightCostCode entity = new FreightCostCode("100000");
+        entity.setCategory("Basic Freight");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isStorageOrDemurrage()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCustomsOrDocumentation() should return false for other categories")
+    void testIsCustomsOrDocumentationFalse() {
+        FreightCostCode entity = new FreightCostCode("100000");
+        entity.setCategory("Basic Freight");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isCustomsOrDocumentation()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isDangerousGoods() should return false for other categories")
+    void testIsDangerousGoodsFalse() {
+        FreightCostCode entity = new FreightCostCode("100000");
+        entity.setCategory("Basic Freight");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isDangerousGoods()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isSpecialFreight() should return false for other categories")
+    void testIsSpecialFreightFalse() {
+        FreightCostCode entity = new FreightCostCode("100000");
+        entity.setCategory("Basic Freight");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isSpecialFreight()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isInsurance() should return false for other categories")
+    void testIsInsuranceFalse() {
+        FreightCostCode entity = new FreightCostCode("100000");
+        entity.setCategory("Basic Freight");
+        FreightCostCodeType type = new FreightCostCodeType(entity);
+
+        assertThat(type.isInsurance()).isFalse();
+    }
 }

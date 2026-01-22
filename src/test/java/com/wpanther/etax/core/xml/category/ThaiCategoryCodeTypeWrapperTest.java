@@ -365,4 +365,67 @@ class ThaiCategoryCodeTypeWrapperTest {
 
         assertThat(type.getListURI()).isEqualTo("urn:etda:uncefact:codelist:standard:ThaiCategoryCode:1");
     }
+
+    // Additional tests for improved coverage
+
+    @Test
+    @DisplayName("getValue() should return code when value exists")
+    void testGetValueWithEntity() {
+        ThaiCategoryCode entity = new ThaiCategoryCode("01");
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper(entity);
+
+        assertThat(type.getValue()).isEqualTo("01");
+    }
+
+    @Test
+    @DisplayName("setValue() should set value from code string")
+    void testSetValueWithCode() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper();
+        type.setValue("01");
+
+        assertThat(type.getValue()).isEqualTo("01");
+        assertThat(type.getCode()).isEqualTo("01");
+    }
+
+    @Test
+    @DisplayName("setValue(null) should set value to null")
+    void testSetValueNull() {
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper("01");
+        type.setValue(null);
+
+        assertThat(type.getValue()).isNull();
+        assertThat(type.getEntity()).isNull();
+    }
+
+    @Test
+    @DisplayName("equals() should return false when this value is null")
+    void testEqualsWithNullThisValue() {
+        ThaiCategoryCodeTypeWrapper type1 = new ThaiCategoryCodeTypeWrapper();
+        ThaiCategoryCode entity2 = new ThaiCategoryCode("01");
+        ThaiCategoryCodeTypeWrapper type2 = new ThaiCategoryCodeTypeWrapper(entity2);
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("equals() should return false when other value is null")
+    void testEqualsWithNullOtherValue() {
+        ThaiCategoryCode entity1 = new ThaiCategoryCode("01");
+        ThaiCategoryCodeTypeWrapper type1 = new ThaiCategoryCodeTypeWrapper(entity1);
+        ThaiCategoryCodeTypeWrapper type2 = new ThaiCategoryCodeTypeWrapper();
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("toString() should handle null nameEn gracefully")
+    void testToStringWithNullNameEn() {
+        ThaiCategoryCode entity = new ThaiCategoryCode("01");
+        entity.setNameEn(null);
+        ThaiCategoryCodeTypeWrapper type = new ThaiCategoryCodeTypeWrapper(entity);
+
+        String str = type.toString();
+
+        assertThat(str).contains("01");
+    }
 }

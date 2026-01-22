@@ -471,4 +471,161 @@ class ISOCountryCodeTypeTest {
 
         assertThat(type.toString()).isEqualTo("ISOCountryCodeType{null}");
     }
+
+    // Additional tests for improved coverage - false path tests
+
+    @Test
+    @DisplayName("isASEANCountry() should return false for non-ASEAN country")
+    void testIsASEANCountryFalse() {
+        ISOCountryCode entity = new ISOCountryCode("US", "United States");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isASEANCountry()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isMajorTradingPartner() should return false for non-partner country")
+    void testIsMajorTradingPartnerFalse() {
+        ISOCountryCode entity = new ISOCountryCode("ZZ", "Unknown");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isMajorTradingPartner()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isETDAExtension() should return false for standard ISO code")
+    void testIsETDAExtensionFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        entity.setEtdaExtension(false);
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isETDAExtension()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isStandardISO() should return false for ETDA extension")
+    void testIsStandardISOFalse() {
+        ISOCountryCode entity = new ISOCountryCode("AN", "Andaman Islands");
+        entity.setEtdaExtension(true);
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isStandardISO()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isChina() should return false for non-CN")
+    void testIsChinaFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isChina()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isJapan() should return false for non-JP")
+    void testIsJapanFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isJapan()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isSouthKorea() should return false for non-KR")
+    void testIsSouthKoreaFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isSouthKorea()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isUnitedStates() should return false for non-US")
+    void testIsUnitedStatesFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isUnitedStates()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isSingapore() should return false for non-SG")
+    void testIsSingaporeFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isSingapore()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isMalaysia() should return false for non-MY")
+    void testIsMalaysiaFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isMalaysia()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isIndonesia() should return false for non-ID")
+    void testIsIndonesiaFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isIndonesia()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isVietnam() should return false for non-VN")
+    void testIsVietnamFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isVietnam()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isPhilippines() should return false for non-PH")
+    void testIsPhilippinesFalse() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.isPhilippines()).isFalse();
+    }
+
+    @Test
+    @DisplayName("equals() should return true when both values are null")
+    void testEqualsBothNull() {
+        ISOCountryCodeType type1 = new ISOCountryCodeType();
+        ISOCountryCodeType type2 = new ISOCountryCodeType();
+
+        assertThat(type1).isEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("equals() should return false when this value is null and other is not")
+    void testEqualsNullAndNotNull() {
+        ISOCountryCodeType type1 = new ISOCountryCodeType();
+        ISOCountryCodeType type2 = new ISOCountryCodeType(new ISOCountryCode("TH", "Thailand"));
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("equals() should return false when other value is null and this is not")
+    void testEqualsNotNullAndNull() {
+        ISOCountryCodeType type1 = new ISOCountryCodeType(new ISOCountryCode("TH", "Thailand"));
+        ISOCountryCodeType type2 = new ISOCountryCodeType();
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("getName() should return name when value exists")
+    void testGetNameWithValue() {
+        ISOCountryCode entity = new ISOCountryCode("TH", "Thailand");
+        ISOCountryCodeType type = new ISOCountryCodeType(entity);
+
+        assertThat(type.getName()).isEqualTo("Thailand");
+    }
 }

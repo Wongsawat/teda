@@ -319,4 +319,180 @@ class DutyTaxFeeCodeTypeTest {
 
         assertThat(type.toString()).isEqualTo("null");
     }
+
+    // Additional tests for improved coverage
+
+    @Test
+    @DisplayName("getName() should return name when value exists")
+    void testGetNameWithValue() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setName("Value Added Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.getName()).isEqualTo("Value Added Tax");
+    }
+
+    @Test
+    @DisplayName("getDescription() should return description when value exists")
+    void testGetDescriptionWithValue() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setDescription("A tax on consumption");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.getDescription()).isEqualTo("A tax on consumption");
+    }
+
+    @Test
+    @DisplayName("getCategory() should return category when value exists")
+    void testGetCategoryWithValue() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setCategory("Consumption Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.getCategory()).isEqualTo("Consumption Tax");
+    }
+
+    @Test
+    @DisplayName("toString() should work when name is null but code exists")
+    void testToStringWithNullName() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setName(null);
+        entity.setCategory("Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        String str = type.toString();
+
+        assertThat(str).contains("VAT");
+        assertThat(str).contains("[Tax]");
+        assertThat(str).doesNotContain("(null)");
+    }
+
+    @Test
+    @DisplayName("toString() should work when category is null but name exists")
+    void testToStringWithNullCategory() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setName("Value Added Tax");
+        entity.setCategory(null);
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        String str = type.toString();
+
+        assertThat(str).contains("VAT");
+        assertThat(str).contains("(Value Added Tax)");
+        assertThat(str).doesNotContain("[null]");
+    }
+
+    @Test
+    @DisplayName("toString() should work with full data")
+    void testToStringWithFullData() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setName("Value Added Tax");
+        entity.setCategory("Consumption Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        String str = type.toString();
+
+        assertThat(str).isEqualTo("VAT (Value Added Tax) [Consumption Tax]");
+    }
+
+    @Test
+    @DisplayName("equals() should return false when this value is null")
+    void testEqualsWithNullThisValue() {
+        DutyTaxFeeCodeType type1 = new DutyTaxFeeCodeType();
+        DutyTaxFeeTypeCode entity2 = new DutyTaxFeeTypeCode("VAT");
+        DutyTaxFeeCodeType type2 = new DutyTaxFeeCodeType(entity2);
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("equals() should return false when other value is null")
+    void testEqualsWithNullOtherValue() {
+        DutyTaxFeeTypeCode entity1 = new DutyTaxFeeTypeCode("VAT");
+        DutyTaxFeeCodeType type1 = new DutyTaxFeeCodeType(entity1);
+        DutyTaxFeeCodeType type2 = new DutyTaxFeeCodeType();
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("equals() should return false when values differ")
+    void testEqualsWithDifferentValues() {
+        DutyTaxFeeTypeCode entity1 = new DutyTaxFeeTypeCode("VAT");
+        DutyTaxFeeTypeCode entity2 = new DutyTaxFeeTypeCode("GST");
+        DutyTaxFeeCodeType type1 = new DutyTaxFeeCodeType(entity1);
+        DutyTaxFeeCodeType type2 = new DutyTaxFeeCodeType(entity2);
+
+        assertThat(type1).isNotEqualTo(type2);
+    }
+
+    @Test
+    @DisplayName("isVat() should return false for non-VAT code")
+    void testIsVatFalse() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("GST");
+        entity.setName("Goods and Services Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isVat()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isExempt() should return false when not exempt")
+    void testIsExemptFalse() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setExempt(false);
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isExempt()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isSummary() should return false when not summary")
+    void testIsSummaryFalse() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setSummary(false);
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isSummary()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isCustomsDuty() should return false for non-Customs category")
+    void testIsCustomsDutyFalse() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setCategory("Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isCustomsDuty()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isExciseTax() should return false for non-Excise category")
+    void testIsExciseTaxFalse() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setCategory("Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isExciseTax()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isGST() should return false for non-GST category")
+    void testIsGSTFalse() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setCategory("Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isGST()).isFalse();
+    }
+
+    @Test
+    @DisplayName("isSpecialTax() should return false for non-Special Tax category")
+    void testIsSpecialTaxFalse() {
+        DutyTaxFeeTypeCode entity = new DutyTaxFeeTypeCode("VAT");
+        entity.setCategory("Tax");
+        DutyTaxFeeCodeType type = new DutyTaxFeeCodeType(entity);
+
+        assertThat(type.isSpecialTax()).isFalse();
+    }
 }
