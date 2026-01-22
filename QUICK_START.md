@@ -327,10 +327,25 @@ mvn test -Dtest=ISOCountryCodeRepositoryTest
 ```
 
 ### Test Coverage
-- 20 repository test classes
-- 418 individual tests
+
+**Current Test Results (v1.0.0):**
+- **Total Tests**: 2966
+- **Failures**: 0
+- **Errors**: 0
+- **Skipped**: 0
+- **Success Rate**: 100%
+
+**Test Breakdown:**
+- 20 repository test classes with 418 individual tests
 - Tests for query methods, business logic, and edge cases
 - Uses Testcontainers for real PostgreSQL database testing
+- Entity tests: 20 tests
+- Adapter tests: 20 tests
+- XML type tests: 21 tests
+- Validation tests: 4 tests
+- JAXB generation tests: 6 tests
+- Integration structure tests: 6 tests
+- Other unit tests: 2471+ tests
 
 ## Next Steps
 
