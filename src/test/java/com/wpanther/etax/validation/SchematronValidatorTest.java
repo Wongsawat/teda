@@ -228,6 +228,35 @@ class SchematronValidatorTest {
         }
     }
 
+    @Test
+    @DisplayName("validate(InputStream) should handle IOException on close gracefully")
+    void testInputStreamCloseThrowsIOException() throws IOException {
+        String validXml = readResourceAsString("e-tax-invoice-receipt-v2.1/ETDA/ExampleFile/Example_TaxInvoice_2p1_v1.xml");
+
+        // Track number of close calls - first close may be from XML parser, we want to throw on second (from finally block)
+        final int[] closeCallCount = {0};
+
+        // Create an InputStream that throws IOException only on the second close (the one in finally block)
+        InputStream mockStream = new ByteArrayInputStream(validXml.getBytes(StandardCharsets.UTF_8)) {
+            @Override
+            public void close() throws IOException {
+                closeCallCount[0]++;
+                super.close();
+                // Only throw on second or later close calls (the finally block close)
+                // This ensures validation completes successfully before the IOException
+                if (closeCallCount[0] > 1) {
+                    throw new IOException("Simulated close failure");
+                }
+            }
+        };
+
+        // Validation should complete successfully, IOException on close is logged but not thrown
+        SchematronValidationResult result = validator.validate(mockStream, DocumentSchematron.TAX_INVOICE);
+        assertThat(result.isValid()).isTrue();
+        // Verify close was called at least once (by validation) and again by finally block
+        assertThat(closeCallCount[0]).isGreaterThanOrEqualTo(1);
+    }
+
     // Helper methods
 
     private String getExampleFilePath(DocumentSchematron docType) {

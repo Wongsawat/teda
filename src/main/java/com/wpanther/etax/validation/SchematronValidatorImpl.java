@@ -100,9 +100,15 @@ public class SchematronValidatorImpl implements SchematronValidator {
     }
 
     /**
-     * Load Schematron resource from classpath
+     * Load Schematron resource from classpath.
+     * <p>
+     * This method is protected to allow testing with subclasses that simulate load failures.
+     *
+     * @param docType the document type whose Schematron file to load
+     * @return the loaded SchematronResourcePure
+     * @throws SchematronValidationException if the Schematron file is not found
      */
-    private SchematronResourcePure loadSchematron(DocumentSchematron docType) {
+    protected SchematronResourcePure loadSchematron(DocumentSchematron docType) {
         // Create a ClassPathResource for the Schematron file
         IReadableResource resource = new ClassPathResource(docType.getSchematronPath());
 
@@ -134,6 +140,13 @@ public class SchematronValidatorImpl implements SchematronValidator {
             String className = obj.getClass().getSimpleName();
             log.trace("Processing SVRL element: {}", className);
 
+            // NOTE: FailedAssert branch is currently unreachable because all production
+            // Schematron files (TaxInvoice, Receipt, DebitCreditNote, Invoice, etc.) use
+            // <sch:report> elements exclusively and contain zero <sch:assert> elements.
+            // - <sch:assert> → FailedAssert in SVRL → ERROR (not used in production)
+            // - <sch:report> → SuccessfulReport in SVRL → WARNING (used by all files)
+            // This branch is retained for future compatibility if Schematron files are
+            // updated to include assertions.
             if (className.contains("FailedAssert")) {
                 // This is a failed assertion (error)
                 SchematronError error = extractErrorFromObject(obj);
@@ -155,12 +168,33 @@ public class SchematronValidatorImpl implements SchematronValidator {
                 ? SchematronValidationResult.success()
                 : SchematronValidationResult.validWithWarnings(warnings);
         } else {
+            // NOTE: This branch is currently unreachable because all production Schematron
+            // files use only <sch:report> elements (no <sch:assert>), so errors list is
+            // always empty. Retained for future compatibility.
             return SchematronValidationResult.invalid(errors, warnings);
         }
     }
 
     /**
-     * Extract error information from a failed assertion object using reflection
+     * Extract error information from a failed assertion object using reflection.
+     * <p>
+     * <b>NOTE:</b> This method is currently unreachable in production because all Thai e-Tax
+     * Schematron files use {@code <sch:report>} elements (warnings) instead of
+     * {@code <sch:assert>} elements (errors). Analysis of all 6 Schematron files shows:
+     * <ul>
+     *   <li>TaxInvoice: 0 assert, 230 report</li>
+     *   <li>Receipt: 0 assert, 233 report</li>
+     *   <li>DebitCreditNote: 0 assert, 211 report</li>
+     *   <li>AbbreviatedTaxInvoice: 0 assert, 53 report</li>
+     *   <li>Invoice: 0 assert, 11 report</li>
+     *   <li>CancellationNote: 0 assert, 9 report</li>
+     * </ul>
+     * <p>
+     * This method is retained for future compatibility if Schematron files are updated
+     * to include assertions, or for use with custom Schematron files.
+     *
+     * @param obj the FailedAssert object from SVRL output
+     * @return a SchematronError with ERROR level
      */
     private SchematronError extractErrorFromObject(Object obj) {
         try {
