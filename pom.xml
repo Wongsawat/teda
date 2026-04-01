@@ -319,6 +319,21 @@
                 </dependencies>
             </plugin>
 
+            <!-- Exclude application.properties from the JAR.
+                 This file is for local development only and must NOT be bundled
+                 into the library JAR, or it will override the datasource
+                 configuration of any Spring Boot application that depends on teda. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>application.properties</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
             <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
