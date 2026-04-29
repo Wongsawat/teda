@@ -38,16 +38,29 @@ spring.datasource.password=your_actual_password
 
 ## Step 3: Build Project
 
-```bash
-# Clean and compile
-mvn clean compile
+Use the provided `build.sh` script — it automatically sets the Podman socket so Testcontainers can find Docker, then runs `mvn install`:
 
-# This will:
-# - Download dependencies (Spring Boot, JPA, PostgreSQL, JAXB)
-# - Compile JPA entities
-# - Compile JAXB adapters
-# - Compile custom JAXB types
+```bash
+# Standard build (compiles + runs all tests)
+./build.sh
+
+# Clean build
+./build.sh clean install
+
+# Skip tests (faster, for compilation check only)
+./build.sh -DskipTests
+
+# Regenerate JAXB sources (only needed on first setup or after XSD changes, ~15 min)
+./build.sh -Pforce-jaxb
 ```
+
+`build.sh` is equivalent to:
+```bash
+export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
+mvn install
+```
+
+You can still call `mvn` directly if your Docker socket is already configured correctly.
 
 ## Step 4: Run Example
 
@@ -310,20 +323,24 @@ The library includes comprehensive integration tests for all 20 code list reposi
 
 ### Run All Tests
 ```bash
+# Recommended: use build.sh (handles Podman socket automatically)
+./build.sh
+
+# Or with Maven directly (requires DOCKER_HOST to be set)
 mvn test
 ```
 
 ### Run Repository Integration Tests
 ```bash
-# With Docker
-mvn test -Dtest="*RepositoryTest"
+# Recommended: use build.sh
+./build.sh -Dtest="*RepositoryTest"
 
-# With Podman: set DOCKER_HOST to Podman socket
+# Or manually with Podman socket
 export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
 mvn test -Dtest="*RepositoryTest"
 
 # Single repository test
-mvn test -Dtest=ISOCountryCodeRepositoryTest
+./build.sh -Dtest=ISOCountryCodeRepositoryTest
 ```
 
 ### Test Coverage
@@ -370,6 +387,22 @@ mvn test -Dtest=ISOCountryCodeRepositoryTest
    - Unit tests for adapter
    - Integration tests with embedded PostgreSQL
    - XML schema validation tests
+
+## build.sh Reference
+
+`build.sh` (project root) wraps `mvn install` with the Podman socket pre-configured so Testcontainers works without any manual `export DOCKER_HOST` step.
+
+| Command | Description |
+|---|---|
+| `./build.sh` | Build and run all tests |
+| `./build.sh clean install` | Clean build and run all tests |
+| `./build.sh -DskipTests` | Build only, skip tests |
+| `./build.sh -Dtest=ClassName` | Run a single test class |
+| `./build.sh -Dtest="*RepositoryTest"` | Run all repository integration tests |
+| `./build.sh -Pforce-jaxb` | Regenerate JAXB sources, then build (~15 min) |
+| `./build.sh -Pforce-jaxb -DskipTests` | Regenerate JAXB sources only, no tests |
+
+All standard Maven flags (`-X`, `-q`, `-pl`, etc.) are passed through unchanged.
 
 ## Troubleshooting
 
