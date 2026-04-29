@@ -42,8 +42,8 @@ public enum DocumentSchematron {
     ),
 
     /**
-     * Cancellation Note (ใบยกเลิก) - TypeCode 380
-     * Note: This Schematron file is currently empty (no validation rules)
+     * Cancellation Note (ใบแจ้งยกเลิก) - TypeCode T07
+     * Rules: root element check, schemeVersionID must be v2.1/2.1, TypeCode must be T07
      */
     CANCELLATION_NOTE(
         "CancellationNote",
@@ -52,8 +52,8 @@ public enum DocumentSchematron {
     ),
 
     /**
-     * Abbreviated Tax Invoice (ใบกำกับภาษีอย่างย่อ) - TypeCode 81
-     * Note: This Schematron file is currently empty (no validation rules)
+     * Abbreviated Tax Invoice (ใบกำกับภาษีอย่างย่อ) - TypeCode T05/T06
+     * Rules: root element, schemeVersionID, TypeCode, seller party validation
      */
     ABBREVIATED_TAX_INVOICE(
         "AbbreviatedTaxInvoice",
@@ -93,9 +93,10 @@ public enum DocumentSchematron {
     }
 
     /**
-     * Check if this Schematron file is known to be empty (no validation rules)
+     * Check if this Schematron file is known to be empty (no validation rules).
+     * All ETDA v2.1 Schematron files contain validation rules.
      */
     public boolean isEmptySchematron() {
-        return this == CANCELLATION_NOTE || this == ABBREVIATED_TAX_INVOICE;
+        return false;
     }
 }

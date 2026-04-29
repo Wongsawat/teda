@@ -78,15 +78,15 @@ class DocumentSchematronTest {
     // isEmptySchematron tests
 
     @Test
-    @DisplayName("isEmptySchematron() should return true for CANCELLATION_NOTE")
+    @DisplayName("isEmptySchematron() should return false for CANCELLATION_NOTE")
     void testIsEmptySchematronCancellationNote() {
-        assertThat(DocumentSchematron.CANCELLATION_NOTE.isEmptySchematron()).isTrue();
+        assertThat(DocumentSchematron.CANCELLATION_NOTE.isEmptySchematron()).isFalse();
     }
 
     @Test
-    @DisplayName("isEmptySchematron() should return true for ABBREVIATED_TAX_INVOICE")
+    @DisplayName("isEmptySchematron() should return false for ABBREVIATED_TAX_INVOICE")
     void testIsEmptySchematronAbbreviatedTaxInvoice() {
-        assertThat(DocumentSchematron.ABBREVIATED_TAX_INVOICE.isEmptySchematron()).isTrue();
+        assertThat(DocumentSchematron.ABBREVIATED_TAX_INVOICE.isEmptySchematron()).isFalse();
     }
 
     @Test
